@@ -1,16 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package user;
+package usuario;
 
-/**
- *
- * @author ghpm9
- */
-public class User {
-    private String name;
+public class Usuario {
+
+	private String nome;
 	
 	private String tag;
 
@@ -20,20 +12,20 @@ public class User {
 
 	private int acesso;
 
-	public User(String name, String tag,String id, String familia, int acesso) {
-		this.name = name;
+	public Usuario(String nome, String tag,String id, String familia, int acesso) {
+		this.nome = nome;
 		this.tag = tag;
 		this.id = id;
 		this.familia = familia;
 		this.acesso = acesso;
 	}
 
-	public String getName() {
-		return name;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public String getTag() {
@@ -67,4 +59,7 @@ public class User {
 	public void setAcesso(int acesso) {
 		this.acesso = acesso;
 	}
+
+	
+	
 }

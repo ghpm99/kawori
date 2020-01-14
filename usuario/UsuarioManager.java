@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package user;
+package usuario;
 
-import com.sun.tools.javac.Main;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -13,15 +7,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Properties;
-import kawori.Kawori;
 
-/**
- *
- * @author ghpm9
- */
-public class UserManager {
-    public User buscarUsuario(User usuario) {
-		File user = new File(Kawori.properties.getCaminhoUsers() + usuario.getId());
+import net.dv8tion.jda.api.entities.User;
+
+public class UsuarioManager {
+
+	public Usuario buscarUsuario(User usuario) {
+		File user = new File("");
 		if (user.exists()) {
 			return carregarUsuario(user);
 		} else {
@@ -30,12 +22,12 @@ public class UserManager {
 
 	}
 
-	private User carregarUsuario(File file) {
-		User user = new User("Erro", "Erro", "Erro", "Erro", 0);
+	private Usuario carregarUsuario(File file) {
+		Usuario user = new Usuario("Erro", "Erro", "Erro", "Erro", 0);
 		try {
 			Properties pro = new Properties();			
 			pro.load(new FileInputStream(file));
-			user.setName(pro.getProperty("nome"));
+			user.setNome(pro.getProperty("nome"));
 			user.setFamilia(pro.getProperty("familia"));
 			user.setId(pro.getProperty("id"));
 			user.setTag(pro.getProperty("tag"));
@@ -52,23 +44,24 @@ public class UserManager {
 
 	}
 
-	private User salvarUsuario(User user, File file) {
-		User usuario;
+	private Usuario salvarUsuario(User user, File file) {
+		Usuario usuario;
 		try {
 			Properties pro = new Properties();
 			file.createNewFile();
 			pro.setProperty("nome", user.getName());
 			pro.setProperty("familia", "");
 			pro.setProperty("id", user.getId());
-			//pro.setProperty("tag", user.getAsTag());
+			pro.setProperty("tag", user.getAsTag());
 			pro.setProperty("acesso", "1");
 			pro.store(new FileOutputStream(file), new Date().toString());
-			usuario = new User(user.getName(),"" , user.getId(), "", 1);
+			usuario = new Usuario(user.getName(), user.getAsTag(), user.getId(), "", 1);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			usuario = new User("Erro", "Erro", "Erro", "Erro", 0);
+			usuario = new Usuario("Erro", "Erro", "Erro", "Erro", 0);
 		}
 		return usuario;
 	}
+
 }
