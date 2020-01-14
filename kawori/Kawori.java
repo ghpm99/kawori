@@ -23,7 +23,7 @@ import properties.PropertiesBot;
  */
 public class Kawori {
 
-    private static final String token = "NjIyMjE4NTg5MjQzNTcyMjI0.Xh3IUQ.9U-FIHP49rFlvd4Ml9sgc2O_OsE";
+    private static final String token = "";
     
     public static PropertiesBot properties;
     
