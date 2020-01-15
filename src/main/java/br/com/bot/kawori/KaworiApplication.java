@@ -1,4 +1,4 @@
-package com.bot.kawori;
+package br.com.bot.kawori;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
