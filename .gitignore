@@ -4,6 +4,10 @@ target/
 !**/src/main/**
 !**/src/test/**
 
+### Eclipse ###
+**/bin/**
+.classe
+
 ### STS ###
 .apt_generated
 .classpath
@@ -23,11 +27,9 @@ target/
 /nbproject/private/
 /nbbuild/
 /dist/
-/bin/
 /nbdist/
 /.nb-gradle/
 build/
-.class
 
 ### VS Code ###
 .vscode/
