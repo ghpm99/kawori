@@ -1,13 +1,13 @@
-package br.com.bot.kawori;
+package com.bot.kaworiSpring;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class KaworiApplication {
+public class KaworiSpringApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(KaworiApplication.class, args);
+		SpringApplication.run(KaworiSpringApplication.class, args);
 	}
 
 }
