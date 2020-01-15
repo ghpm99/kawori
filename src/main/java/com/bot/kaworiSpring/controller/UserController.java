@@ -7,19 +7,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bot.kaworiSpring.dao.UserDao;
 import com.bot.kaworiSpring.entity.User;
+import com.bot.kaworiSpring.repository.UserRepository;
 
 @RestController
 @RequestMapping("user")
 public class UserController {
 
 	@Autowired
-	private UserDao userDao;
+	private UserRepository userRepository;
 	
 	@RequestMapping(method = RequestMethod.GET,path = "/list")
 	public List<User> listAll(){
-		return (List<User>) userDao.findAll();
+		return (List<User>) userRepository.findAll();
 	}
 	
 }
