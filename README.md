@@ -1,2 +1,0 @@
-# kawori
-Bot para discord
