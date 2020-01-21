@@ -1,0 +1,5 @@
+msg_help_01=Digite _prefix gs AP:valor APAWAK:valor DP:valor LVL:valor\nDigite _prefix rank para verificar o rank
+msg_help_gs=Para cadastrar/atualizar seu gs utilize o comando _prefix gs AP:valor APAWAK:valor DP:valor LVL:valor \nE necessario incluir todas as informacoes e apenas numeros inteiros, exemplo: _prefix gs AP:255 APAWAK:253 DP:296 LVL:61
+msg_gs_01= _nameMention gentileza verificar o comando \nPara ajuda utilize o comando _prefix help gs
+msg_gs_error=_nameMention  falhou em atualizar o Gear Score \nGentileza verificar o comando e tentar novamente! \nPara ajuda utilize o comando _prefix help para acessar a mensagem de ajuda!
+msg_gs_sucess= _nameMention  Gear Score atualizado com sucesso!
