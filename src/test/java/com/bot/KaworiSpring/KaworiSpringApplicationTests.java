@@ -8,6 +8,7 @@ class KaworiSpringApplicationTests {
 
 	@Test
 	void contextLoads() {
+		
 	}
 
 }

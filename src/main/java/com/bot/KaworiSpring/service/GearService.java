@@ -1,5 +1,7 @@
 package com.bot.KaworiSpring.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,5 +31,7 @@ public class GearService {
 		return gearRepository.findByIdDiscordAndIdGuild(idDiscord, idGuild);
 	}
 	
-	
+	public List<Gear> findByIdGuild(Long idGuild){
+		return gearRepository.findByIdGuild(idGuild);
+	}
 }

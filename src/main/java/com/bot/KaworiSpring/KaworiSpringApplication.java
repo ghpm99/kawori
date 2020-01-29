@@ -8,7 +8,6 @@ public class KaworiSpringApplication{
 	
 	public static void main(String[] args) {
 		SpringApplication.run(KaworiSpringApplication.class, args);
-		
 	}
 
 }

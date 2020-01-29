@@ -9,8 +9,10 @@ import org.springframework.stereotype.Component;
 import com.bot.KaworiSpring.discord.command.CommandHandler;
 import com.bot.KaworiSpring.discord.command.commands.CmdGS;
 import com.bot.KaworiSpring.discord.command.commands.CmdHelp;
-import com.bot.KaworiSpring.discord.command.commands.cmdRank;
+import com.bot.KaworiSpring.discord.command.commands.CmdNodeWar;
+import com.bot.KaworiSpring.discord.command.commands.CmdRank;
 import com.bot.KaworiSpring.discord.listener.MessageListener;
+import com.bot.KaworiSpring.discord.listener.ReactionListener;
 import com.bot.KaworiSpring.discord.listener.ReadyListener;
 import com.bot.KaworiSpring.service.ConfigurationService;
 
@@ -28,9 +30,11 @@ public class Main {
 	@Autowired
 	private CmdGS cmdGS;
 	@Autowired
-	private cmdRank cmdRank;
+	private CmdRank cmdRank;
 	@Autowired
 	private CmdHelp cmdHelp;
+	@Autowired
+	private CmdNodeWar cmdNodeWar;
 		
 	@PostConstruct
 	public void init() {
@@ -40,10 +44,12 @@ public class Main {
 
 		builder.addEventListeners(new ReadyListener());
 		builder.addEventListeners(new MessageListener());
+		builder.addEventListeners(new ReactionListener());
 
 		CommandHandler.commands.put("help", cmdHelp);
 		CommandHandler.commands.put("gs", cmdGS);
 		CommandHandler.commands.put("rank", cmdRank);
+		CommandHandler.commands.put("nw", cmdNodeWar);
 
 		try {
 			jda = builder.build();

@@ -1,5 +1,8 @@
 package com.bot.KaworiSpring.discord.command.commands;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -9,6 +12,7 @@ import com.bot.KaworiSpring.discord.tag.TagController;
 import com.bot.KaworiSpring.model.Gear;
 import com.bot.KaworiSpring.service.GearService;
 
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 @Controller
@@ -19,17 +23,24 @@ public class CmdGS implements Command {
 
 	public boolean called(String[] args, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
+
 		return false;
 	}
 
 	public void action(String[] args, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
-		if (args.length == 0) {
-			MessageController.sendMessage("msg_gs_error", event);
+
+		if (!event.getMessage().getMentionedMembers().isEmpty()) {
+			showGearMember(event);
 			return;
 		}
 
 		Gear gear = generateGear(event.getAuthor().getIdLong(), event.getGuild().getIdLong());
+
+		if (args.length == 0) {
+			showGear(gear, event);
+			return;
+		}
 
 		if (!atualizarAtributo(gear, args, event)) {
 			MessageController.sendMessage("msg_gs_error", event);
@@ -54,6 +65,17 @@ public class CmdGS implements Command {
 	public int nivelNecessario() {
 		// TODO Auto-generated method stub
 		return 1;
+	}
+
+	private void showGearMember(MessageReceivedEvent event) {
+		List<Member> mencionados = event.getMessage().getMentionedMembers();
+		ArrayList<Gear> members = new ArrayList<>();
+		for (Member mencionado : mencionados) {
+			Gear temp = generateGear(mencionado.getUser().getIdLong(), event.getGuild().getIdLong());
+			members.add(temp);
+		}
+		
+		MessageController.sendEmbedGear(event, "msg_gs_show_member_title", "msg_gs_show_member_description", members);
 	}
 
 	private Gear generateGear(long idDiscord, long idGuild) {
@@ -124,5 +146,11 @@ public class CmdGS implements Command {
 	private void updateTag(Gear gear, MessageReceivedEvent messageReceived) {
 		new TagController().updateTag(gear, messageReceived);
 	}
+
+	private void showGear(Gear gear, MessageReceivedEvent messageReceived) {
+		MessageController.sendMessage("msg_gs_show_owner", messageReceived, String.valueOf(gear.getAp()),
+				String.valueOf(gear.getApAwak()), String.valueOf(gear.getDp()), String.valueOf(gear.getLevel()));
+	}
+	
 
 }
