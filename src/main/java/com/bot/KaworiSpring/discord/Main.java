@@ -41,7 +41,7 @@ public class Main {
 
 		JDABuilder builder = new JDABuilder(AccountType.BOT).setToken(configService.getByType("token").getValue())
 				.setAutoReconnect(true);
-
+		
 		builder.addEventListeners(new ReadyListener());
 		builder.addEventListeners(new MessageListener());
 		builder.addEventListeners(new ReactionListener());

@@ -3,23 +3,25 @@ package com.bot.KaworiSpring.discord.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 import com.bot.KaworiSpring.discord.message.MessageValueExpression;
-import com.bot.KaworiSpring.discord.nodewar.Nodes;
 import com.bot.KaworiSpring.model.Gear;
 import com.bot.KaworiSpring.model.Node;
+import com.bot.KaworiSpring.model.NodeWar;
 import com.bot.KaworiSpring.util.Util;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.MessageEmbed.Field;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class MessageController {
@@ -115,9 +117,11 @@ public class MessageController {
 	public static void sendEmbedGear(MessageReceivedEvent messageReceived, String title, String description,
 			List<Gear> list, String... arg) {
 
-		MessageEmbed messageEmbed = createEmbedGear(messageReceived, title, description, list);
+		MessageEmbed messageEmbed = createEmbedGear(messageReceived, title, description, list, arg);
 
-		messageReceived.getChannel().sendMessage(messageEmbed).queue();
+		messageReceived.getChannel().sendMessage(messageEmbed).queue((s) -> {
+			s.delete().queueAfter(5, TimeUnit.MINUTES);
+		});
 
 	}
 
@@ -171,6 +175,23 @@ public class MessageController {
 		currentEmbed.editMessage(embed).queue(callBack);
 	}
 
+	public static void changeEmbed(MessageReceivedEvent messageReceived, Message currentEmbed,
+			Consumer<Message> callBack, String title, String description, Field... args) {
+
+		EmbedBuilder embed = new EmbedBuilder();
+
+		setEmbedHead(messageReceived, embed, title, description);
+
+		for (Field arg : args) {
+			embed.addField(arg);
+		}
+
+		currentEmbed.clearReactions().queue();
+
+		currentEmbed.editMessage(embed.build()).queue(callBack);
+
+	}
+
 	private static MessageEmbed createEmbedNode(MessageReceivedEvent messageReceived, String title, String description,
 			List<Node> nodes, String... args) {
 
@@ -178,12 +199,13 @@ public class MessageController {
 
 		setEmbedHead(messageReceived, embed, title, description, args);
 
-		for (Node node : nodes) {
-
+		for (int i = 0; i < nodes.size(); i++) {
+			Node node = nodes.get(i);
 			String value = createMessage("msg_nw_field_show", messageReceived, String.valueOf(node.getLimitPlayer()),
 					node.getChannel());
 			String name = createMessage(node.getName(), messageReceived);
-			embed.addField(name, value, false);
+
+			embed.addField((i + 1) + " = " + name, value, false);
 		}
 
 		return embed.build();
@@ -206,11 +228,31 @@ public class MessageController {
 		String titleEmbed = createMessage(title, messageReceived, args);
 		String descriptionEmbed = createMessage(description, messageReceived, args);
 
-		embed.setAuthor(messageReceived.getMember().getUser().getName(), null,
-				messageReceived.getMember().getUser().getAvatarUrl());
+		embed.setAuthor(messageReceived.getJDA().getSelfUser().getName(), null,
+				messageReceived.getJDA().getSelfUser().getAvatarUrl());
 
-		embed.setThumbnail(messageReceived.getAuthor().getAvatarUrl());
+		embed.setThumbnail(messageReceived.getJDA().getSelfUser().getAvatarUrl());
 		embed.setTitle(titleEmbed);
 		embed.setDescription(descriptionEmbed);
+	}
+
+	public static void createEmbedNodeWar(MessageReceivedEvent messageReceived, String title, String description,
+			List<NodeWar> nodes, Consumer<Message> callBack) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+		EmbedBuilder embed = new EmbedBuilder();
+
+		setEmbedHead(messageReceived, embed, title, description);
+
+		for (NodeWar node : nodes) {
+			embed.addField(dateFormat.format(node.getDia()),
+					createMessage(node.getNode().getName(), messageReceived) + " "
+							+ createMessage("msg_nw_field_show", messageReceived,
+									String.valueOf(node.getNode().getLimitPlayer()), node.getNode().getChannel()),
+					false);
+		}
+
+		messageReceived.getChannel().sendMessage(embed.build()).queue(callBack);
+
 	}
 }

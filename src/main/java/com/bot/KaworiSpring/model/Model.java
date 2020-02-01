@@ -9,7 +9,7 @@ import javax.persistence.MappedSuperclass;
 public class Model {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	public Long getId() {

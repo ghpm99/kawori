@@ -169,25 +169,29 @@ msg_gs_show_member_description=Consulta de Gear Score
 msg_nw_field_show=_arg  pessoas - Servidor _arg 
 msg_gs_show_owner=_nameMention  seu Gear Score e AP:_arg  APAWAK:_arg  DP:_arg  LVL:_arg !
 msg_rank_title=Rank de GS
-msg_rank_description=Rank de Gear Score como criterio _arg 
+msg_rank_description=Rank de Gear Score como criterio _arg  !
 msg_nw_title_01=Agendamento de Node War
 msg_nw_description_01=Selecione o tier da Node War:
 msg_nw_field_01_01=1 = Tier 1
 msg_nw_field_01_02=2 = Tier 2
 msg_nw_field_01_03=3 = Tier 3
 msg_nw_field_01_04=4 = Tier 4
-msg_nw_field_01_05=S = Siege
+msg_nw_field_01_05=5 = Siege
 msg_nw_field_01_cancel=X = Cancelar
 msg_nw_description_01_add=Selecione o nivel do tier 1:
 msg_nw_field_01_add_01=1 = Iniciante
 msg_nw_field_01_add_02=2 = Intermediario
 msg_nw_field_01_add_03=3 = Avancado
-msg_nw_description_02=Escolha o dia da Node War:
-msg_nw_field_02_01=Domingo
-msg_nw_field_02_02=Segunda-Feira
-msg_nw_field_02_03=Terca-Feira
-msg_nw_field_02_04=Quarta-Feira
-msg_nw_field_02_05=Quinta-Feira
-msg_nw_field_02_06=Sexta-Feira
-msg_nw_field_02_07=Sabado
+msg_nw_description_02=Escolha o dia da semana da Node War:
+msg_nw_field_02_01=1 = Domingo
+msg_nw_field_02_02=2 = Segunda-Feira
+msg_nw_field_02_03=3 = Terca-Feira
+msg_nw_field_02_04=4 = Quarta-Feira
+msg_nw_field_02_05=5 = Quinta-Feira
+msg_nw_field_02_06=6 = Sexta-Feira
+msg_nw_field_02_07=7 = Sabado
 msg_nw_description_03=Escolha o Node:
+msg_nw_description_04=Escolha o dia:
+msg_nw_sucess=Node War agendada com sucesso!
+msg_nw_show_title=Consulta de Node War
+msg_nw_show_description=Consulta de Node War

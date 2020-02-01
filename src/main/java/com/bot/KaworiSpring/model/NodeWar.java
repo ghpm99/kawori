@@ -3,62 +3,34 @@ package com.bot.KaworiSpring.model;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class NodeWar extends Model {
 
-	private String tier;
-
-	private String channel;
-
-	private String name;
-
-	private int limitPlayer;
-
-	private Long idGuild;
+	private long idGuild;
+	
+	private long idDiscord;
 	
 	private Date dia;
 	
-	public String getTier() {
-		return tier;
-	}
+	@ManyToOne
+	private Node node;
 
-	public void setTier(String tier) {
-		this.tier = tier;
-	}
-
-	public String getChannel() {
-		return channel;
-	}
-
-	public void setChannel(String channel) {
-		this.channel = channel;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public int getLimitPlayer() {
-		return limitPlayer;
-	}
-
-	public void setLimitPlayer(int limitPlayer) {
-		if (limitPlayer < 0)
-			limitPlayer = 0;
-		this.limitPlayer = limitPlayer;
-	}
-
-	public Long getIdGuild() {
+	public long getIdGuild() {
 		return idGuild;
 	}
 
-	public void setIdGuild(Long idGuild) {
+	public void setIdGuild(long idGuild) {
 		this.idGuild = idGuild;
+	}
+
+	public long getIdDiscord() {
+		return idDiscord;
+	}
+
+	public void setIdDiscord(long idDiscord) {
+		this.idDiscord = idDiscord;
 	}
 
 	public Date getDia() {
@@ -68,7 +40,14 @@ public class NodeWar extends Model {
 	public void setDia(Date dia) {
 		this.dia = dia;
 	}
-	
-	
 
+	public Node getNode() {
+		return node;
+	}
+
+	public void setNode(Node node) {
+		this.node = node;
+	}
+
+	
 }
