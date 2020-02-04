@@ -74,7 +74,7 @@ public class CmdGS implements Command {
 			Gear temp = generateGear(mencionado.getUser().getIdLong(), event.getGuild().getIdLong());
 			members.add(temp);
 		}
-		
+
 		MessageController.sendEmbedGear(event, "msg_gs_show_member_title", "msg_gs_show_member_description", members);
 	}
 
@@ -144,13 +144,12 @@ public class CmdGS implements Command {
 	}
 
 	private void updateTag(Gear gear, MessageReceivedEvent messageReceived) {
-		new TagController().updateTag(gear, messageReceived);
+		new TagController().updateTag(gear, messageReceived.getGuild(), messageReceived.getAuthor());
 	}
 
 	private void showGear(Gear gear, MessageReceivedEvent messageReceived) {
 		MessageController.sendMessage("msg_gs_show_owner", messageReceived, String.valueOf(gear.getAp()),
 				String.valueOf(gear.getApAwak()), String.valueOf(gear.getDp()), String.valueOf(gear.getLevel()));
 	}
-	
 
 }

@@ -5,122 +5,67 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.bot.KaworiSpring.model.Gear;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
+import com.bot.KaworiSpring.model.AdventureFame;
+import com.bot.KaworiSpring.model.ColorBD;
+import com.bot.KaworiSpring.model.Gear;
+import com.bot.KaworiSpring.model.Tag;
+import com.bot.KaworiSpring.service.AdventureFameService;
+import com.bot.KaworiSpring.service.ColorBDService;
+import com.bot.KaworiSpring.service.TagService;
+
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.role.RoleCreateEvent;
+import net.dv8tion.jda.api.events.role.RoleDeleteEvent;
+import net.dv8tion.jda.api.events.role.update.RoleUpdatePermissionsEvent;
 
+@Controller
 public class TagController {
+	
+	@Autowired
+	private TagService tagService;
+	
+	@Autowired
+	private AdventureFameService adventureFameService;
+	
+	@Autowired
+	private ColorBDService colorBDService;
+	
+	
+	public void updateTag(Gear gear, Guild guild, User author) {
 
-	private Color colorAp = new Color(30, 144, 255), colorApAwak = new Color(138, 43, 226),
-			colorDp = new Color(220, 20, 60);
+		AdventureFame apFame = checkPlayerFame(gear.getAp(),"AP");
+		AdventureFame apAwakFame = checkPlayerFame(gear.getApAwak(),"APAWAK");
+		AdventureFame dpFame = checkPlayerFame(gear.getDp(),"DP");
 
-	private ArrayList<Tag> tagsAp = new ArrayList<>();
-	private ArrayList<Tag> tagsDp = new ArrayList<>();
-	{
-		tagsAp.add(new Tag("160-", 0, 159));
-		tagsAp.add(new Tag("160+", 160, 184));
-		tagsAp.add(new Tag("185+", 185, 209));
-		tagsAp.add(new Tag("210+", 210, 235));
-		tagsAp.add(new Tag("236+", 236, 244));
-		tagsAp.add(new Tag("245+", 245, 248));
-		tagsAp.add(new Tag("249+", 249, 252));
-		tagsAp.add(new Tag("253+", 253, 256));
-		tagsAp.add(new Tag("257+", 257, 260));
-		tagsAp.add(new Tag("261+", 261, 264));
-		tagsAp.add(new Tag("265+", 265, 268));
-		tagsAp.add(new Tag("269+", 269, 272));
-		tagsAp.add(new Tag("273+", 273, 276));
-		tagsAp.add(new Tag("277+", 277, 280));
-		tagsAp.add(new Tag("281+", 281, 284));
-		tagsAp.add(new Tag("285+", 285, 288));
-		tagsAp.add(new Tag("289+", 289, 292));
-		tagsAp.add(new Tag("293+", 293, 296));
-		tagsAp.add(new Tag("297+", 297, 300));
-		tagsAp.add(new Tag("301+", 301, 304));
-		tagsAp.add(new Tag("305+", 305, 308));
-		tagsAp.add(new Tag("309+", 309, 400));
+		HashMap<String, Role> rolesPlayer = checkPlayerRoles(guild, author);
 
-		tagsDp.add(new Tag("203-", 0, 202));
-		tagsDp.add(new Tag("203+", 203, 210));
-		tagsDp.add(new Tag("211+", 211, 217));
-		tagsDp.add(new Tag("218+", 218, 225));
-		tagsDp.add(new Tag("226+", 226, 232));
-		tagsDp.add(new Tag("233+", 233, 240));
-		tagsDp.add(new Tag("241+", 241, 247));
-		tagsDp.add(new Tag("248+", 248, 255));
-		tagsDp.add(new Tag("256+", 256, 262));
-		tagsDp.add(new Tag("263+", 263, 270));
-		tagsDp.add(new Tag("271+", 271, 277));
-		tagsDp.add(new Tag("278+", 278, 285));
-		tagsDp.add(new Tag("286+", 286, 292));
-		tagsDp.add(new Tag("293+", 293, 300));
-		tagsDp.add(new Tag("301+", 301, 308));
-		tagsDp.add(new Tag("309+", 309, 315));
-		tagsDp.add(new Tag("316+", 316, 323));
-		tagsDp.add(new Tag("324+", 324, 330));
-		tagsDp.add(new Tag("330+", 331, 338));
-		tagsDp.add(new Tag("339+", 339, 345));
-		tagsDp.add(new Tag("346+", 346, 400));
-		tagsDp.add(new Tag("400+", 400, 700));
+		updateTagPlayer(guild, author.getIdLong(), rolesPlayer.get("AP"), apTag, rolesPlayer.get("APAWAK"), apAwakTag,
+				rolesPlayer.get("DP"), dpTag);
+
+		// removeTagUnusable(messageReceived.getGuild());
 
 	}
 
-	public void updateTag(Gear gear, MessageReceivedEvent messageReceived) {
-
-		Tag apTag = checkPlayerTagAp(gear.getAp());
-		Tag apAwakTag = checkPlayerTagAp(gear.getApAwak());
-		Tag dpTag = checkPlayerTagDp(gear.getDp());
-
-		HashMap<String, Role> rolesPlayer = checkPlayerRoles(messageReceived.getGuild(), messageReceived.getAuthor());
-
-		updateTagPlayer(messageReceived.getGuild(), messageReceived.getMember(), rolesPlayer.get("AP"), apTag,
-				rolesPlayer.get("APAWAK"), apAwakTag, rolesPlayer.get("DP"), dpTag);
-
-		//removeTagUnusable(messageReceived.getGuild());
-
+	private AdventureFame checkPlayerFame(int value,String type) {
+		return adventureFameService.findByValueAndType(value, type);
 	}
 
-	private Tag checkPlayerTagAp(int ap) {
-		for (Tag s : tagsAp) {
-			if (ap >= s.getMin() && ap <= s.getMax()) {
-				return s;
-			}
-		}
-
-		return null;
-	}
-
-	private Tag checkPlayerTagDp(int dp) {
-		for (Tag s : tagsDp) {
-			if (dp >= s.getMin() && dp <= s.getMax()) {
-				return s;
-			}
-		}
-
-		return null;
-	}
+	//continuar aqui
 
 	private HashMap<String, Role> checkPlayerRoles(Guild guild, User user) {
 		List<Role> roles = guild.getMember(user).getRoles();
 		HashMap<String, Role> rolesGear = new HashMap<String, Role>();
 		for (Role role : roles) {
-
-			if (role.getColor().equals(colorAp)) {
-				if (verifyIsTag(tagsAp, role.getName())) {
-					rolesGear.put("AP", role);
-				}
-			} else if (role.getColor().equals(colorApAwak)) {
-				if (verifyIsTag(tagsAp, role.getName())) {
-					rolesGear.put("APAWAK", role);
-				}
-			} else if (role.getColor().equals(colorDp)) {
-				if (verifyIsTag(tagsDp, role.getName())) {
-					rolesGear.put("DP", role);
-				}
+			Color color = role.getColor();
+			ColorBD colorBd = colorBDService.findByRGB(color.getRed(), color.getGreen(), color.getBlue());
+			if(colorBd.getName() != null) {
+				
 			}
 
 		}
@@ -137,34 +82,34 @@ public class TagController {
 		return false;
 	}
 
-	private void updateTagPlayer(Guild guild, Member user, Role apRole, Tag apTag, Role apAwakRole, Tag apAwakTag,
+	private void updateTagPlayer(Guild guild, long userId, Role apRole, Tag apTag, Role apAwakRole, Tag apAwakTag,
 			Role dpRole, Tag dpTag) {
 
 		if (apRole == null) {
-			applyTag(guild, user, apTag, colorAp);
+			applyTag(guild, userId, apTag, colorAp);
 		} else {
-			verifyCurrentTag(guild, user, apRole, apTag, colorAp);
+			verifyCurrentTag(guild, userId, apRole, apTag, colorAp);
 		}
 
 		if (apAwakRole == null) {
-			applyTag(guild, user, apAwakTag, colorApAwak);
+			applyTag(guild, userId, apAwakTag, colorApAwak);
 		} else {
-			verifyCurrentTag(guild, user, apAwakRole, apAwakTag, colorApAwak);
+			verifyCurrentTag(guild, userId, apAwakRole, apAwakTag, colorApAwak);
 		}
 
 		if (dpRole == null) {
-			applyTag(guild, user, dpTag, colorDp);
+			applyTag(guild, userId, dpTag, colorDp);
 		} else {
-			verifyCurrentTag(guild, user, dpRole, dpTag, colorDp);
+			verifyCurrentTag(guild, userId, dpRole, dpTag, colorDp);
 		}
 
 	}
 
-	private void applyTag(Guild guild, Member user, Tag newTag, Color color) {
+	private void applyTag(Guild guild, long userId, Tag newTag, Color color) {
 		List<Role> roles = guild.getRolesByName(newTag.getName(), true);
 		for (Role role : roles) {
 			if (role.getColor().equals(color)) {
-				guild.addRoleToMember(user, role).queue();
+				guild.addRoleToMember(userId, role).queue();
 				// System.out.println("Adicionou tag " + newTag.getName() + " no player "+
 				// user.getUser().getName());
 				return;
@@ -172,16 +117,16 @@ public class TagController {
 
 		}
 		Role role = guild.createRole().setName(newTag.getName()).setColor(color).complete();
-		guild.addRoleToMember(user, role).queue();
+		guild.addRoleToMember(userId, role).queue();
 		// System.out.println("Criou e adicionou a tag " + newTag.getName() + " no
 		// player "+ user.getUser().getName());
 	}
 
-	private void verifyCurrentTag(Guild guild, Member user, Role role, Tag newTag, Color color) {
+	private void verifyCurrentTag(Guild guild, long userId, Role role, Tag newTag, Color color) {
 		if (!role.getName().equals(newTag.getName())) {
-			guild.removeRoleFromMember(user, role).queue();
+			guild.removeRoleFromMember(userId, role).queue();
 			// System.out.println("Removeu a tag " + role.getName());
-			applyTag(guild, user, newTag, color);
+			applyTag(guild, userId, newTag, color);
 		}
 	}
 
@@ -189,10 +134,70 @@ public class TagController {
 	private void removeTagUnusable(Guild guild) {
 		List<Role> roles = guild.getRoles();
 		for (Role role : roles) {
-			if(guild.getMembersWithRoles(role).size() == 0) {
+			if (guild.getMembersWithRoles(role).size() == 0) {
 				role.delete().queue();
 			}
 		}
 	}
 
+	public boolean isTag(String name, Color color) {
+		if (color.equals(colorAp) || color.equals(colorApAwak)) {
+			return verifyIsTag(tagsAp, name);
+		} else if (color.equals(colorDp)) {
+			return verifyIsTag(tagsDp, name);
+		}
+
+		return false;
+	}
+
+	
+	public void onRoleCreate(RoleCreateEvent event) {
+		// TODO Auto-generated method stub
+		Tag tag = new Tag();
+		tag.setIdGuild(event.getGuild().getIdLong());
+		tag.setIdRole(event.getRole().getIdLong());
+		tag.setName(event.getRole().getName());
+		
+		Color color = event.getRole().getColor();
+		
+		tag.setRed(color.getRed());
+		tag.setGreen(color.getGreen());
+		tag.setBlue(color.getBlue());
+		
+		setPermission(tag, event.getRole());
+		
+		tag.setBotRole(new TagController().isTag(event.getRole().getName(), event.getRole().getColor()));
+		
+		tag.setActive(true);
+		
+	}
+	
+	
+	public void onRoleUpdatePermissions(RoleUpdatePermissionsEvent event) {
+		// TODO Auto-generated method stub
+		
+		
+	}
+	
+	
+	public void onRoleDelete(RoleDeleteEvent event) {
+		// TODO Auto-generated method stub
+		
+		
+	}
+	
+	private void setPermission(Tag tag, Role roleDiscord) {
+		tag.setAdministrator(roleDiscord.hasPermission(Permission.ADMINISTRATOR));
+		tag.setManageChannels(roleDiscord.hasPermission(Permission.MANAGE_CHANNEL));
+		tag.setManagePermissions(roleDiscord.hasPermission(Permission.MANAGE_PERMISSIONS));
+		tag.setManageRoles(roleDiscord.hasPermission(Permission.MANAGE_ROLES));
+		tag.setManageServer(roleDiscord.hasPermission(Permission.MANAGE_SERVER));
+		tag.setMessageManage(roleDiscord.hasPermission(Permission.MESSAGE_MANAGE));
+		tag.setMessageMentionEveryone(roleDiscord.hasPermission(Permission.MESSAGE_MENTION_EVERYONE));
+		tag.setMessageRead(roleDiscord.hasPermission(Permission.MESSAGE_READ));
+		tag.setMessageWrite(roleDiscord.hasPermission(Permission.MESSAGE_WRITE));
+		tag.setNicknameChange(roleDiscord.hasPermission(Permission.NICKNAME_CHANGE));
+		tag.setNicknameManage(roleDiscord.hasPermission(Permission.NICKNAME_MANAGE));
+	}
+	
 }

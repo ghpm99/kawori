@@ -1,5 +1,7 @@
 package com.bot.KaworiSpring.discord.listener;
 
+import org.springframework.stereotype.Controller;
+
 import com.bot.KaworiSpring.discord.command.CommandHandler;
 import com.bot.KaworiSpring.util.Util;
 
@@ -7,6 +9,7 @@ import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
+@Controller
 public class MessageListener extends ListenerAdapter {
 	
 	@Override
