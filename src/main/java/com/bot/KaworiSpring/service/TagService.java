@@ -38,4 +38,8 @@ public class TagService {
 		return tagRepository.findByIdRole(idRole);
 	}
 	
+	public void delete(Tag tag) {
+		this.tagRepository.delete(tag);
+	}
+	
 }

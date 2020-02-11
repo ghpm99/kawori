@@ -1,5 +1,7 @@
 package com.bot.KaworiSpring.model;
 
+import java.awt.Color;
+
 import javax.persistence.Entity;
 
 @Entity
@@ -193,6 +195,13 @@ public class Tag extends Model{
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+	
+	public void setColor(Color color) {
+		if(color == null) color = new Color(0,0,0);
+		this.red = color.getRed();
+		this.green = color.getGreen();
+		this.blue = color.getBlue();
 	}
 	
 	

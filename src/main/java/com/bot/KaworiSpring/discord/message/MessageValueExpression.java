@@ -1,9 +1,11 @@
 package com.bot.KaworiSpring.discord.message;
 
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.User;
 
-public interface MessageValueExpression {	
+public interface MessageValueExpression {
 
-	public  String getValue(MessageReceivedEvent messageReceived);
+	public String getValue(User user, MessageChannel channel, Guild guild);
 
 }

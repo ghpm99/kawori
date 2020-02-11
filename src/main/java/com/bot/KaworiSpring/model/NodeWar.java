@@ -2,8 +2,11 @@ package com.bot.KaworiSpring.model;
 
 import java.util.Date;
 
+import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class NodeWar extends Model {
@@ -12,10 +15,14 @@ public class NodeWar extends Model {
 	
 	private long idDiscord;
 	
-	private Date dia;
+	@Basic
+	@Temporal(TemporalType.DATE)
+	private Date date;
 	
 	@ManyToOne
 	private Node node;
+	
+	private long idMessage;
 
 	public long getIdGuild() {
 		return idGuild;
@@ -33,12 +40,12 @@ public class NodeWar extends Model {
 		this.idDiscord = idDiscord;
 	}
 
-	public Date getDia() {
-		return dia;
+	public Date getDate() {
+		return date;
 	}
 
-	public void setDia(Date dia) {
-		this.dia = dia;
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 	public Node getNode() {
@@ -49,5 +56,13 @@ public class NodeWar extends Model {
 		this.node = node;
 	}
 
+	public long getIdMessage() {
+		return idMessage;
+	}
+
+	public void setIdMessage(long idMessage) {
+		this.idMessage = idMessage;
+	}
+	
 	
 }

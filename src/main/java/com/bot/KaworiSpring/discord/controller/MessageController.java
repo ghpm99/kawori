@@ -19,35 +19,37 @@ import com.bot.KaworiSpring.model.NodeWar;
 import com.bot.KaworiSpring.util.Util;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.MessageEmbed.Field;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.entities.User;
 
 public class MessageController {
 
 	private static HashMap<String, MessageValueExpression> expressions = new HashMap<>();
 	static {
-		expressions.put("_nameMention ", (messageReceived) -> {
-			return messageReceived.getAuthor().getAsMention();
+		expressions.put("_nameMention ", (user, channel, guild) -> {
+			return user.getAsMention();
 		});
-		expressions.put("_channel ", (messageReceived) -> {
-			return messageReceived.getChannel().getName();
+		expressions.put("_channel ", (user, channel, guild) -> {
+			return channel.getName();
 		});
-		expressions.put("_guild ", (messageReceived) -> {
-			return messageReceived.getGuild().getName();
+		expressions.put("_guild ", (user, channel, guild) -> {
+			return guild.getName();
 		});
-		expressions.put("_name ", (messageReceived) -> {
-			return messageReceived.getAuthor().getName();
+		expressions.put("_name ", (user, channel, guild) -> {
+			return user.getName();
 		});
-		expressions.put("_prefix ", (messaReceived) -> {
+		expressions.put("_prefix ", (user, channel, guild) -> {
 			return Util.PREFIX;
 		});
 
 	}
 
-	public static void sendMessage(String message, MessageReceivedEvent messageReceived, String... args) {
-		messageReceived.getTextChannel().sendMessage(createMessage(message, messageReceived, args)).queue();
+	public static void sendMessage(String message, User user, MessageChannel channel, Guild guild, String... args) {
+		channel.sendMessage(createMessage(message, user, channel, guild, args)).queue();
 	}
 
 	private static String loadMessage(String message, String region) {
@@ -73,10 +75,11 @@ public class MessageController {
 		return retorno;
 	}
 
-	private static String formatterMessage(String message, MessageReceivedEvent messageReceived, String... args) {
+	private static String formatterMessage(String message, User user, MessageChannel channel, Guild guild,
+			String... args) {
 		String newMessage = message;
 		for (String expression : expressions.keySet()) {
-			newMessage = newMessage.replaceAll(expression, expressions.get(expression).getValue(messageReceived));
+			newMessage = newMessage.replaceAll(expression, expressions.get(expression).getValue(user, channel, guild));
 		}
 		for (String arg : args) {
 			newMessage = newMessage.replaceFirst("_arg ", arg);
@@ -84,9 +87,10 @@ public class MessageController {
 		return newMessage;
 	}
 
-	private static String createMessage(String message, MessageReceivedEvent messageReceived, String... args) {
-		String msg = loadMessage(message, messageReceived.getGuild().getRegion().getName());
-		String msgFormated = formatterMessage(msg, messageReceived, args);
+	private static String createMessage(String message, User user, MessageChannel channel, Guild guild,
+			String... args) {
+		String msg = loadMessage(message, guild.getRegion().getName());
+		String msgFormated = formatterMessage(msg, user, channel, guild, args);
 		return msgFormated;
 
 	}
@@ -114,73 +118,71 @@ public class MessageController {
 
 	}
 
-	public static void sendEmbedGear(MessageReceivedEvent messageReceived, String title, String description,
+	public static void sendEmbedGear(User user, MessageChannel channel, Guild guild, String title, String description,
 			List<Gear> list, String... arg) {
 
-		MessageEmbed messageEmbed = createEmbedGear(messageReceived, title, description, list, arg);
+		MessageEmbed messageEmbed = createEmbedGear(user, channel, guild, title, description, list, arg);
 
-		messageReceived.getChannel().sendMessage(messageEmbed).queue((s) -> {
+		channel.sendMessage(messageEmbed).queue((s) -> {
 			s.delete().queueAfter(5, TimeUnit.MINUTES);
 		});
 
 	}
 
-	private static MessageEmbed createEmbedGear(MessageReceivedEvent messageReceived, String title, String description,
-			List<Gear> list, String... args) {
+	private static MessageEmbed createEmbedGear(User user, MessageChannel channel, Guild guild, String title,
+			String description, List<Gear> list, String... args) {
 
 		EmbedBuilder embed = new EmbedBuilder();
 
-		setEmbedHead(messageReceived, embed, title, description, args);
+		setEmbedHead(user, channel, guild, embed, title, description, args);
 
 		for (int i = 0; i < list.size(); i++) {
 			Gear gear = list.get(i);
-			embed.addField(
-					messageReceived.getGuild().getMemberById(gear.getIdDiscord()).getUser().getName(), (i + 1) + "-"
-							+ gear.getAp() + "/" + gear.getApAwak() + "/" + gear.getDp() + " lvl:" + gear.getLevel(),
-					false);
+			embed.addField(guild.getMemberById(gear.getIdDiscord()).getUser().getName(), (i + 1) + "-" + gear.getAp()
+					+ "/" + gear.getApAwak() + "/" + gear.getDp() + " lvl:" + gear.getLevel(), false);
 		}
 
 		return embed.build();
 	}
 
-	private static MessageEmbed createEmbed(MessageReceivedEvent messageReceived, String title, String description,
-			String... args) {
+	private static MessageEmbed createEmbed(User user, MessageChannel channel, Guild guild, String title,
+			String description, String... args) {
 
 		EmbedBuilder embed = new EmbedBuilder();
 
-		setEmbedHead(messageReceived, embed, title, description, args);
+		setEmbedHead(user, channel, guild, embed, title, description, args);
 
 		for (String arg : args) {
-			embed.addField("", createMessage(arg, messageReceived), false);
+			embed.addField("", createMessage(arg, user, channel, guild), false);
 		}
 
 		return embed.build();
 	}
 
-	public static void sendEmbed(MessageReceivedEvent messageReceived, Consumer<Message> callBack, String title,
-			String description, String... args) {
+	public static void sendEmbed(User user, MessageChannel channel, Guild guild, Consumer<Message> callBack,
+			String title, String description, String... args) {
 
-		MessageEmbed embed = createEmbed(messageReceived, title, description, args);
+		MessageEmbed embed = createEmbed(user, channel, guild, title, description, args);
 
-		messageReceived.getChannel().sendMessage(embed).queue(callBack);
+		channel.sendMessage(embed).queue(callBack);
 	}
 
-	public static void changeEmbed(MessageReceivedEvent messageReceived, Message currentEmbed,
+	public static void changeEmbed(User user, MessageChannel channel, Guild guild, Message currentEmbed,
 			Consumer<Message> callBack, String title, String description, String... args) {
 
-		MessageEmbed embed = createEmbed(messageReceived, title, description, args);
+		MessageEmbed embed = createEmbed(user, channel, guild, title, description, args);
 
 		currentEmbed.clearReactions().queue();
 
 		currentEmbed.editMessage(embed).queue(callBack);
 	}
 
-	public static void changeEmbed(MessageReceivedEvent messageReceived, Message currentEmbed,
+	public static void changeEmbed(User user, MessageChannel channel, Guild guild, Message currentEmbed,
 			Consumer<Message> callBack, String title, String description, Field... args) {
 
 		EmbedBuilder embed = new EmbedBuilder();
 
-		setEmbedHead(messageReceived, embed, title, description);
+		setEmbedHead(user, channel, guild, embed, title, description);
 
 		for (Field arg : args) {
 			embed.addField(arg);
@@ -192,18 +194,18 @@ public class MessageController {
 
 	}
 
-	private static MessageEmbed createEmbedNode(MessageReceivedEvent messageReceived, String title, String description,
-			List<Node> nodes, String... args) {
+	private static MessageEmbed createEmbedNode(User user, MessageChannel channel, Guild guild, String title,
+			String description, List<Node> nodes, String... args) {
 
 		EmbedBuilder embed = new EmbedBuilder();
 
-		setEmbedHead(messageReceived, embed, title, description, args);
+		setEmbedHead(user, channel, guild, embed, title, description, args);
 
 		for (int i = 0; i < nodes.size(); i++) {
 			Node node = nodes.get(i);
-			String value = createMessage("msg_nw_field_show", messageReceived, String.valueOf(node.getLimitPlayer()),
-					node.getChannel());
-			String name = createMessage(node.getName(), messageReceived);
+			String value = createMessage("msg_nw_field_show", user, channel, guild,
+					String.valueOf(node.getLimitPlayer()), node.getChannel());
+			String name = createMessage(node.getName(), user, channel, guild);
 
 			embed.addField((i + 1) + " = " + name, value, false);
 		}
@@ -211,10 +213,10 @@ public class MessageController {
 		return embed.build();
 	}
 
-	public static void changeEmbedNode(MessageReceivedEvent messageReceived, Message currentEmbed,
+	public static void changeEmbedNode(User user, MessageChannel channel, Guild guild, Message currentEmbed,
 			Consumer<Message> callBack, String title, String description, List<Node> nodes) {
 
-		MessageEmbed embed = createEmbedNode(messageReceived, title, description, nodes);
+		MessageEmbed embed = createEmbedNode(user, channel, guild, title, description, nodes);
 
 		currentEmbed.clearReactions().queue();
 
@@ -222,37 +224,36 @@ public class MessageController {
 
 	}
 
-	private static void setEmbedHead(MessageReceivedEvent messageReceived, EmbedBuilder embed, String title,
+	private static void setEmbedHead(User user, MessageChannel channel, Guild guild, EmbedBuilder embed, String title,
 			String description, String... args) {
 
-		String titleEmbed = createMessage(title, messageReceived, args);
-		String descriptionEmbed = createMessage(description, messageReceived, args);
+		String titleEmbed = createMessage(title, user, channel, guild, args);
+		String descriptionEmbed = createMessage(description, user, channel, guild, args);
 
-		embed.setAuthor(messageReceived.getJDA().getSelfUser().getName(), null,
-				messageReceived.getJDA().getSelfUser().getAvatarUrl());
+		embed.setAuthor(user.getName(), null, user.getAvatarUrl());
 
-		embed.setThumbnail(messageReceived.getJDA().getSelfUser().getAvatarUrl());
+		embed.setThumbnail(user.getAvatarUrl());
 		embed.setTitle(titleEmbed);
 		embed.setDescription(descriptionEmbed);
 	}
 
-	public static void createEmbedNodeWar(MessageReceivedEvent messageReceived, String title, String description,
-			List<NodeWar> nodes, Consumer<Message> callBack) {
+	public static void createEmbedNodeWar(User user, MessageChannel channel, Guild guild, String title,
+			String description, List<NodeWar> nodes, Consumer<Message> callBack) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
 		EmbedBuilder embed = new EmbedBuilder();
 
-		setEmbedHead(messageReceived, embed, title, description);
+		setEmbedHead(user, channel, guild, embed, title, description);
 
 		for (NodeWar node : nodes) {
-			embed.addField(dateFormat.format(node.getDia()),
-					createMessage(node.getNode().getName(), messageReceived) + " "
-							+ createMessage("msg_nw_field_show", messageReceived,
+			embed.addField(dateFormat.format(node.getDate()),
+					createMessage(node.getNode().getName(), user, channel, guild) + " "
+							+ createMessage("msg_nw_field_show", user, channel, guild,
 									String.valueOf(node.getNode().getLimitPlayer()), node.getNode().getChannel()),
 					false);
 		}
 
-		messageReceived.getChannel().sendMessage(embed.build()).queue(callBack);
+		channel.sendMessage(embed.build()).queue(callBack);
 
 	}
 }

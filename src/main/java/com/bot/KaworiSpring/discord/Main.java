@@ -94,4 +94,8 @@ public class Main {
 		
 	}
 
+	public JDA getJDA() {
+		return jda;
+	}
+	
 }

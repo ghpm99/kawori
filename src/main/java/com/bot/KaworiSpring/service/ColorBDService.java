@@ -31,4 +31,8 @@ public class ColorBDService {
 		return colorBDRepository.findByRedAndGreenAndBlue(color.getRed(), color.getGreen(), color.getBlue());
 	}
 	
+	public ColorBD findByName(String name) {
+		return colorBDRepository.findByName(name);
+	}
+	
 }

@@ -1,7 +1,6 @@
 package com.bot.KaworiSpring.discord.tag;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,46 +25,43 @@ import net.dv8tion.jda.api.events.role.update.RoleUpdatePermissionsEvent;
 
 @Controller
 public class TagController {
-	
+
 	@Autowired
 	private TagService tagService;
-	
+
 	@Autowired
 	private AdventureFameService adventureFameService;
-	
+
 	@Autowired
 	private ColorBDService colorBDService;
-	
-	
+
 	public void updateTag(Gear gear, Guild guild, User author) {
 
-		AdventureFame apFame = checkPlayerFame(gear.getAp(),"AP");
-		AdventureFame apAwakFame = checkPlayerFame(gear.getApAwak(),"APAWAK");
-		AdventureFame dpFame = checkPlayerFame(gear.getDp(),"DP");
-
+		AdventureFame apFame = checkPlayerFame(gear.getAp(), "AP");
+		AdventureFame apAwakFame = checkPlayerFame(gear.getApAwak(), "APAWAK");
+		AdventureFame dpFame = checkPlayerFame(gear.getDp(), "DP");
 		HashMap<String, Role> rolesPlayer = checkPlayerRoles(guild, author);
 
-		updateTagPlayer(guild, author.getIdLong(), rolesPlayer.get("AP"), apTag, rolesPlayer.get("APAWAK"), apAwakTag,
-				rolesPlayer.get("DP"), dpTag);
+		updateTagPlayer(guild, author.getIdLong(), rolesPlayer.get("AP"), apFame, rolesPlayer.get("APAWAK"), apAwakFame,
+				rolesPlayer.get("DP"), dpFame);
 
 		// removeTagUnusable(messageReceived.getGuild());
 
 	}
 
-	private AdventureFame checkPlayerFame(int value,String type) {
+	private AdventureFame checkPlayerFame(int value, String type) {
+
 		return adventureFameService.findByValueAndType(value, type);
 	}
-
-	//continuar aqui
 
 	private HashMap<String, Role> checkPlayerRoles(Guild guild, User user) {
 		List<Role> roles = guild.getMember(user).getRoles();
 		HashMap<String, Role> rolesGear = new HashMap<String, Role>();
 		for (Role role : roles) {
-			Color color = role.getColor();
-			ColorBD colorBd = colorBDService.findByRGB(color.getRed(), color.getGreen(), color.getBlue());
-			if(colorBd.getName() != null) {
-				
+			Tag tag = tagService.findByIdRole(role.getIdLong());
+			if (tag.isBotRole()) {
+				ColorBD color = colorBDService.findByRGB(role.getColor());
+				rolesGear.put(color.getName(), role);
 			}
 
 		}
@@ -73,60 +69,57 @@ public class TagController {
 		return rolesGear;
 	}
 
-	private boolean verifyIsTag(ArrayList<Tag> tags, String roleName) {
-		for (Tag tag : tags) {
-			if (tag.getName().equals(roleName)) {
-				return true;
-			}
-		}
+	private boolean verifyIsTag(String roleName, String type) {
+		AdventureFame temp = adventureFameService.findByTypeAndName(type, roleName);
+		if (temp != null)
+			return true;
 		return false;
 	}
 
-	private void updateTagPlayer(Guild guild, long userId, Role apRole, Tag apTag, Role apAwakRole, Tag apAwakTag,
-			Role dpRole, Tag dpTag) {
+	private void updateTagPlayer(Guild guild, long userId, Role apRole, AdventureFame apFame, Role apAwakRole,
+			AdventureFame apAwakFame, Role dpRole, AdventureFame dpFame) {
 
 		if (apRole == null) {
-			applyTag(guild, userId, apTag, colorAp);
+			applyTag(guild, userId, apFame, colorBDService.findByName("AP"));
 		} else {
-			verifyCurrentTag(guild, userId, apRole, apTag, colorAp);
+			verifyCurrentTag(guild, userId, apRole, apFame, colorBDService.findByName("AP"));
 		}
 
 		if (apAwakRole == null) {
-			applyTag(guild, userId, apAwakTag, colorApAwak);
+			applyTag(guild, userId, apAwakFame, colorBDService.findByName("APAWAK"));
 		} else {
-			verifyCurrentTag(guild, userId, apAwakRole, apAwakTag, colorApAwak);
+			verifyCurrentTag(guild, userId, apAwakRole, apAwakFame, colorBDService.findByName("APAWAK"));
 		}
 
 		if (dpRole == null) {
-			applyTag(guild, userId, dpTag, colorDp);
+			applyTag(guild, userId, dpFame, colorBDService.findByName("DP"));
 		} else {
-			verifyCurrentTag(guild, userId, dpRole, dpTag, colorDp);
+			verifyCurrentTag(guild, userId, dpRole, dpFame, colorBDService.findByName("DP"));
 		}
 
 	}
 
-	private void applyTag(Guild guild, long userId, Tag newTag, Color color) {
+	private void applyTag(Guild guild, long userId, AdventureFame newTag, ColorBD color) {
 		List<Role> roles = guild.getRolesByName(newTag.getName(), true);
 		for (Role role : roles) {
-			if (role.getColor().equals(color)) {
+			if (role.getColor().equals(color.getColor())) {
 				guild.addRoleToMember(userId, role).queue();
-				// System.out.println("Adicionou tag " + newTag.getName() + " no player "+
-				// user.getUser().getName());
 				return;
 			}
 
 		}
-		Role role = guild.createRole().setName(newTag.getName()).setColor(color).complete();
-		guild.addRoleToMember(userId, role).queue();
-		// System.out.println("Criou e adicionou a tag " + newTag.getName() + " no
-		// player "+ user.getUser().getName());
+
+		guild.createRole().setName(newTag.getName()).setColor(color.getColor()).queue((result) -> {
+			guild.addRoleToMember(userId, result).queue();
+		});
+
 	}
 
-	private void verifyCurrentTag(Guild guild, long userId, Role role, Tag newTag, Color color) {
-		if (!role.getName().equals(newTag.getName())) {
+	private void verifyCurrentTag(Guild guild, long userId, Role role, AdventureFame newFame, ColorBD color) {
+		if (!role.getName().equals(newFame.getName())) {
 			guild.removeRoleFromMember(userId, role).queue();
 			// System.out.println("Removeu a tag " + role.getName());
-			applyTag(guild, userId, newTag, color);
+			applyTag(guild, userId, newFame, color);
 		}
 	}
 
@@ -141,51 +134,68 @@ public class TagController {
 	}
 
 	public boolean isTag(String name, Color color) {
-		if (color.equals(colorAp) || color.equals(colorApAwak)) {
-			return verifyIsTag(tagsAp, name);
-		} else if (color.equals(colorDp)) {
-			return verifyIsTag(tagsDp, name);
+		ColorBD colorbd = colorBDService.findByRGB(color);
+
+		if (colorbd != null) {
+			return verifyIsTag(name, colorbd.getName());
 		}
 
 		return false;
 	}
 
-	
+	private Tag createNewTag(Guild guild, Role role) {
+		Tag tag = new Tag();
+		tag.setIdGuild(guild.getIdLong());
+		tag.setIdRole(role.getIdLong());
+		tag.setName(role.getName());
+
+		tag.setColor(role.getColor());
+
+		setPermission(tag, role);
+
+		Color color = role.getColor();
+
+		if (color == null)
+			color = Color.WHITE;
+
+		tag.setBotRole(isTag(role.getName(), color));
+
+		tag.setActive(true);
+
+		return tag;
+	}
+
 	public void onRoleCreate(RoleCreateEvent event) {
 		// TODO Auto-generated method stub
-		Tag tag = new Tag();
-		tag.setIdGuild(event.getGuild().getIdLong());
-		tag.setIdRole(event.getRole().getIdLong());
-		tag.setName(event.getRole().getName());
-		
-		Color color = event.getRole().getColor();
-		
-		tag.setRed(color.getRed());
-		tag.setGreen(color.getGreen());
-		tag.setBlue(color.getBlue());
-		
-		setPermission(tag, event.getRole());
-		
-		tag.setBotRole(new TagController().isTag(event.getRole().getName(), event.getRole().getColor()));
-		
-		tag.setActive(true);
-		
+		Tag tag = createNewTag(event.getGuild(), event.getRole());
+
+		tagService.save(tag);
+
 	}
-	
-	
+
 	public void onRoleUpdatePermissions(RoleUpdatePermissionsEvent event) {
 		// TODO Auto-generated method stub
-		
-		
+		Tag tag = tagService.findByIdRole(event.getRole().getIdLong());
+		if (tag == null) {
+			tag = createNewTag(event.getGuild(), event.getRole());
+
+			tagService.save(tag);
+		} else {
+			setPermission(tag, event.getRole());
+
+			tagService.save(tag);
+		}
+
 	}
-	
-	
+
 	public void onRoleDelete(RoleDeleteEvent event) {
 		// TODO Auto-generated method stub
-		
-		
+		Tag tag = tagService.findByIdRole(event.getRole().getIdLong());
+		if (tag != null) {
+			tagService.delete(tag);
+		}
 	}
-	
+
 	private void setPermission(Tag tag, Role roleDiscord) {
 		tag.setAdministrator(roleDiscord.hasPermission(Permission.ADMINISTRATOR));
 		tag.setManageChannels(roleDiscord.hasPermission(Permission.MANAGE_CHANNEL));
@@ -199,5 +209,14 @@ public class TagController {
 		tag.setNicknameChange(roleDiscord.hasPermission(Permission.NICKNAME_CHANGE));
 		tag.setNicknameManage(roleDiscord.hasPermission(Permission.NICKNAME_MANAGE));
 	}
-	
+
+	public void updateGuildTag(Guild guild) {
+		for (Role role : guild.getRoles()) {
+			Tag tag = tagService.findByIdRole(role.getIdLong());
+			if (tag == null) {
+				tagService.save(createNewTag(guild, role));
+			}
+		}
+	}
+
 }

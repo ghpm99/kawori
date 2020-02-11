@@ -14,7 +14,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 public class RoleListener extends ListenerAdapter{
 
 	@Autowired
-	TagController tagController;
+	private TagController tagController;
 	
 	@Override
 	public void onRoleCreate(RoleCreateEvent event) {

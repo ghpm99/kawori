@@ -33,7 +33,7 @@ public class CmdRank implements Command {
 
 		sortList(gears, sortBy);
 
-		MessageController.sendEmbedGear(event, "msg_rank_title", "msg_rank_description", gears, sortBy);
+		MessageController.sendEmbedGear(event.getAuthor(),event.getChannel(),event.getGuild(), "msg_rank_title", "msg_rank_description", gears, sortBy);
 
 	}
 

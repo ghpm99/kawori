@@ -21,11 +21,11 @@ public class AdventureFameService {
 	}
 	
 	public AdventureFame findByValue(int value) {
-		return adventureFameRepository.findByMinGreaterThanEqualAndMaxLessThanEqual(value);
+		return adventureFameRepository.findByMinLessThanEqualAndMaxGreaterThanEqual(value,value);
 	}
 	
 	public AdventureFame findByValueAndType(int value,String type) {
-		return adventureFameRepository.findByMinGreaterThanEqualAndMaxLessThanEqualAndType(value, type);
+		return adventureFameRepository.findByMinLessThanEqualAndMaxGreaterThanEqualAndType(value,value, type);
 	}
 	
 	public AdventureFame findByTypeAndName(String type,String name) {

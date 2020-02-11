@@ -1,5 +1,6 @@
 package com.bot.KaworiSpring.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,4 +32,8 @@ public class NodeWarService {
 		return nodeWarRepository.save(node);
 	}
 
+	public List<NodeWar> findByDate(Date date){
+		return nodeWarRepository.findByDate(date);
+	}
+	
 }

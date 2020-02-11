@@ -32,10 +32,10 @@ public class CmdHelp implements Command {
 	public void action(String[] args, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
 		if (args.length == 0) {			
-			MessageController.sendMessage("msg_help_01", event);
+			MessageController.sendMessage("msg_help_01", event.getAuthor(),event.getChannel(),event.getGuild());
 		} else {
 			if (args[0].toLowerCase().equals("gs")) {
-				MessageController.sendMessage("msg_help_gs", event);
+				MessageController.sendMessage("msg_help_gs", event.getAuthor(),event.getChannel(),event.getGuild());
 			}
 		}
 	}

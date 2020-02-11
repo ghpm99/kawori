@@ -1,5 +1,7 @@
 package com.bot.KaworiSpring.model;
 
+import java.awt.Color;
+
 import javax.persistence.Entity;
 
 @Entity
@@ -45,5 +47,8 @@ public class ColorBD extends Model{
 		this.blue = blue;
 	}
 	
+	public Color getColor() {
+		return new Color(red,green,blue);
+	}
 	
 }

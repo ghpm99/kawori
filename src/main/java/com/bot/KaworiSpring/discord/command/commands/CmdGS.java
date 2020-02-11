@@ -20,6 +20,9 @@ public class CmdGS implements Command {
 
 	@Autowired
 	private GearService gearService;
+	
+	@Autowired
+	private TagController tagController;
 
 	public boolean called(String[] args, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
@@ -43,7 +46,7 @@ public class CmdGS implements Command {
 		}
 
 		if (!atualizarAtributo(gear, args, event)) {
-			MessageController.sendMessage("msg_gs_error", event);
+			MessageController.sendMessage("msg_gs_error", event.getAuthor(),event.getChannel(),event.getGuild());
 			return;
 		}
 
@@ -75,7 +78,7 @@ public class CmdGS implements Command {
 			members.add(temp);
 		}
 
-		MessageController.sendEmbedGear(event, "msg_gs_show_member_title", "msg_gs_show_member_description", members);
+		MessageController.sendEmbedGear(event.getAuthor(),event.getChannel(),event.getGuild(), "msg_gs_show_member_title", "msg_gs_show_member_description", members);
 	}
 
 	private Gear generateGear(long idDiscord, long idGuild) {
@@ -108,7 +111,7 @@ public class CmdGS implements Command {
 	}
 
 	private Gear saveGear(Gear gear, MessageReceivedEvent event) {
-		MessageController.sendMessage("msg_gs_sucess", event);
+		MessageController.sendMessage("msg_gs_sucess", event.getAuthor(),event.getChannel(),event.getGuild());
 		return gearService.save(gear);
 	}
 
@@ -144,11 +147,11 @@ public class CmdGS implements Command {
 	}
 
 	private void updateTag(Gear gear, MessageReceivedEvent messageReceived) {
-		new TagController().updateTag(gear, messageReceived.getGuild(), messageReceived.getAuthor());
+		tagController.updateTag(gear, messageReceived.getGuild(), messageReceived.getAuthor());
 	}
 
 	private void showGear(Gear gear, MessageReceivedEvent messageReceived) {
-		MessageController.sendMessage("msg_gs_show_owner", messageReceived, String.valueOf(gear.getAp()),
+		MessageController.sendMessage("msg_gs_show_owner", messageReceived.getAuthor(),messageReceived.getChannel(),messageReceived.getGuild(), String.valueOf(gear.getAp()),
 				String.valueOf(gear.getApAwak()), String.valueOf(gear.getDp()), String.valueOf(gear.getLevel()));
 	}
 
