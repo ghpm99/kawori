@@ -79,6 +79,7 @@ public class MessageController {
 			String... args) {
 		String newMessage = message;
 		for (String expression : expressions.keySet()) {
+			System.out.println(expression);
 			newMessage = newMessage.replaceAll(expression, expressions.get(expression).getValue(user, channel, guild));
 		}
 		for (String arg : args) {

@@ -14,4 +14,13 @@ public enum Emojis {
 		return emoji;
 	}
 	
+	public static Emojis getEmojis(String emote) {
+		for (Emojis emoji : Emojis.values()) {
+			if(emoji.emoji.equals(emote)) {
+				return emoji;
+			}
+		}
+		return null;
+	}
+	
 }
