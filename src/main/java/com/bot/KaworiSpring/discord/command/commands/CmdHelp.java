@@ -3,7 +3,7 @@ package com.bot.KaworiSpring.discord.command.commands;
 import org.springframework.stereotype.Controller;
 
 import com.bot.KaworiSpring.discord.command.Command;
-import com.bot.KaworiSpring.discord.controller.MessageController;
+import com.bot.KaworiSpring.discord.message.MessageController;
 import com.bot.KaworiSpring.util.Util;
 
 import net.dv8tion.jda.api.entities.Emote;
@@ -31,11 +31,11 @@ public class CmdHelp implements Command {
 
 	public void action(String[] args, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
-		if (args.length == 0) {			
-			MessageController.sendMessage("msg_help_01", event.getAuthor(),event.getChannel(),event.getGuild());
+		if (args.length == 0) {
+			MessageController.sendMessage(event.getGuild(), event.getChannel(), event.getAuthor(), "msg_help_01");
 		} else {
 			if (args[0].toLowerCase().equals("gs")) {
-				MessageController.sendMessage("msg_help_gs", event.getAuthor(),event.getChannel(),event.getGuild());
+				MessageController.sendMessage(event.getGuild(), event.getChannel(), event.getAuthor(),"msg_help_gs");
 			}
 		}
 	}

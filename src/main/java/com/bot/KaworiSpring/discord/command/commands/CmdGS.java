@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.bot.KaworiSpring.discord.command.Command;
-import com.bot.KaworiSpring.discord.controller.MessageController;
+import com.bot.KaworiSpring.discord.message.MessageController;
 import com.bot.KaworiSpring.discord.tag.TagController;
 import com.bot.KaworiSpring.model.Gear;
 import com.bot.KaworiSpring.service.GearService;
@@ -20,7 +20,7 @@ public class CmdGS implements Command {
 
 	@Autowired
 	private GearService gearService;
-	
+
 	@Autowired
 	private TagController tagController;
 
@@ -46,7 +46,7 @@ public class CmdGS implements Command {
 		}
 
 		if (!atualizarAtributo(gear, args, event)) {
-			MessageController.sendMessage("msg_gs_error", event.getAuthor(),event.getChannel(),event.getGuild());
+			MessageController.sendMessage(event.getGuild(), event.getChannel(), event.getAuthor(), "msg_gs_error");
 			return;
 		}
 
@@ -78,7 +78,8 @@ public class CmdGS implements Command {
 			members.add(temp);
 		}
 
-		MessageController.sendEmbedGear(event.getAuthor(),event.getChannel(),event.getGuild(), "msg_gs_show_member_title", "msg_gs_show_member_description", members);
+		MessageController.sendEmbedGear(event.getAuthor(), event.getChannel(), event.getGuild(),
+				"msg_gs_show_member_title", "msg_gs_show_member_description", members);
 	}
 
 	private Gear generateGear(long idDiscord, long idGuild) {
@@ -111,7 +112,7 @@ public class CmdGS implements Command {
 	}
 
 	private Gear saveGear(Gear gear, MessageReceivedEvent event) {
-		MessageController.sendMessage("msg_gs_sucess", event.getAuthor(),event.getChannel(),event.getGuild());
+		MessageController.sendMessage(event.getGuild(), event.getChannel(), event.getAuthor(), "msg_gs_sucess");
 		return gearService.save(gear);
 	}
 
@@ -151,7 +152,8 @@ public class CmdGS implements Command {
 	}
 
 	private void showGear(Gear gear, MessageReceivedEvent messageReceived) {
-		MessageController.sendMessage("msg_gs_show_owner", messageReceived.getAuthor(),messageReceived.getChannel(),messageReceived.getGuild(), String.valueOf(gear.getAp()),
+		MessageController.sendMessage(messageReceived.getGuild(), messageReceived.getChannel(),
+				messageReceived.getAuthor(), "msg_gs_show_owner", String.valueOf(gear.getAp()),
 				String.valueOf(gear.getApAwak()), String.valueOf(gear.getDp()), String.valueOf(gear.getLevel()));
 	}
 

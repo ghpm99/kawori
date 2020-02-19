@@ -16,7 +16,8 @@ import org.springframework.stereotype.Controller;
 
 import com.bot.KaworiSpring.discord.Main;
 import com.bot.KaworiSpring.discord.command.Command;
-import com.bot.KaworiSpring.discord.controller.MessageController;
+import com.bot.KaworiSpring.discord.message.EmbedPattern;
+import com.bot.KaworiSpring.discord.message.MessageController;
 import com.bot.KaworiSpring.discord.reaction.ReactionHandler;
 import com.bot.KaworiSpring.model.Node;
 import com.bot.KaworiSpring.model.NodeWar;
@@ -26,10 +27,13 @@ import com.bot.KaworiSpring.service.NodeWarPresenceService;
 import com.bot.KaworiSpring.service.NodeWarService;
 import com.bot.KaworiSpring.util.Emojis;
 
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed.Field;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 @Controller
@@ -40,7 +44,7 @@ public class CmdNodeWar implements Command {
 
 	@Autowired
 	private NodeWarService nodeWarService;
-	
+
 	@Autowired
 	private NodeWarPresenceService nodeWarPresenceService;
 
@@ -85,7 +89,16 @@ public class CmdNodeWar implements Command {
 		selectTierEmbed(messageReceived);
 	}
 
+	private void cancelEmbed(Message currentEmbed) {
+		ReactionHandler.reactions.remove(currentEmbed.getIdLong());
+		currentEmbed.delete().queue();
+	}
+
 	private void selectTierEmbed(MessageReceivedEvent messageReceived) {
+
+		User user = messageReceived.getAuthor();
+		MessageChannel channel = messageReceived.getChannel();
+		Guild guild = messageReceived.getGuild();
 
 		Consumer<Message> callback = (message) -> {
 
@@ -97,29 +110,28 @@ public class CmdNodeWar implements Command {
 			message.addReaction(Emojis.CANCEL.getEmoji()).queue();
 
 			ReactionHandler.reactions.put(message.getIdLong(), (emote, idUser, idGuild) -> {
-				if (idUser == messageReceived.getAuthor().getIdLong()
-						&& idGuild == messageReceived.getGuild().getIdLong()) {
+				if (idUser == user.getIdLong() && idGuild == guild.getIdLong()) {
 
-				
 					Emojis emoji = Emojis.getEmojis(emote);
 
-					if(emoji == null) return;
-					
+					if (emoji == null)
+						return;
+
 					switch (emoji) {
 					case ONE:
-						selectTierEmbedAdditional(messageReceived, message);
+						selectTierEmbedAdditional(guild, channel, user, message);
 						break;
 					case TWO:
-						selectDayOfWeekEmbed(messageReceived, message, "T2");
+						selectDayOfWeekEmbed(guild, channel, user, message, "T2");
 						break;
 					case THREE:
-						selectDayOfWeekEmbed(messageReceived, message, "T3");
+						selectDayOfWeekEmbed(guild, channel, user, message, "T3");
 						break;
 					case FOUR:
-						selectDayOfWeekEmbed(messageReceived, message, "T4");
+						selectDayOfWeekEmbed(guild, channel, user, message, "T4");
 						break;
 					case FIVE:
-						selectNodesByTierAndDay(messageReceived, message, "S", Calendar.SATURDAY);
+						selectNodesByTierAndDay(guild, channel, user, message, "S", Calendar.SATURDAY);
 						break;
 					case CANCEL:
 						cancelEmbed(message);
@@ -135,14 +147,13 @@ public class CmdNodeWar implements Command {
 			});
 		};
 
-		MessageController.sendEmbed(messageReceived.getAuthor(), messageReceived.getChannel(),
-				messageReceived.getGuild(), callback, "msg_nw_title_01", "msg_nw_description_01", "msg_nw_field_01_01",
-				"msg_nw_field_01_02", "msg_nw_field_01_03", "msg_nw_field_01_04", "msg_nw_field_01_05",
-				"msg_nw_field_01_cancel");
+		EmbedBuilder embed = EmbedPattern.createSelectTierEmbed(user, channel, guild);
+
+		MessageController.sendEmbed(channel, embed, callback);
 
 	}
 
-	private void selectTierEmbedAdditional(MessageReceivedEvent messageReceived, Message currentEmbed) {
+	private void selectTierEmbedAdditional(Guild guild, MessageChannel channel, User user, Message currentEmbed) {
 
 		Consumer<Message> callBack = (message) -> {
 
@@ -152,22 +163,22 @@ public class CmdNodeWar implements Command {
 			message.addReaction(Emojis.CANCEL.getEmoji()).queue();
 
 			ReactionHandler.reactions.put(message.getIdLong(), (emote, idUser, idGuild) -> {
-				if (idUser == messageReceived.getAuthor().getIdLong()
-						&& idGuild == messageReceived.getGuild().getIdLong()) {
+				if (idUser == user.getIdLong() && idGuild == guild.getIdLong()) {
 
 					Emojis emoji = Emojis.getEmojis(emote);
 
-					if(emoji == null) return;
+					if (emoji == null)
+						return;
 
 					switch (emoji) {
 					case ONE:
-						selectDayOfWeekEmbed(messageReceived, currentEmbed, "T1I");
+						selectDayOfWeekEmbed(guild, channel, user, currentEmbed, "T1I");
 						break;
 					case TWO:
-						selectDayOfWeekEmbed(messageReceived, currentEmbed, "T1M");
+						selectDayOfWeekEmbed(guild, channel, user, currentEmbed, "T1M");
 						break;
 					case THREE:
-						selectDayOfWeekEmbed(messageReceived, currentEmbed, "T1A");
+						selectDayOfWeekEmbed(guild, channel, user, currentEmbed, "T1A");
 						break;
 					case CANCEL:
 						cancelEmbed(currentEmbed);
@@ -179,13 +190,14 @@ public class CmdNodeWar implements Command {
 			});
 		};
 
-		MessageController.changeEmbed(messageReceived.getAuthor(), messageReceived.getChannel(),
-				messageReceived.getGuild(), currentEmbed, callBack, "msg_nw_title_01", "msg_nw_description_01_add",
-				"msg_nw_field_01_add_01", "msg_nw_field_01_add_02", "msg_nw_field_01_add_03", "msg_nw_field_01_cancel");
+		EmbedBuilder embed = EmbedPattern.createSelectTierEmbedAdditional(user, channel, guild);
+
+		MessageController.changeEmbed(channel, currentEmbed, embed, callBack);
 
 	}
 
-	private void selectDayOfWeekEmbed(MessageReceivedEvent messageReceived, Message currentEmbed, String tier) {
+	private void selectDayOfWeekEmbed(Guild guild, MessageChannel channel, User user, Message currentEmbed,
+			String tier) {
 
 		Consumer<Message> callBack = (message) -> {
 
@@ -198,31 +210,31 @@ public class CmdNodeWar implements Command {
 			message.addReaction(Emojis.CANCEL.getEmoji()).queue();
 
 			ReactionHandler.reactions.put(message.getIdLong(), (emote, idUser, idGuild) -> {
-				if (idUser == messageReceived.getAuthor().getIdLong()
-						&& idGuild == messageReceived.getGuild().getIdLong()) {
+				if (idUser == user.getIdLong() && idGuild == guild.getIdLong()) {
 
 					Emojis emoji = Emojis.getEmojis(emote);
 
-					if(emoji == null) return;
-					
+					if (emoji == null)
+						return;
+
 					switch (emoji) {
 					case ONE:
-						selectNodesByTierAndDay(messageReceived, currentEmbed, tier, Calendar.SUNDAY);
+						selectNodesByTierAndDay(guild, channel, user, currentEmbed, tier, Calendar.SUNDAY);
 						break;
 					case TWO:
-						selectNodesByTierAndDay(messageReceived, currentEmbed, tier, Calendar.MONDAY);
+						selectNodesByTierAndDay(guild, channel, user, currentEmbed, tier, Calendar.MONDAY);
 						break;
 					case THREE:
-						selectNodesByTierAndDay(messageReceived, currentEmbed, tier, Calendar.TUESDAY);
+						selectNodesByTierAndDay(guild, channel, user, currentEmbed, tier, Calendar.TUESDAY);
 						break;
 					case FOUR:
-						selectNodesByTierAndDay(messageReceived, currentEmbed, tier, Calendar.WEDNESDAY);
+						selectNodesByTierAndDay(guild, channel, user, currentEmbed, tier, Calendar.WEDNESDAY);
 						break;
 					case FIVE:
-						selectNodesByTierAndDay(messageReceived, currentEmbed, tier, Calendar.THURSDAY);
+						selectNodesByTierAndDay(guild, channel, user, currentEmbed, tier, Calendar.THURSDAY);
 						break;
 					case SIX:
-						selectNodesByTierAndDay(messageReceived, currentEmbed, tier, Calendar.FRIDAY);
+						selectNodesByTierAndDay(guild, channel, user, currentEmbed, tier, Calendar.FRIDAY);
 						break;
 					case CANCEL:
 						cancelEmbed(currentEmbed);
@@ -235,20 +247,14 @@ public class CmdNodeWar implements Command {
 
 		};
 
-		MessageController.changeEmbed(messageReceived.getAuthor(), messageReceived.getChannel(),
-				messageReceived.getGuild(), currentEmbed, callBack, "msg_nw_title_01", "msg_nw_description_02",
-				"msg_nw_field_02_01", "msg_nw_field_02_02", "msg_nw_field_02_03", "msg_nw_field_02_04",
-				"msg_nw_field_02_05", "msg_nw_field_02_06", "msg_nw_field_01_cancel");
+		EmbedBuilder embed = EmbedPattern.createSelectDayOfWeekEmbed(user, channel, guild);
+
+		MessageController.changeEmbed(channel, currentEmbed, embed, callBack);
 
 	}
 
-	private void cancelEmbed(Message currentEmbed) {
-		ReactionHandler.reactions.remove(currentEmbed.getIdLong());
-		currentEmbed.delete().queue();
-	}
-
-	private void selectNodesByTierAndDay(MessageReceivedEvent messageReceived, Message currentEmbed, String tier,
-			int dayOfWeek) {
+	private void selectNodesByTierAndDay(Guild guild, MessageChannel channel, User user, Message currentEmbed,
+			String tier, int dayOfWeek) {
 
 		List<Node> nodes = nodeService.findByTierAndDayOfWeek(tier, dayOfWeek);
 
@@ -269,17 +275,16 @@ public class CmdNodeWar implements Command {
 			message.addReaction(Emojis.CANCEL.getEmoji()).queue();
 
 			ReactionHandler.reactions.put(message.getIdLong(), (emote, idUser, idGuild) -> {
-				if (idUser == messageReceived.getAuthor().getIdLong()
-						&& idGuild == messageReceived.getGuild().getIdLong()) {
+				if (idUser == user.getIdLong() && idGuild == guild.getIdLong()) {
 
-					Emojis emoji = Emojis.getEmojis(emote);					
+					Emojis emoji = Emojis.getEmojis(emote);
 
 					if (emoji != null) {
 
 						if (emoji.equals(Emojis.CANCEL)) {
 							cancelEmbed(currentEmbed);
 						} else {
-							selectDayOfMonthEmbed(messageReceived, message, nodeEvent.get(emoji));
+							selectDayOfMonthEmbed(guild, channel, user, message, nodeEvent.get(emoji));
 						}
 					}
 
@@ -288,12 +293,14 @@ public class CmdNodeWar implements Command {
 
 		};
 
-		MessageController.changeEmbedNode(messageReceived.getAuthor(), messageReceived.getChannel(),
-				messageReceived.getGuild(), currentEmbed, callBack, "msg_nw_title_01", "msg_nw_description_03", nodes);
+		EmbedBuilder embed = EmbedPattern.createSelectNodesByTierAndDayEmbed(user, channel, guild, nodes);
+
+		MessageController.changeEmbed(channel, currentEmbed, embed, callBack);
 
 	}
 
-	private void selectDayOfMonthEmbed(MessageReceivedEvent messageReceived, Message currentEmbed, Node node) {
+	private void selectDayOfMonthEmbed(Guild guild, MessageChannel channel, User user, Message currentEmbed,
+			Node node) {
 
 		ArrayList<Date> day = nearestNextWeekDay(new Date(), node.getDayOfWeek());
 		HashMap<Emojis, Date> dateEvent = new HashMap<>();
@@ -311,8 +318,7 @@ public class CmdNodeWar implements Command {
 			message.addReaction(Emojis.CANCEL.getEmoji()).queue();
 
 			ReactionHandler.reactions.put(message.getIdLong(), (emote, idUser, idGuild) -> {
-				if (idUser == messageReceived.getAuthor().getIdLong()
-						&& idGuild == messageReceived.getGuild().getIdLong()) {
+				if (idUser == user.getIdLong() && idGuild == guild.getIdLong()) {
 					Emojis emoji = Emojis.getEmojis(emote);
 
 					if (emoji != null) {
@@ -320,7 +326,7 @@ public class CmdNodeWar implements Command {
 						if (emoji.equals(Emojis.CANCEL)) {
 							cancelEmbed(currentEmbed);
 						} else {
-							saveNodeWar(messageReceived, message, node, dateEvent.get(emoji));
+							saveNodeWar(guild, channel, user, message, node, dateEvent.get(emoji));
 						}
 					}
 				}
@@ -328,21 +334,18 @@ public class CmdNodeWar implements Command {
 
 		};
 
-		Field first = new Field("Day", String.valueOf(getDayOfMonth(day.get(0))), false);
-		Field second = new Field("Day", String.valueOf(getDayOfMonth(day.get(1))), false);
-		Field third = new Field("Day", String.valueOf(getDayOfMonth(day.get(2))), false);
+		EmbedBuilder embed = EmbedPattern.createSelectDayOfMonthEmbed(user, channel, guild, day);
 
-		MessageController.changeEmbed(messageReceived.getAuthor(), messageReceived.getChannel(),
-				messageReceived.getGuild(), currentEmbed, callBack, "msg_nw_title_01", "msg_nw_description_04", first,
-				second, third);
+		MessageController.changeEmbed(channel, currentEmbed, embed, callBack);
 
 	}
 
-	private void saveNodeWar(MessageReceivedEvent messageReceived, Message currentEmbed, Node node, Date day) {
+	private void saveNodeWar(Guild guild, MessageChannel channel, User user, Message currentEmbed, Node node,
+			Date day) {
 
 		NodeWar nodeWar = new NodeWar();
-		nodeWar.setIdDiscord(messageReceived.getAuthor().getIdLong());
-		nodeWar.setIdGuild(messageReceived.getGuild().getIdLong());
+		nodeWar.setIdDiscord(user.getIdLong());
+		nodeWar.setIdGuild(guild.getIdLong());
 		nodeWar.setDate(day);
 		nodeWar.setNode(node);
 		nodeWarService.save(nodeWar);
@@ -351,9 +354,9 @@ public class CmdNodeWar implements Command {
 			ReactionHandler.reactions.remove(message.getIdLong());
 		};
 
-		MessageController.changeEmbedNode(messageReceived.getAuthor(), messageReceived.getChannel(),
-				messageReceived.getGuild(), currentEmbed, callBack, "msg_nw_title_01", "msg_nw_sucess",
-				Arrays.asList(node));
+		EmbedBuilder embed = EmbedPattern.createSaveNodeWarEmbed(user, channel, guild, nodeWar);
+
+		MessageController.changeEmbed(channel, currentEmbed, embed, callBack);
 	}
 
 	private ArrayList<Date> nearestNextWeekDay(Date reference, int dayOfWeek) {
@@ -377,13 +380,6 @@ public class CmdNodeWar implements Command {
 		return days;
 	}
 
-	private int getDayOfMonth(Date date) {
-		Calendar calendar = Calendar.getInstance();
-		calendar.clear();
-		calendar.setTime(date);
-		return calendar.get(Calendar.DAY_OF_MONTH);
-	}
-
 	private void showNodeWar(MessageReceivedEvent event) {
 		List<NodeWar> nodes = nodeWarService.findByIdGuild(event.getGuild().getIdLong());
 		Consumer<Message> callBack = (message) -> {
@@ -393,7 +389,7 @@ public class CmdNodeWar implements Command {
 				"msg_nw_show_title", "msg_nw_show_description", nodes, callBack);
 	}
 
-	//@Scheduled(cron = "0 0 12 ? * MON,TUE,WED,THU,FRI,SAT,SUN *")
+	// @Scheduled(cron = "0 0 12 ? * MON,TUE,WED,THU,FRI,SAT,SUN *")
 	@Scheduled(cron = "0 0/1 * 1/1 * ?")
 	private void scheduledNodeWar() {
 		System.out.println("Executando node war");
@@ -426,9 +422,8 @@ public class CmdNodeWar implements Command {
 			message.addReaction(Emojis.CANCEL.getEmoji()).queue();
 
 			ReactionHandler.reactions.put(message.getIdLong(), (emote, idUser, idGuild) -> {
-				
-				Emojis emoji = Emojis.getEmojis(emote);
 
+				Emojis emoji = Emojis.getEmojis(emote);
 
 				if (emoji != null) {
 					if (emoji.equals(Emojis.CHECK_OK)) {

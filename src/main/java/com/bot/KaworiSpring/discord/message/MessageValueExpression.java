@@ -6,6 +6,6 @@ import net.dv8tion.jda.api.entities.User;
 
 public interface MessageValueExpression {
 
-	public String getValue(User user, MessageChannel channel, Guild guild);
+	public String getValue(Guild guild, MessageChannel channel, User user);
 
 }
