@@ -7,11 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.bot.KaworiSpring.discord.command.Command;
+import com.bot.KaworiSpring.discord.message.EmbedPattern;
 import com.bot.KaworiSpring.discord.message.MessageController;
 import com.bot.KaworiSpring.discord.tag.TagController;
 import com.bot.KaworiSpring.model.Gear;
 import com.bot.KaworiSpring.service.GearService;
 
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
@@ -78,8 +80,9 @@ public class CmdGS implements Command {
 			members.add(temp);
 		}
 
-		MessageController.sendEmbedGear(event.getAuthor(), event.getChannel(), event.getGuild(),
-				"msg_gs_show_member_title", "msg_gs_show_member_description", members);
+		EmbedBuilder embed = EmbedPattern.createEmbedShowGear(event.getAuthor(), event.getChannel(), event.getGuild(), members);
+		
+		MessageController.sendEmbed(event.getChannel(), embed);
 	}
 
 	private Gear generateGear(long idDiscord, long idGuild) {

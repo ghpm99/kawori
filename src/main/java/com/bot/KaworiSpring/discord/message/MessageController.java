@@ -39,6 +39,9 @@ public class MessageController {
 		expressions.put("_prefix ", (guild, channel, user) -> {
 			return Util.PREFIX;
 		});
+		expressions.put("_everyone ", (guild, channel, user) -> {
+			return guild.getPublicRole().getAsMention();
+		});
 
 	}
 

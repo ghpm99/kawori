@@ -7,11 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.bot.KaworiSpring.discord.command.Command;
+import com.bot.KaworiSpring.discord.message.EmbedPattern;
 import com.bot.KaworiSpring.discord.message.MessageController;
 import com.bot.KaworiSpring.model.Gear;
 import com.bot.KaworiSpring.repository.GearRepository;
 import com.bot.KaworiSpring.util.GearSort;
 
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 @Controller
@@ -33,7 +35,9 @@ public class CmdRank implements Command {
 
 		sortList(gears, sortBy);
 
-		MessageController.sendEmbedGear(event.getAuthor(),event.getChannel(),event.getGuild(), "msg_rank_title", "msg_rank_description", gears, sortBy);
+		EmbedBuilder embed = EmbedPattern.createEmbedRankGear(event.getAuthor(), event.getChannel(), event.getGuild(), gears, sortBy);
+		
+		MessageController.sendEmbed(event.getChannel(), embed);
 
 	}
 

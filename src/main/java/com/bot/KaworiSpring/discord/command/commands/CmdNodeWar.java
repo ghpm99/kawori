@@ -1,8 +1,6 @@
 package com.bot.KaworiSpring.discord.command.commands;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -31,7 +29,6 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.MessageEmbed.Field;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -262,7 +259,7 @@ public class CmdNodeWar implements Command {
 
 		Consumer<Message> callBack = (message) -> {
 
-			int fieldSize = message.getEmbeds().iterator().next().getFields().size();
+			int fieldSize = message.getEmbeds().iterator().next().getFields().size() - 1;
 			if (fieldSize > 10)
 				fieldSize = 10;
 
@@ -307,7 +304,7 @@ public class CmdNodeWar implements Command {
 
 		Consumer<Message> callBack = (message) -> {
 
-			int fieldSize = message.getEmbeds().iterator().next().getFields().size();
+			int fieldSize = message.getEmbeds().iterator().next().getFields().size() - 1;
 
 			for (int i = 0; i < fieldSize; i++) {
 				Emojis emoji = Emojis.values()[i];
@@ -382,11 +379,11 @@ public class CmdNodeWar implements Command {
 
 	private void showNodeWar(MessageReceivedEvent event) {
 		List<NodeWar> nodes = nodeWarService.findByIdGuild(event.getGuild().getIdLong());
-		Consumer<Message> callBack = (message) -> {
-			message.delete().queueAfter(5, TimeUnit.MINUTES);
-		};
-		MessageController.createEmbedNodeWar(event.getAuthor(), event.getChannel(), event.getGuild(),
-				"msg_nw_show_title", "msg_nw_show_description", nodes, callBack);
+
+		EmbedBuilder embed = EmbedPattern.createEmbedNodeWar(event.getAuthor(), event.getChannel(), event.getGuild(),
+				nodes);
+
+		MessageController.sendEmbed(event.getChannel(), embed);
 	}
 
 	// @Scheduled(cron = "0 0 12 ? * MON,TUE,WED,THU,FRI,SAT,SUN *")
@@ -422,7 +419,7 @@ public class CmdNodeWar implements Command {
 			message.addReaction(Emojis.CANCEL.getEmoji()).queue();
 
 			ReactionHandler.reactions.put(message.getIdLong(), (emote, idUser, idGuild) -> {
-
+			
 				Emojis emoji = Emojis.getEmojis(emote);
 
 				if (emoji != null) {
@@ -440,12 +437,10 @@ public class CmdNodeWar implements Command {
 
 		};
 
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		EmbedBuilder embed = EmbedPattern.createShowScheduledNodeWar(guild.getJDA().getSelfUser(), channel, guild,
+				node);
 
-		MessageController.sendEmbed(guild.getOwner().getUser(), channel, guild, callBack, "msg_nw_scheduled_title",
-				"msg_nw_scheduled_description", sdf.format(node.getDate()), node.getNode().getChannel(),
-				String.valueOf(node.getNode().getLimitPlayer()));
-
+		MessageController.sendEmbed(channel, embed, callBack);
 	}
 
 	private TextChannel createChannelNodeWar(Guild guild) {
