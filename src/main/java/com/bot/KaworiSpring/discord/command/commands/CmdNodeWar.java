@@ -61,6 +61,8 @@ public class CmdNodeWar implements Command {
 			scheduleNodeWar(event);
 		} else if (args[0].toLowerCase().equals("show")) {
 			showNodeWar(event);
+		} else if(args[0].toLowerCase().equals("presence")) {
+			
 		}
 	}
 
@@ -378,7 +380,7 @@ public class CmdNodeWar implements Command {
 	}
 
 	private void showNodeWar(MessageReceivedEvent event) {
-		List<NodeWar> nodes = nodeWarService.findByIdGuild(event.getGuild().getIdLong());
+		List<NodeWar> nodes = nodeWarService.findByIdGuildAndDate(event.getGuild().getIdLong(),new Date());
 
 		EmbedBuilder embed = EmbedPattern.createEmbedNodeWar(event.getAuthor(), event.getChannel(), event.getGuild(),
 				nodes);
@@ -390,7 +392,7 @@ public class CmdNodeWar implements Command {
 	@Scheduled(cron = "0 0/1 * 1/1 * ?")
 	private void scheduledNodeWar() {
 		System.out.println("Executando node war");
-		List<NodeWar> nodes = nodeWarService.findByDate(new Date());
+		List<NodeWar> nodes = nodeWarService.findByDateAndIdMessage(new Date(),0);
 		for (NodeWar node : nodes) {
 			Guild guild = main.getJDA().getGuildById(node.getIdGuild());
 			TextChannel channel = verifyNodeWarChannel(guild);
@@ -419,6 +421,10 @@ public class CmdNodeWar implements Command {
 			message.addReaction(Emojis.CANCEL.getEmoji()).queue();
 
 			ReactionHandler.reactions.put(message.getIdLong(), (emote, idUser, idGuild) -> {
+				
+				if(main.getJDA().getSelfUser().getIdLong() == idUser) {
+					return;
+				}
 			
 				Emojis emoji = Emojis.getEmojis(emote);
 
@@ -427,7 +433,7 @@ public class CmdNodeWar implements Command {
 						NodeWarPresence presence = new NodeWarPresence();
 						presence.setPresenceTime(new Date());
 						presence.setIdNodeWar(node.getId());
-						presence.setIdUser(message.getAuthor().getIdLong());
+						presence.setIdUser(idUser);
 						presence.setIdGuild(guild.getIdLong());
 						nodeWarPresenceService.save(presence);
 					}
@@ -437,6 +443,8 @@ public class CmdNodeWar implements Command {
 
 		};
 
+		MessageController.sendMessage(guild, channel, guild.getJDA().getSelfUser(), "msg_everyone");
+		
 		EmbedBuilder embed = EmbedPattern.createShowScheduledNodeWar(guild.getJDA().getSelfUser(), channel, guild,
 				node);
 

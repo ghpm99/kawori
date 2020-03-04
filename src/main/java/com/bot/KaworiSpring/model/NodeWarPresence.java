@@ -11,7 +11,7 @@ import javax.persistence.TemporalType;
 public class NodeWarPresence extends Model{
 
 	@Basic
-	@Temporal(TemporalType.TIME)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date presenceTime;
 		
 	private long idNodeWar;

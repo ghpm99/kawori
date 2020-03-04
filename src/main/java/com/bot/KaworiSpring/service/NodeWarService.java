@@ -36,4 +36,11 @@ public class NodeWarService {
 		return nodeWarRepository.findByDate(date);
 	}
 	
+	public List<NodeWar> findByDateAndIdMessage(Date date,long idMessage){
+		return nodeWarRepository.findByDateAndIdMessage(date,idMessage);
+	}
+	
+	public List<NodeWar> findByIdGuildAndDate(long idGuild, Date date){
+		return nodeWarRepository.findByIdGuildAndDateGreaterThanEqual(idGuild, date);
+	}
 }

@@ -15,4 +15,8 @@ public interface NodeWarRepository extends JpaRepository<NodeWar, Long>{
 	
 	public List<NodeWar> findByDate(Date date);
 	
+	public List<NodeWar> findByDateAndIdMessage(Date date,long idMessage);
+	
+	public List<NodeWar> findByIdGuildAndDateGreaterThanEqual(long idGuild, Date date);
+	
 }

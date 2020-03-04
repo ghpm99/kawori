@@ -146,7 +146,7 @@ public class EmbedPattern {
 				sdf.format(nodeWar.getDate()), nodeWar.getNode().getChannel(),
 				String.valueOf(nodeWar.getNode().getLimitPlayer()));
 
-		embed.addField(MessageController.createEmbedField(guild, channel, user, sdf.format(nodeWar.getDate()),
+		embed.addField(MessageController.createEmbedField(guild, channel, user, "ID=" + nodeWar.getId(),
 				"msg_nw_field_show", String.valueOf(nodeWar.getNode().getLimitPlayer()),
 				nodeWar.getNode().getChannel()));
 

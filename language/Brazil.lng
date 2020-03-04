@@ -197,4 +197,5 @@ msg_nw_sucess=Node War agendada com sucesso!
 msg_nw_show_title=Consulta de Node War
 msg_nw_show_description=Consulta de Node War
 msg_nw_scheduled_title=Aviso Node War
-msg_nw_scheduled_description=_everyone  Node War dia _arg  !\nServidor:_arg  _arg  pessoas!\nGentileza confirmar presenca utilizando reacao.\nContamos com a presenca de todos!
+msg_nw_scheduled_description=Node War dia _arg  !\nServidor:_arg  _arg  pessoas!\nGentileza confirmar presenca utilizando reacao.\nContamos com a presenca de todos!
+msg_everyone=_everyone 
