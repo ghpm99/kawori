@@ -13,13 +13,17 @@ public class NodeWarPresenceService {
 
 	@Autowired
 	private NodeWarPresenceRepository nodeWarRepository;
-	
-	public List<NodeWarPresence> findByIdNodeWar(long id){
+
+	public List<NodeWarPresence> findByIdNodeWar(long id) {
 		return nodeWarRepository.findByIdNodeWar(id);
 	}
-	
+
 	public NodeWarPresence save(NodeWarPresence node) {
 		return nodeWarRepository.save(node);
 	}
-	
+
+	public List<NodeWarPresence> findByIdNodeWarAndIdGuild(long idNodeWar, long idGuild) {
+		return nodeWarRepository.findByIdNodeWarAndIdGuild(idNodeWar, idGuild);
+	}
+
 }

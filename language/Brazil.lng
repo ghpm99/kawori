@@ -199,3 +199,7 @@ msg_nw_show_description=Consulta de Node War
 msg_nw_scheduled_title=Aviso Node War
 msg_nw_scheduled_description=Node War dia _arg  !\nServidor:_arg  _arg  pessoas!\nGentileza confirmar presenca utilizando reacao.\nContamos com a presenca de todos!
 msg_everyone=_everyone 
+msg_nw_presence_error_code=_nameMention  gentileza informar um codigo valido para a Node War!
+embed_nw_presence_title=Confirmacao presenca
+embed_nw_presence_description=Relatorio de confirmacao presenca node _arg !\nServidor: _arg !
+embed_nw_presence_field=Hora: _arg - Membro: _arg 

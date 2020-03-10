@@ -4,6 +4,7 @@ import javax.annotation.PostConstruct;
 import javax.security.auth.login.LoginException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.bot.KaworiSpring.discord.command.CommandHandler;
@@ -54,6 +55,7 @@ public class Main {
 	private MemberListener memberListener;
 	@Autowired
 	private RoleListener roleListener;
+	
 
 	@PostConstruct
 	public void init() {
@@ -97,5 +99,12 @@ public class Main {
 	public JDA getJDA() {
 		return jda;
 	}
+	
+	// @Scheduled(cron = "0 0 12 ? * MON,TUE,WED,THU,FRI,SAT,SUN *")
+		@Scheduled(cron = "0 0/1 * 1/1 * ?")
+		private void scheduledNodeWar() {
+			System.out.println("Executando node war");
+			cmdNodeWar.scheduledNodeWar(jda);
+		}
 	
 }

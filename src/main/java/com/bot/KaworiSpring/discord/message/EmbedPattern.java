@@ -9,6 +9,7 @@ import java.util.List;
 import com.bot.KaworiSpring.model.Gear;
 import com.bot.KaworiSpring.model.Node;
 import com.bot.KaworiSpring.model.NodeWar;
+import com.bot.KaworiSpring.model.NodeWarPresence;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
@@ -146,9 +147,9 @@ public class EmbedPattern {
 				sdf.format(nodeWar.getDate()), nodeWar.getNode().getChannel(),
 				String.valueOf(nodeWar.getNode().getLimitPlayer()));
 
-		embed.addField(MessageController.createEmbedField(guild, channel, user, "ID=" + nodeWar.getId(),
-				"msg_nw_field_show", String.valueOf(nodeWar.getNode().getLimitPlayer()),
-				nodeWar.getNode().getChannel()));
+		embed.addField(
+				MessageController.createEmbedField(guild, channel, user, "ID=" + nodeWar.getId(), "msg_nw_field_show",
+						String.valueOf(nodeWar.getNode().getLimitPlayer()), nodeWar.getNode().getChannel()));
 
 		return embed;
 	}
@@ -212,6 +213,31 @@ public class EmbedPattern {
 			embed.addField(MessageController.createEmbedField(guild, channel, user, member.getUser().getName(),
 					"msg_gs_show_member_field", String.valueOf(gear.getAp()), String.valueOf(gear.getApAwak()),
 					String.valueOf(gear.getDp()), String.valueOf(gear.getLevel())));
+		}
+
+		return embed;
+	}
+
+	public static EmbedBuilder createEmbedNodeWarPresence(User user, MessageChannel channel, Guild guild,
+			NodeWar nodeWar, List<NodeWarPresence> presences) {
+		EmbedBuilder embed = new EmbedBuilder();
+
+		MessageController.setEmbedHead(guild, channel, user, embed);
+		MessageController.setEmbedTitle(guild, channel, user, embed, "embed_nw_presence_title");
+		MessageController.setEmbedDescription(guild, channel, user, embed, "embed_nw_presence_description",
+				String.valueOf(nodeWar.getNode().getId()), nodeWar.getNode().getChannel());
+
+		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
+
+		for (NodeWarPresence presence : presences) {
+
+			Member member = guild.getMemberById(presence.getIdUser());
+
+			if (member == null)
+				continue;
+
+			embed.addField(MessageController.createEmbedField(guild, channel, user, user.getName(),
+					"embed_nw_presence_field", sdf.format(presence.getPresenceTime()), member.getUser().getName()));
 		}
 
 		return embed;

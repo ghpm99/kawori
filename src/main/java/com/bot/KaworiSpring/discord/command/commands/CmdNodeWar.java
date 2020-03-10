@@ -9,10 +9,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 
-import com.bot.KaworiSpring.discord.Main;
 import com.bot.KaworiSpring.discord.command.Command;
 import com.bot.KaworiSpring.discord.message.EmbedPattern;
 import com.bot.KaworiSpring.discord.message.MessageController;
@@ -26,6 +24,7 @@ import com.bot.KaworiSpring.service.NodeWarService;
 import com.bot.KaworiSpring.util.Emojis;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -37,16 +36,13 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 public class CmdNodeWar implements Command {
 
 	@Autowired
-	private NodeService nodeService;
-
-	@Autowired
 	private NodeWarService nodeWarService;
 
 	@Autowired
-	private NodeWarPresenceService nodeWarPresenceService;
+	private NodeService nodeService;
 
 	@Autowired
-	private Main main;
+	private NodeWarPresenceService nodeWarPresenceService;
 
 	@Override
 	public boolean called(String[] args, MessageReceivedEvent event) {
@@ -61,8 +57,8 @@ public class CmdNodeWar implements Command {
 			scheduleNodeWar(event);
 		} else if (args[0].toLowerCase().equals("show")) {
 			showNodeWar(event);
-		} else if(args[0].toLowerCase().equals("presence")) {
-			
+		} else if (args[0].toLowerCase().equals("presence")) {
+			showPresenceNodeWar(args, event);
 		}
 	}
 
@@ -82,6 +78,15 @@ public class CmdNodeWar implements Command {
 	public int nivelNecessario() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	private void showNodeWar(MessageReceivedEvent event) {
+		List<NodeWar> nodes = nodeWarService.findByIdGuildAndDate(event.getGuild().getIdLong(), new Date());
+
+		EmbedBuilder embed = EmbedPattern.createEmbedNodeWar(event.getAuthor(), event.getChannel(), event.getGuild(),
+				nodes);
+
+		MessageController.sendEmbed(event.getChannel(), embed);
 	}
 
 	private void scheduleNodeWar(MessageReceivedEvent messageReceived) {
@@ -379,25 +384,14 @@ public class CmdNodeWar implements Command {
 		return days;
 	}
 
-	private void showNodeWar(MessageReceivedEvent event) {
-		List<NodeWar> nodes = nodeWarService.findByIdGuildAndDate(event.getGuild().getIdLong(),new Date());
-
-		EmbedBuilder embed = EmbedPattern.createEmbedNodeWar(event.getAuthor(), event.getChannel(), event.getGuild(),
-				nodes);
-
-		MessageController.sendEmbed(event.getChannel(), embed);
-	}
-
-	// @Scheduled(cron = "0 0 12 ? * MON,TUE,WED,THU,FRI,SAT,SUN *")
-	@Scheduled(cron = "0 0/1 * 1/1 * ?")
-	private void scheduledNodeWar() {
-		System.out.println("Executando node war");
-		List<NodeWar> nodes = nodeWarService.findByDateAndIdMessage(new Date(),0);
+	// tarefa agendada
+	public void scheduledNodeWar(JDA jda) {
+		List<NodeWar> nodes = nodeWarService.findByDateAndIdMessage(new Date(), 0);
 		for (NodeWar node : nodes) {
-			Guild guild = main.getJDA().getGuildById(node.getIdGuild());
+			Guild guild = jda.getGuildById(node.getIdGuild());
 			TextChannel channel = verifyNodeWarChannel(guild);
 
-			showScheduledNodeWar(guild, channel, node);
+			showScheduledNodeWar(guild, channel, node, jda.getSelfUser());
 		}
 	}
 
@@ -409,7 +403,7 @@ public class CmdNodeWar implements Command {
 		return channels.get(0);
 	}
 
-	private void showScheduledNodeWar(Guild guild, TextChannel channel, NodeWar node) {
+	private void showScheduledNodeWar(Guild guild, TextChannel channel, NodeWar node, User user) {
 
 		Consumer<Message> callBack = (message) -> {
 
@@ -421,11 +415,11 @@ public class CmdNodeWar implements Command {
 			message.addReaction(Emojis.CANCEL.getEmoji()).queue();
 
 			ReactionHandler.reactions.put(message.getIdLong(), (emote, idUser, idGuild) -> {
-				
-				if(main.getJDA().getSelfUser().getIdLong() == idUser) {
+
+				if (user.getIdLong() == idUser) {
 					return;
 				}
-			
+
 				Emojis emoji = Emojis.getEmojis(emote);
 
 				if (emoji != null) {
@@ -444,7 +438,7 @@ public class CmdNodeWar implements Command {
 		};
 
 		MessageController.sendMessage(guild, channel, guild.getJDA().getSelfUser(), "msg_everyone");
-		
+
 		EmbedBuilder embed = EmbedPattern.createShowScheduledNodeWar(guild.getJDA().getSelfUser(), channel, guild,
 				node);
 
@@ -454,4 +448,26 @@ public class CmdNodeWar implements Command {
 	private TextChannel createChannelNodeWar(Guild guild) {
 		return guild.createTextChannel("nodewar").complete();
 	}
+
+	private void showPresenceNodeWar(String[] args, MessageReceivedEvent event) {
+		try {
+			long idNodeWar = Long.valueOf(args[1]);
+			NodeWar nodeWar = nodeWarService.findById(idNodeWar);
+			List<NodeWarPresence> presences = nodeWarPresenceService.findByIdNodeWarAndIdGuild(idNodeWar,
+					event.getGuild().getIdLong());
+
+			EmbedBuilder embed = EmbedPattern.createEmbedNodeWarPresence(event.getAuthor(), event.getChannel(),
+					event.getGuild(), nodeWar, presences);
+
+			MessageController.sendEmbed(event.getChannel(), embed);
+
+		} catch (Exception e) {
+			
+			MessageController.sendMessage(event.getGuild(), event.getChannel(), event.getAuthor(),
+					"msg_nw_presence_error_code");
+			e.printStackTrace();
+		}
+
+	}
+
 }

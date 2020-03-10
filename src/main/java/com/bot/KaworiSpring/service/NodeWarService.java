@@ -43,4 +43,8 @@ public class NodeWarService {
 	public List<NodeWar> findByIdGuildAndDate(long idGuild, Date date){
 		return nodeWarRepository.findByIdGuildAndDateGreaterThanEqual(idGuild, date);
 	}
+	
+	public NodeWar findById(long id) {
+		return nodeWarRepository.findById(id);
+	}
 }
