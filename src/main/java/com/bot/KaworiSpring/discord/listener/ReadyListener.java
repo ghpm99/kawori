@@ -3,7 +3,7 @@ package com.bot.KaworiSpring.discord.listener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import com.bot.KaworiSpring.discord.tag.TagController;
+import com.bot.KaworiSpring.discord.controller.GuildaController;
 
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.ReadyEvent;
@@ -13,7 +13,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 public class ReadyListener extends ListenerAdapter {
 
 	@Autowired
-	private TagController tagController;
+	private GuildaController guildaController;
 	
 	private boolean carregar = false;
 	
@@ -23,7 +23,7 @@ public class ReadyListener extends ListenerAdapter {
 		if(!carregar) return;
 		
 		for(Guild guild : e.getJDA().getGuilds()) {
-			tagController.updateGuildTag(guild);
+			guildaController.updateGuildTag(guild);
 		}
 		
 		System.out.println("Tags atualizadas");

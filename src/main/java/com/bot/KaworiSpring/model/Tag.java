@@ -3,8 +3,10 @@ package com.bot.KaworiSpring.model;
 import java.awt.Color;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "role")
 public class Tag extends Model{
 
 	private long idGuild;
@@ -18,6 +20,8 @@ public class Tag extends Model{
 	private int green;
 	
 	private int blue;
+	
+	private int position;
 	
 	private boolean administrator;
 	
@@ -44,6 +48,15 @@ public class Tag extends Model{
 	private boolean botRole;
 	
 	private boolean active;
+		
+
+	public int getPosition() {
+		return position;
+	}
+
+	public void setPosition(int position) {
+		this.position = position;
+	}
 
 	public long getIdGuild() {
 		return idGuild;

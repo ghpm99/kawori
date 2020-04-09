@@ -45,6 +45,12 @@ public class MessageController {
 
 	}
 
+	
+	public static void sendMessageSingle(Guild guild, MessageChannel channel, User user,String message) {
+		String formattedMessage = formatterMessage(guild, channel, user, message);
+		channel.sendMessage(formattedMessage).queue();
+	}
+	
 	public static void sendMessage(Guild guild, MessageChannel channel, User user,String message, String... args) {
 		channel.sendMessage(createMessage(guild, channel, user,message, args)).queue();
 	}

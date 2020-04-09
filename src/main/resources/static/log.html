@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <title>Kawori Bot - Events</title>
+        <script src="/webjars/jquery/jquery.min.js"></script>
+        <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+        <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+        <script src="/log.js"></script>
+    </head>
+    <body>
+        <noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
+            enabled. Please enable
+            Javascript and reload this page!</h2></noscript>
+        <h2>Eventos</h2>
+        <table id="event" style="width:100%">
+            <tr>	
+                <td>Hora</td>
+                <td>Evento</td>
+                <td>Guilda</td>
+                <td>Usuario</td>
+                <td>Status</td>
+            </tr>
+
+        </table>
+        
+        <button id="connect" type="submit">Connect</button>
+    </body>
+</html>

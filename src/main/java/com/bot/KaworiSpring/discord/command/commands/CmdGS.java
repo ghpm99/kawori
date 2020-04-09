@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.bot.KaworiSpring.discord.command.Command;
+import com.bot.KaworiSpring.discord.controller.TagController;
 import com.bot.KaworiSpring.discord.message.EmbedPattern;
 import com.bot.KaworiSpring.discord.message.MessageController;
-import com.bot.KaworiSpring.discord.tag.TagController;
 import com.bot.KaworiSpring.model.Gear;
 import com.bot.KaworiSpring.service.GearService;
 
