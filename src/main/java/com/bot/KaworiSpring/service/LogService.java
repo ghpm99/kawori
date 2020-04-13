@@ -3,25 +3,23 @@ package com.bot.KaworiSpring.service;
 import java.util.ArrayList;
 
 import com.bot.KaworiSpring.model.Log;
+import com.bot.KaworiSpring.web.controller.LogController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class LogService {
 
-    private static LogService instance;    
+    @Autowired
+    private LogController logController;
     
     private ArrayList<Log> events = new ArrayList<>();
 
     private boolean online;
-
-    public static LogService getInstance(){
-        if(instance == null){
-            instance = new LogService();
-        }
-        
-        return instance;
-    }
     
     public void addEvent(Log log) {
         events.add(log);
+        logController.sendLog(log);
     }
 
     public ArrayList<Log> getEvents() {

@@ -22,6 +22,7 @@ import com.bot.KaworiSpring.discord.listener.UserListener;
 import com.bot.KaworiSpring.model.Log;
 import com.bot.KaworiSpring.service.ConfigurationService;
 import com.bot.KaworiSpring.service.LogService;
+import com.bot.KaworiSpring.service.StatusService;
 import java.util.Date;
 
 import net.dv8tion.jda.api.AccountType;
@@ -47,6 +48,8 @@ public class Main {
     private CmdNodeWar cmdNodeWar;
     @Autowired
     private CmdAdm cmdAdm;
+    @Autowired
+    private LogService logService;
 
     //Eventos Listeners
     @Autowired
@@ -61,11 +64,14 @@ public class Main {
     private BotListener botListener;
     @Autowired
     private UserListener userListener;
+    
+    @Autowired
+    private StatusService statusService;
 
     @PostConstruct
     public void init() {
-
-        LogService.getInstance().addEvent(new Log(new Date(), "Iniciando Bot", 0, 0, "OK"));
+        statusService.setStatusBot("Iniciando...");
+        logService.addEvent(new Log(new Date(), "Iniciando Bot", 0, 0, "OK"));
 
         JDABuilder builder = new JDABuilder(AccountType.BOT).setToken(configService.getByType("token").getValue())
                 .setAutoReconnect(true);
@@ -78,30 +84,32 @@ public class Main {
             jda = builder.build();
         } catch (LoginException e) {
             // TODO Auto-generated catch block
+            
             e.printStackTrace();
         }
+        
 
     }
 
     private void setListeners(JDABuilder builder) {
-        LogService.getInstance().addEvent(new Log(new Date(), "Adicionando Listeners", 0, 0, "-"));
+        logService.addEvent(new Log(new Date(), "Adicionando Listeners", 0, 0, "-"));
         builder.addEventListeners(readyListener);
         builder.addEventListeners(messageListener);
         builder.addEventListeners(reactionListener);
         builder.addEventListeners(guildListener);
         builder.addEventListeners(botListener);
         builder.addEventListeners(userListener);
-        LogService.getInstance().addEvent(new Log(new Date(), "Listeners adicionados", 0, 0, "OK"));
+        logService.addEvent(new Log(new Date(), "Listeners adicionados", 0, 0, "OK"));
     }
 
     private void setCommands() {
-        LogService.getInstance().addEvent(new Log(new Date(), "Adicionando Comandos", 0, 0, "-"));
+        logService.addEvent(new Log(new Date(), "Adicionando Comandos", 0, 0, "-"));
         CommandHandler.commands.put("help", cmdHelp);
         CommandHandler.commands.put("gs", cmdGS);
         CommandHandler.commands.put("rank", cmdRank);
         CommandHandler.commands.put("nw", cmdNodeWar);
         CommandHandler.commands.put("adm", cmdAdm);
-        LogService.getInstance().addEvent(new Log(new Date(), "Comandos adicionados", 0, 0, "OK"));
+        logService.addEvent(new Log(new Date(), "Comandos adicionados", 0, 0, "OK"));
     }
 
     public JDA getJDA() {
@@ -111,7 +119,7 @@ public class Main {
     // @Scheduled(cron = "0 0 12 ? * MON,TUE,WED,THU,FRI,SAT,SUN *")
     @Scheduled(cron = "0 0/1 * 1/1 * ?")
     private void scheduledNodeWar() {
-        System.out.println("Executando node war");
+        //System.out.println("Executando node war");
         //cmdNodeWar.scheduledNodeWar(jda);
     }
 
