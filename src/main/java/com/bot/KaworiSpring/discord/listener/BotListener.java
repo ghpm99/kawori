@@ -18,7 +18,7 @@ public class BotListener extends ListenerAdapter {
 	// bot entra no servidor
 	@Override
 	public void onGuildJoin(GuildJoinEvent event) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub                
 		botController.onGuildJoin(event.getGuild());
 	}
 
