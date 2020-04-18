@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Kawori Bot</title>
+        <meta name="description" content="Painel gerenciador - Kawori Bot" />
+        <meta name="author" content="Codrops" />
+        <link rel="shortcut icon" href="favicon.ico">
+        <!-- demo styles -->
+        <link rel="stylesheet" type="text/css" href="index/css/demo.css" />
+        <!-- menu styles -->
+        <link rel="stylesheet" type="text/css" href="index/css/component.css" />
+        <script src="index/js/modernizr-custom.js"></script>        
+        <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="index/css/util.css">
+        <link rel="stylesheet" type="text/css" href="index/css/main.css">
+        <!--===============================================================================================-->
+        <script src="/webjars/jquery/jquery.min.js"></script>
+    </head>
+
+    <body>
+        <!-- Main container -->
+        <div class="container">
+            <!-- Blueprint header -->
+            <header class="bp-header cf">
+                <div class="dummy-logo">
+                    <div class="dummy-icon foodicon foodicon--coconut"></div>                    
+                    <img src ="https://pbs.twimg.com/media/CdEW7NrW8AIzdsi.jpg" alt="Kawori Bot" width="80" height="80">                    
+                    <h2 class="dummy-heading">Kawori Bot</h2>
+                </div>
+
+            </header>
+            <button class="action action--open" aria-label="Open Menu"><span class="icon icon--menu"></span></button>
+
+            <nav id="ml-menu" class="menu">
+                <button class="action action--close" aria-label="Close Menu"><span class="icon icon--cross"></span></button>
+                <div class="menu__wrap">
+                    <ul data-menu="main" class="menu__level" tabindex="-1" role="menu" aria-label="All">
+                        <li class="menu__item" role="menuitem"><a class="menu__link" data-submenu="submenu-1" aria-owns="submenu-1" href="#">Inicio</a></li>
+                        <li class="menu__item" role="menuitem"><a class="menu__link" data-submenu="submenu-2" aria-owns="submenu-2" href="#">Log</a></li>
+                        <li class="menu__item" role="menuitem"><a class="menu__link" data-submenu="submenu-3" aria-owns="submenu-3" href="#">Banco de Dados</a></li>
+                        <li class="menu__item" role="menuitem"><a class="menu__link" data-submenu="submenu-4" aria-owns="submenu-4" href="#">Configuração</a></li>
+                    </ul>
+                    <!-- Submenu 1 -->
+                    <ul data-menu="submenu-1" id="submenu-1" class="menu__level" tabindex="-1" role="menu" aria-label="Vegetables">
+                        <li class="menu__item" role="menuitem"><a class="menu__link" href="inicio/status">Status</a></li>
+                    </ul>
+                    <!-- Submenu 2 -->
+                    <ul data-menu="submenu-2" id="submenu-2" class="menu__level" tabindex="-1" role="menu" aria-label="Fruits">
+                        <li class="menu__item" role="menuitem"><a class="menu__link" href="events/log">Log</a></li>
+                    </ul>
+                    <!-- Submenu 3 -->
+                    <ul data-menu="submenu-3" id="submenu-3" class="menu__level" tabindex="-1" role="menu" aria-label="Grains">
+                        <li class="menu__item" role="menuitem"><a class="menu__link" href="bd/guilda">Guilda</a></li>
+                        <li class="menu__item" role="menuitem"><a class="menu__link" href="bd/roles">Roles</a></li>
+                        <li class="menu__item" role="menuitem"><a class="menu__link" href="bd/nodewar">Node War</a></li>
+                        <li class="menu__item" role="menuitem"><a class="menu__link" href="bd/pessoas">Pessoas</a></li>
+                    </ul>
+                    <!-- Submenu 4 -->
+                    <ul data-menu="submenu-4" id="submenu-4" class="menu__level" tabindex="-1" role="menu" aria-label="Mylk &amp; Drinks">
+                        <li class="menu__item" role="menuitem"><a class="menu__link" href="config/nodewar">Node War</a></li>
+                        <li class="menu__item" role="menuitem"><a class="menu__link" href="config/fama">Fama de Aventura</a></li>
+                        <li class="menu__item" role="menuitem"><a class="menu__link" href="config/color">Color</a></li>
+                        <li class="menu__item" role="menuitem"><a class="menu__link" href="config/node">Node</a></li>
+                        <li class="menu__item" role="menuitem"><a class="menu__link" href="config/configuracao">Configuração</a></li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="content">
+                <p class="info">Selecione uma categoria</p>
+                <!-- Ajax loaded content here -->
+            </div>
+        </div>
+        <!-- /view -->
+        <script src="index/js/classie.js"></script>
+        <script src="index/js/dummydata.js"></script>
+        <script src="index/js/main.js"></script>
+        <script>
+            $('.js-pscroll').each(function () {
+                var ps = new PerfectScrollbar(this);
+
+                $(window).on('resize', function () {
+                    ps.update();
+                })
+            });
+
+
+        </script>
+        <!--===============================================================================================-->
+        <script src="index/js/main.js"></script>
+        <script>
+            (function () {
+                var menuEl = document.getElementById('ml-menu'),
+                        mlmenu = new MLMenu(menuEl, {
+                            // breadcrumbsCtrl : true, // show breadcrumbs
+                            // initialBreadcrumb : 'all', // initial breadcrumb text
+                            backCtrl: false, // show back button
+                            // itemsDelayInterval : 60, // delay between each menu item sliding animation
+                            // callback: item that doesn´t have a submenu gets clicked - onItemClick([event], [inner HTML of the clicked item])
+                        });
+
+                // mobile menu toggle
+                var openMenuCtrl = document.querySelector('.action--open'),
+                        closeMenuCtrl = document.querySelector('.action--close');
+
+                openMenuCtrl.addEventListener('click', openMenu);
+                closeMenuCtrl.addEventListener('click', closeMenu);
+
+                function openMenu() {
+                    classie.add(menuEl, 'menu--open');
+                    closeMenuCtrl.focus();
+                }
+
+                function closeMenu() {
+                    classie.remove(menuEl, 'menu--open');
+                    openMenuCtrl.focus();
+                }
+
+                // simulate grid content loading
+
+
+            })();
+        </script>
+
+    </body>
+
+</html>

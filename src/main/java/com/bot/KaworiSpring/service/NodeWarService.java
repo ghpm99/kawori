@@ -47,4 +47,8 @@ public class NodeWarService {
 	public NodeWar findById(long id) {
 		return nodeWarRepository.findById(id);
 	}
+        
+        public List<NodeWar> findAll(){
+            return nodeWarRepository.findAll();
+        }
 }

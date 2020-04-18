@@ -120,7 +120,7 @@ public class Main {
     @Scheduled(cron = "0 0/1 * 1/1 * ?")
     private void scheduledNodeWar() {
         //System.out.println("Executando node war");
-        //cmdNodeWar.scheduledNodeWar(jda);
+        cmdNodeWar.scheduledNodeWar(jda);
     }
 
 }

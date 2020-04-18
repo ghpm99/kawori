@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.bot.KaworiSpring.model.Operator;
 import com.bot.KaworiSpring.repository.OperatorRepository;
+import java.util.List;
 
 @Service
 public class OperatorService {
@@ -23,5 +24,9 @@ public class OperatorService {
 	public Operator save(Operator operator) {
 		return operatorRepository.save(operator);
 	}
+        
+        public List<Operator> findAll(){
+            return operatorRepository.findAll();
+        }
 
 }

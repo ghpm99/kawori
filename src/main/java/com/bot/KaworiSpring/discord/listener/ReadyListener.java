@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 
 import com.bot.KaworiSpring.discord.controller.GuildaController;
 import com.bot.KaworiSpring.service.StatusService;
+import net.dv8tion.jda.api.entities.Guild;
 
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -22,7 +23,7 @@ public class ReadyListener extends ListenerAdapter {
     @Override
     public void onReady(ReadyEvent e) {
         statusService.setStatusBot("Loading...");
-        
+
         //teste
         if (carregar) {
 

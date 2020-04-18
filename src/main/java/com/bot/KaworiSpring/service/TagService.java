@@ -41,5 +41,9 @@ public class TagService {
 	public void delete(Tag tag) {
 		this.tagRepository.delete(tag);
 	}
+        
+        public List<Tag> findAll(){
+            return tagRepository.findAll();
+        }
 	
 }

@@ -7,12 +7,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Kawori Bot</title>
         <meta name="description" content="Painel gerenciador - Kawori Bot" />
-        <meta name="author" content="Codrops" />
-        <link rel="shortcut icon" href="favicon.ico">
+        <meta name="author" content="Guilherme H." />
         <!-- demo styles -->
         <link rel="stylesheet" type="text/css" href="css/demo.css" />
         <!-- menu styles -->
         <link rel="stylesheet" type="text/css" href="css/component.css" />
+        
         <script src="js/modernizr-custom.js"></script>
         <!--===============================================================================================-->
         <link rel="stylesheet" type="text/css" href="css/util.css">
@@ -72,12 +72,53 @@
             </nav>
             <div class="content">
                 <p class="info">Banco de dados - Roles</p>
-                <!-- Ajax loaded content here -->
+                 <div class="info">
+                    <div class="container-table100">
+                        <div class="wrap-table100">
+                            <div class="table100 ver5 m-b-110">
+                                <div class="table100-head">
+                                    <table>
+                                        <thead>
+                                            <tr class="row100 head">
+                                                <th class="cell100 column1">Id</th>
+                                                <th class="cell100 column2">Name</th>
+                                                <th class="cell100 column3">Id Guild</th>
+                                                <th class="cell100 column4">Posição</th>
+                                                <th class="cell100 column5">Red</th>
+                                                <th class="cell100 column6">Green</th>
+                                                <th class="cell100 column7">Blue</th>                                                
+                                                <th class="cell100 column8">Bot Role</th>                                                
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+
+                                <div class="table100-body js-pscroll">
+                                    <table id="event">
+                                        <tbody>                                        
+                                            <tr class="row100 body" th:each="tag: ${tags}">
+                                                <td class="cell100 column1" td:text="${tag.id}"></td>
+                                                <td class="cell100 column2" th:text="${tag.name}"></td>
+                                                <td class="cell100 column3" th:text="${tag.idGuild}"></td>
+                                                <td class="cell100 column4" th:text="${tag.position}"></td>
+                                                <td class="cell100 column5" th:text="${tag.red}"></td>
+                                                <td class="cell100 column6" th:text="${tag.green}"></td>
+                                                <td class="cell100 column7" th:text="${tag.blue}"></td>
+                                                <td class="cell100 column8" th:text="${tag.botRole}"></td>
+                                            </tr>                                        
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- /view -->
         <script src="js/classie.js"></script>
-        <script src="js/dummydata.js"></script>
+        
         <script src="js/main.js"></script>
         <script>
             $('.js-pscroll').each(function () {
