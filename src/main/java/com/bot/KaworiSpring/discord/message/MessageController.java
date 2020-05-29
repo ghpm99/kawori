@@ -22,172 +22,178 @@ import net.dv8tion.jda.api.entities.User;
 
 public class MessageController {
 
-	private static HashMap<String, MessageValueExpression> expressions = new HashMap<>();
-	static {
-		expressions.put("_nameMention ", (guild, channel, user) -> {
-			return user.getAsMention();
-		});
-		expressions.put("_channel ", (guild, channel, user) -> {
-			return channel.getName();
-		});
-		expressions.put("_guild ", (guild, channel, user) -> {
-			return guild.getName();
-		});
-		expressions.put("_name ", (guild, channel, user) -> {
-			return user.getName();
-		});
-		expressions.put("_prefix ", (guild, channel, user) -> {
-			return Util.PREFIX;
-		});
-		expressions.put("_everyone ", (guild, channel, user) -> {
-			return guild.getPublicRole().getAsMention();
-		});
+    private static HashMap<String, MessageValueExpression> expressions = new HashMap<>();
 
-	}
+    static {
+        expressions.put("_nameMention ", (guild, channel, user) -> {
+            return user.getAsMention();
+        });
+        expressions.put("_channel ", (guild, channel, user) -> {
+            return channel.getName();
+        });
+        expressions.put("_guild ", (guild, channel, user) -> {
+            return guild.getName();
+        });
+        expressions.put("_name ", (guild, channel, user) -> {
+            return user.getName();
+        });
+        expressions.put("_prefix ", (guild, channel, user) -> {
+            return Util.PREFIX;
+        });
+        expressions.put("_everyone ", (guild, channel, user) -> {
+            return guild.getPublicRole().getAsMention();
+        });
 
-	
-	public static void sendMessageSingle(Guild guild, MessageChannel channel, User user,String message) {
-		String formattedMessage = formatterMessage(guild, channel, user, message);
-		channel.sendMessage(formattedMessage).queue();
-	}
-	
-	public static void sendMessage(Guild guild, MessageChannel channel, User user,String message, String... args) {
-		channel.sendMessage(createMessage(guild, channel, user,message, args)).queue();
-	}
+    }
 
-	private static String loadMessage(String message, String region) {
+    public static void sendMessageSingle(Guild guild, MessageChannel channel, User user, String message) {
+        String formattedMessage = formatterMessage(guild, channel, user, message);
+        channel.sendMessage(formattedMessage).queue();
+    }
 
-		String fileName = System.getProperty("user.dir") + File.separator + "language" + File.separator + region
-				+ ".lng";
+    public static void sendMessage(Guild guild, MessageChannel channel, User user, String message, String... args) {
 
-		String retorno = null;
-		Properties pro = new Properties();
-		InputStream input = null;
-		try {
-			input = new FileInputStream(fileName);
-			pro.load(input);
-			retorno = pro.getProperty(message);
-		} catch (FileNotFoundException e) {
-			createFile(System.getProperty("user.dir") + File.separator + "language", region + ".lng");
-			return " _nameMention , that language is not yet supported!";
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        channel.sendMessage(createMessage(guild, channel, user, message, args)).queue();
+    }
 
-		return retorno;
-	}
+    public static void sendFile(MessageChannel channel, InputStream data, User user) {
+        channel.sendFile(data, user.getName()).queue();
+    }
 
-	private static String formatterMessage(Guild guild, MessageChannel channel, User user,String message, 
-			String... args) {
-		String newMessage = message;
-		for (String expression : expressions.keySet()) {
+    private static String loadMessage(String message, String region) {
 
-			newMessage = newMessage.replaceAll(expression, expressions.get(expression).getValue(guild, channel, user));
-		}
-		for (String arg : args) {
-			newMessage = newMessage.replaceFirst("_arg ", arg);
-		}
-		return newMessage;
-	}
+        String fileName = System.getProperty("user.dir") + File.separator + "language" + File.separator + region
+                + ".lng";
 
-	public static String createMessage(Guild guild, MessageChannel channel, User user,String message, String... args) {
-		String msg = loadMessage(message, guild.getRegion().getName());
-		String msgFormated = formatterMessage(guild, channel, user,msg, args);
-		return msgFormated;
+        String retorno = null;
+        Properties pro = new Properties();
+        InputStream input = null;
+        try {
+            input = new FileInputStream(fileName);
+            pro.load(input);
+            retorno = pro.getProperty(message);
+        } catch (FileNotFoundException e) {
+            createFile(System.getProperty("user.dir") + File.separator + "language", region + ".lng");
+            return " _nameMention , that language is not yet supported!";
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
-	}
+        return retorno;
+    }
 
-	private static void createFile(String path, String fileName) {
-		File newDirectory = new File(path);
-		File newFile = new File(path + File.separator + fileName);
+    private static String formatterMessage(Guild guild, MessageChannel channel, User user, String message,
+            String... args) {
+        String newMessage = message;
+        for (String expression : expressions.keySet()) {
 
-		if (newDirectory.mkdirs()) {
-			System.out.println("New Directory " + newDirectory.getAbsolutePath() + " was successfully created.");
-		} else {
-			System.out.println("New Directory " + newDirectory.getAbsolutePath() + " was failed to be created.");
-		}
+            newMessage = newMessage.replaceAll(expression, expressions.get(expression).getValue(guild, channel, user));
+        }
+        for (String arg : args) {
+            newMessage = newMessage.replaceFirst("_arg ", arg);
+        }
+        return newMessage;
+    }
 
-		try {
-			if (newFile.createNewFile()) {
-				System.out.println("New file " + newFile.getAbsolutePath() + " was successfully created.");
-			} else {
-				System.out.println("New file " + newFile.getAbsolutePath() + " was failed to be created.");
-			}
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+    public static String createMessage(Guild guild, MessageChannel channel, User user, String message, String... args) {
+        String msg = loadMessage(message, guild.getRegion().getName());
+        String msgFormated = formatterMessage(guild, channel, user, msg, args);
+        return msgFormated;
 
-	}
+    }
 
-	public static void sendEmbed(MessageChannel channel, EmbedBuilder embed) {
+    private static void createFile(String path, String fileName) {
+        File newDirectory = new File(path);
+        File newFile = new File(path + File.separator + fileName);
 
-		sendEmbed(channel, embed, (s) -> {
-			s.delete().queueAfter(5, TimeUnit.MINUTES);
-		});
+        if (newDirectory.mkdirs()) {
+            System.out.println("New Directory " + newDirectory.getAbsolutePath() + " was successfully created.");
+        } else {
+            System.out.println("New Directory " + newDirectory.getAbsolutePath() + " was failed to be created.");
+        }
 
-	}
+        try {
+            if (newFile.createNewFile()) {
+                System.out.println("New file " + newFile.getAbsolutePath() + " was successfully created.");
+            } else {
+                System.out.println("New file " + newFile.getAbsolutePath() + " was failed to be created.");
+            }
+        } catch (IOException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
 
-	public static void sendEmbed(MessageChannel channel, EmbedBuilder embed, Consumer<Message> callBack) {
+    }
 
-		MessageEmbed messageEmbed = embed.build();
+    public static void sendEmbed(MessageChannel channel, EmbedBuilder embed) {
 
-		channel.sendMessage(messageEmbed).queue(callBack);
-	}	
+        sendEmbed(channel, embed, (s) -> {
+            s.delete().queueAfter(5, TimeUnit.MINUTES);
+        });
 
-	public static void changeEmbed(MessageChannel channel, Message currentMessage, EmbedBuilder embed,
-			Consumer<Message> callBack) {
+    }
 
-		MessageEmbed messageEmbed = embed.build();
+    public static void sendEmbed(MessageChannel channel, EmbedBuilder embed, Consumer<Message> callBack) {
 
-		currentMessage.clearReactions().queue();
+        MessageEmbed messageEmbed = embed.build();
 
-		currentMessage.editMessage(messageEmbed).queue(callBack);
-	}
+        channel.sendMessage(messageEmbed).queue(callBack);
+    }
 
-	public static void changeEmbed(MessageChannel channel, Message currentMessage, EmbedBuilder embed) {
-		changeEmbed(channel, currentMessage, embed, (s) -> {
-			s.delete().queueAfter(5, TimeUnit.MINUTES);
-		});
+    public static void changeEmbed(MessageChannel channel, Message currentMessage, EmbedBuilder embed,
+            Consumer<Message> callBack) {
 
-	}
+        MessageEmbed messageEmbed = embed.build();
 
-	public static void setEmbedHead(Guild guild, MessageChannel channel, User user, EmbedBuilder embed) {
+        currentMessage.clearReactions().queue();
 
-		embed.setAuthor(user.getName(), null, user.getAvatarUrl());
-		embed.setThumbnail(user.getAvatarUrl());
+        currentMessage.editMessage(messageEmbed).queue(callBack);
+    }
 
-	}
+    public static void changeEmbed(MessageChannel channel, Message currentMessage, EmbedBuilder embed) {
+        changeEmbed(channel, currentMessage, embed, (s) -> {
+            s.delete().queueAfter(5, TimeUnit.MINUTES);
+        });
 
-	public static void setEmbedTitle(Guild guild, MessageChannel channel, User user, EmbedBuilder embed, String title,
-			String... args) {
-		String titleEmbed = createMessage(guild, channel, user,title, args);
-		embed.setTitle(titleEmbed);
-	}
+    }
 
-	public static void setEmbedDescription(Guild guild, MessageChannel channel, User user, EmbedBuilder embed,
-			String description, String... args) {
-		String descriptionEmbed = createMessage(guild, channel, user,description, args);
-		embed.setDescription(descriptionEmbed);
-	}
+    public static void setEmbedHead(Guild guild, MessageChannel channel, User user, EmbedBuilder embed) {
 
-	public static Field createEmbedField(Guild guild, MessageChannel channel, User user, String name, String value,
-			boolean inline, boolean checked, String... args) {
+        embed.setAuthor(user.getName(), null, user.getAvatarUrl());
+        embed.setThumbnail(user.getAvatarUrl());
 
-		String valueEmbed = createMessage(guild, channel, user,value, args);
+    }
 
-		Field field = new Field(name, valueEmbed, inline, checked);
+    public static void setEmbedTitle(Guild guild, MessageChannel channel, User user, EmbedBuilder embed, String title,
+            String... args) {
+        String titleEmbed = createMessage(guild, channel, user, title, args);
+        embed.setTitle(titleEmbed);
+    }
 
-		return field;
-	}
-	public static Field createEmbedField(Guild guild, MessageChannel channel, User user, String name, String value,
-			boolean inline, String... args) {
-		return createEmbedField(guild, channel, user, name, value, inline, false, args);
-	}
-	
-	public static Field createEmbedField(Guild guild, MessageChannel channel, User user, String name, String value, String... args) {
-		return createEmbedField(guild, channel, user, name, value, false, args);
-	}
-	
+    public static void setEmbedDescription(Guild guild, MessageChannel channel, User user, EmbedBuilder embed,
+            String description, String... args) {
+        String descriptionEmbed = createMessage(guild, channel, user, description, args);
+        embed.setDescription(descriptionEmbed);
+    }
+
+    public static Field createEmbedField(Guild guild, MessageChannel channel, User user, String name, String value,
+            boolean inline, boolean checked, String... args) {
+
+        String valueEmbed = createMessage(guild, channel, user, value, args);
+
+        Field field = new Field(name, valueEmbed, inline, checked);
+
+        return field;
+    }
+
+    public static Field createEmbedField(Guild guild, MessageChannel channel, User user, String name, String value,
+            boolean inline, String... args) {
+        return createEmbedField(guild, channel, user, name, value, inline, false, args);
+    }
+
+    public static Field createEmbedField(Guild guild, MessageChannel channel, User user, String name, String value, String... args) {
+        return createEmbedField(guild, channel, user, name, value, false, args);
+    }
+
 }

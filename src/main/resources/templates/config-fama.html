@@ -71,8 +71,43 @@
                 </div>
             </nav>
             <div class="content">
-                <p class="info">configuracao - fama</p>
-                <!-- Ajax loaded content here -->
+                <p class="info">Configuracao - Fama de Aventura</p>
+                <div class="info">
+                    <div class="container-table100">
+                        <div class="wrap-table100">
+                            <div class="table100 ver5 m-b-110">
+                                <div class="table100-head">
+                                    <table>
+                                        <thead>
+                                            <tr class="row100 head">
+                                                <th class="cell100 column1">Id</th>
+                                                <th class="cell100 column2">Maximo</th>
+                                                <th class="cell100 column3">Minimo</th>
+                                                <th class="cell100 column4">Nome</th>
+                                                <th class="cell100 column5">Tipo</th>                                               
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+
+                                <div class="table100-body js-pscroll">
+                                    <table id="event">
+                                        <tbody>                                        
+                                            <tr class="row100 body" th:each="fame: ${fames}" th:id="${fame.id}">
+                                                <td class="cell100 column1" th:text="${fame.id}"></td>
+                                                <td class="cell100 column2" th:text="${fame.max}"></td>
+                                                <td class="cell100 column3" th:text="${fame.min}"></td>
+                                                <td class="cell100 column4" th:text="${fame.name}"></td>
+                                                <td class="cell100 column5" th:text="${fame.type}"></td>
+                                            </tr>                                        
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- /view -->

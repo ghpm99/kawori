@@ -27,5 +27,8 @@ public class NodeService {
 		return nodeRepository.save(node);
 	}
 	
+        public List<Node> findAll(){
+            return nodeRepository.findAll();
+        }
 	
 }

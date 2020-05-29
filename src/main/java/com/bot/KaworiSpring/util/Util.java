@@ -4,7 +4,7 @@ import net.dv8tion.jda.api.entities.Emote;
 
 public class Util {
 
-	public static final String PREFIX = "-";	
+	public static final String PREFIX = "dev.";	
 
 	public static String getUnicode(Emote emote, boolean isReacao) {
 		if (emote == null)

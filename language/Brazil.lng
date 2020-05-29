@@ -203,3 +203,4 @@ msg_nw_presence_error_code=_nameMention  gentileza informar um codigo valido par
 embed_nw_presence_title=Confirmacao presenca
 embed_nw_presence_description=Relatorio de confirmacao presenca node _arg !\nServidor: _arg !
 embed_nw_presence_field=Hora: _arg - Membro: _arg 
+msg_pick_error=Erro ao utilizar o comando

@@ -15,9 +15,13 @@ import com.bot.KaworiSpring.service.OperatorService;
 import com.bot.KaworiSpring.service.TagService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
@@ -34,7 +38,6 @@ public class BancoDadosController {
     private OperatorService operatorService;
     @Autowired
     private TagService tagService;
-    
 
     @GetMapping("bd/guilda")
     public String guilda(Model model) {
@@ -50,13 +53,19 @@ public class BancoDadosController {
         return "bd-roles";
     }
 
+    @ResponseBody
+    @GetMapping(value = "bd/roles/find")
+    public Page<Tag> findRole(@RequestParam("page") int pag, @RequestParam("size") int size, Model mode) {
+        Page<Tag> tags = tagService.findAll(PageRequest.of(pag, size));        
+        return tags;
+    }
+
     @GetMapping("bd/nodewar")
     public String nodewar(Model model) {
-        List<NodeWar> nodes = nodeWarService.findAll();        
+        List<NodeWar> nodes = nodeWarService.findAll();
         model.addAttribute("nodes", nodes);
         return "bd-nodewar";
     }
-
 
     @GetMapping("bd/pessoas")
     public String pessoas(Model model) {

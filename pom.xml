@@ -10,9 +10,9 @@
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.bot</groupId>
-    <artifactId>KaworiSpring</artifactId>
+    <artifactId>KaworiSpringApplication</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>KaworiSpring</name>
+    <name>KaworiSpringApplication</name>
     <description>Projeto de bot para discord com Spring</description>
 
     <properties>

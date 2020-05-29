@@ -70,9 +70,46 @@
                     </ul>
                 </div>
             </nav>
-            <div class="content">
-                <p class="info">configuracao - nodewar</p>
-                <!-- Ajax loaded content here -->
+           <div class="content">
+                <p class="info">Configuração - Node War</p>
+                <div class="info">
+                    <div class="container-table100">
+                        <div class="wrap-table100">
+                            <div class="table100 ver5 m-b-110">
+                                <div class="table100-head">
+                                    <table>
+                                        <thead>
+                                            <tr class="row100 head">
+                                                <th class="cell100 column1">Id</th>
+                                                <th class="cell100 column2">Date</th>
+                                                <th class="cell100 column3">Id Criador</th>
+                                                <th class="cell100 column4">Id Guild</th>
+                                                <th class="cell100 column5">Id Message</th>
+                                                <th class="cell100 column6">Node Id</th>                                               
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+
+                                <div class="table100-body js-pscroll">
+                                    <table id="event">
+                                        <tbody>                                        
+                                            <tr class="row100 body" th:each="node: ${nodes}" th:id="${node.id}">
+                                                <td class="cell100 column1" th:text="${node.id}"></td>
+                                                <td class="cell100 column2" th:text="${node.date}"></td>
+                                                <td class="cell100 column3" th:text="${node.idDiscord}"></td>
+                                                <td class="cell100 column4" th:text="${node.idGuild}"></td>
+                                                <td class="cell100 column5" th:text="${node.idMessage}"></td>
+                                                <td class="cell100 column6" th:text="${node.node.id}"></td>
+                                            </tr>                                        
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- /view -->

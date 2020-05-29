@@ -12,12 +12,13 @@
         <link rel="stylesheet" type="text/css" href="css/demo.css" />
         <!-- menu styles -->
         <link rel="stylesheet" type="text/css" href="css/component.css" />
-        
+
         <script src="js/modernizr-custom.js"></script>
         <!--===============================================================================================-->
         <link rel="stylesheet" type="text/css" href="css/util.css">
         <link rel="stylesheet" type="text/css" href="css/main.css">
         <!--===============================================================================================-->
+        <script src="/webjars/jquery/jquery.min.js"></script>
     </head>
 
     <body>
@@ -28,7 +29,7 @@
                 <div class="dummy-logo">
                     <div class="dummy-icon foodicon foodicon--coconut"></div>
                     <a href="../">
-                    <img src ="https://pbs.twimg.com/media/CdEW7NrW8AIzdsi.jpg" alt="Kawori Bot" width="80" height="80" >
+                        <img src ="https://pbs.twimg.com/media/CdEW7NrW8AIzdsi.jpg" alt="Kawori Bot" width="80" height="80" >
                     </a>
                     <h2 class="dummy-heading">Kawori Bot</h2>
                 </div>
@@ -72,7 +73,7 @@
             </nav>
             <div class="content">
                 <p class="info">Banco de dados - Roles</p>
-                 <div class="info">
+                <div class="info">
                     <div class="container-table100">
                         <div class="wrap-table100">
                             <div class="table100 ver5 m-b-110">
@@ -96,8 +97,8 @@
                                 <div class="table100-body js-pscroll">
                                     <table id="event">
                                         <tbody>                                        
-                                            <tr class="row100 body" th:each="tag: ${tags}">
-                                                <td class="cell100 column1" td:text="${tag.id}"></td>
+                                            <tr class="row100 body" th:each="tag: ${tags}" th:id="${tag.id}">
+                                                <td class="cell100 column1" th:text="${tag.id}"></td>
                                                 <td class="cell100 column2" th:text="${tag.name}"></td>
                                                 <td class="cell100 column3" th:text="${tag.idGuild}"></td>
                                                 <td class="cell100 column4" th:text="${tag.position}"></td>
@@ -118,21 +119,23 @@
         </div>
         <!-- /view -->
         <script src="js/classie.js"></script>
-        
+
         <script src="js/main.js"></script>
         <script>
-            $('.js-pscroll').each(function () {
-                var ps = new PerfectScrollbar(this);
-
-                $(window).on('resize', function () {
-                    ps.update();
-                })
-            });
-
-
+           var table = document.getElementById("event");
+           
+           table.addEventListener("click", function(e){
+               if(e.target.nodeName.toUpperCase() === "TD"){
+                   var value = $(this.target).parent("");                   
+                   console.log(e.pathname);
+               }
+                
+               
+           });
+                   
         </script>
+
         <!--===============================================================================================-->
-        <script src="js/main.js"></script>
         <script>
             (function () {
                 var menuEl = document.getElementById('ml-menu'),
@@ -166,7 +169,6 @@
 
             })();
         </script>
-
     </body>
 
 </html>

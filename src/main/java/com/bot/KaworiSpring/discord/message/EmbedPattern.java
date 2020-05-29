@@ -22,7 +22,7 @@ public class EmbedPattern {
 	public static EmbedBuilder createSelectTierEmbed(User user, MessageChannel channel, Guild guild) {
 
 		EmbedBuilder embed = new EmbedBuilder();
-
+                
 		MessageController.setEmbedHead(guild, channel, user, embed);
 		MessageController.setEmbedTitle(guild, channel, user, embed, "msg_nw_title_01");
 		MessageController.setEmbedDescription(guild, channel, user, embed, "msg_nw_description_01");
@@ -242,5 +242,13 @@ public class EmbedPattern {
 
 		return embed;
 	}
+        
+        public static EmbedBuilder createEmbedImage(String url){
+            EmbedBuilder embed = new EmbedBuilder();
+            
+            embed.setImage(url);
+            
+            return embed;
+        }
 
 }

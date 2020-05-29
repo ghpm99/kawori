@@ -9,9 +9,11 @@ import org.springframework.stereotype.Component;
 
 import com.bot.KaworiSpring.discord.command.CommandHandler;
 import com.bot.KaworiSpring.discord.command.commands.CmdAdm;
+import com.bot.KaworiSpring.discord.command.commands.CmdAvatar;
 import com.bot.KaworiSpring.discord.command.commands.CmdGS;
 import com.bot.KaworiSpring.discord.command.commands.CmdHelp;
 import com.bot.KaworiSpring.discord.command.commands.CmdNodeWar;
+import com.bot.KaworiSpring.discord.command.commands.CmdPick;
 import com.bot.KaworiSpring.discord.command.commands.CmdRank;
 import com.bot.KaworiSpring.discord.listener.BotListener;
 import com.bot.KaworiSpring.discord.listener.GuildListener;
@@ -34,9 +36,6 @@ public class Main {
 
     private JDA jda;
 
-    @Autowired
-    ConfigurationService configService;
-
     //Comandos
     @Autowired
     private CmdGS cmdGS;
@@ -49,8 +48,10 @@ public class Main {
     @Autowired
     private CmdAdm cmdAdm;
     @Autowired
-    private LogService logService;
-
+    private CmdPick cmdPick;
+    @Autowired
+    private CmdAvatar cmdAvatar;
+    
     //Eventos Listeners
     @Autowired
     private ReadyListener readyListener;
@@ -64,9 +65,14 @@ public class Main {
     private BotListener botListener;
     @Autowired
     private UserListener userListener;
-    
+  
+    //Services
     @Autowired
     private StatusService statusService;
+    @Autowired
+    private LogService logService;
+    @Autowired
+    ConfigurationService configService;
 
     @PostConstruct
     public void init() {
@@ -75,13 +81,16 @@ public class Main {
 
         JDABuilder builder = new JDABuilder(AccountType.BOT).setToken(configService.getByType("token").getValue())
                 .setAutoReconnect(true);
-
+        
+        
+        
         setListeners(builder);
 
         setCommands();
 
         try {
             jda = builder.build();
+            
         } catch (LoginException e) {
             // TODO Auto-generated catch block
             
@@ -109,6 +118,8 @@ public class Main {
         CommandHandler.commands.put("rank", cmdRank);
         CommandHandler.commands.put("nw", cmdNodeWar);
         CommandHandler.commands.put("adm", cmdAdm);
+        CommandHandler.commands.put("pick",cmdPick);
+        CommandHandler.commands.put("avatar",cmdAvatar);
         logService.addEvent(new Log(new Date(), "Comandos adicionados", 0, 0, "OK"));
     }
 

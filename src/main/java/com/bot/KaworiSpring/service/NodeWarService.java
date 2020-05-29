@@ -16,11 +16,12 @@ public class NodeWarService {
 
 	@Autowired
 	public NodeWarService(NodeWarRepository nodeWarRepository) {
-		super();
+		super();                
 		this.nodeWarRepository = nodeWarRepository;
 	}
 
 	public List<NodeWar> findByIdGuild(long idGuild) {
+            
 		return nodeWarRepository.findByIdGuild(idGuild);
 	}
 

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.bot.KaworiSpring.model.ColorBD;
 import com.bot.KaworiSpring.repository.ColorBDRepository;
+import java.util.List;
 
 @Service
 public class ColorBDService {
@@ -34,5 +35,9 @@ public class ColorBDService {
 	public ColorBD findByName(String name) {
 		return colorBDRepository.findByName(name);
 	}
+        
+        public List<ColorBD> findAll(){
+            return colorBDRepository.findAll();
+        }
 	
 }

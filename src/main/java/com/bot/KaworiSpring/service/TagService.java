@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.bot.KaworiSpring.model.Tag;
 import com.bot.KaworiSpring.repository.TagRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class TagService {
@@ -44,6 +46,9 @@ public class TagService {
         
         public List<Tag> findAll(){
             return tagRepository.findAll();
+        }
+        public Page<Tag> findAll(Pageable pgbl){
+            return tagRepository.findAll(pgbl);
         }
 	
 }

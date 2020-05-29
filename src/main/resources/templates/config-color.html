@@ -71,8 +71,43 @@
                 </div>
             </nav>
             <div class="content">
-                <p class="info">Configuração - Color</p>
-                <!-- Ajax loaded content here -->
+                <p class="info">Configuracao - Color</p>
+                <div class="info">
+                    <div class="container-table100">
+                        <div class="wrap-table100">
+                            <div class="table100 ver5 m-b-110">
+                                <div class="table100-head">
+                                    <table>
+                                        <thead>
+                                            <tr class="row100 head">
+                                                <th class="cell100 column1">Id</th>
+                                                <th class="cell100 column2">Nome</th>
+                                                <th class="cell100 column3">Vermelho</th>
+                                                <th class="cell100 column4">Verde</th>
+                                                <th class="cell100 column5">Azul</th>                                             
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+
+                                <div class="table100-body js-pscroll">
+                                    <table id="event">
+                                        <tbody>                                        
+                                            <tr class="row100 body" th:each="color: ${colors}" th:id="${color.id}">
+                                                <td class="cell100 column1" th:text="${color.id}"></td>
+                                                <td class="cell100 column2" th:text="${color.name}"></td>
+                                                <td class="cell100 column3" th:text="${color.red}"></td>
+                                                <td class="cell100 column4" th:text="${color.green}"></td>
+                                                <td class="cell100 column5" th:text="${color.blue}"></td>
+                                            </tr>                                        
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- /view -->

@@ -24,7 +24,8 @@ public class GuildListener extends ListenerAdapter {
 	// membro entra no servidor
 	@Override
 	public void onGuildMemberJoin(GuildMemberJoinEvent event) {
-		// TODO Auto-generated method stub		
+		// TODO Auto-generated method stub
+                
 		guildaController.onGuildMemberJoin(event.getGuild(), event.getMember());
 	}
 

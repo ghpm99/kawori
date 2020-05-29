@@ -5,6 +5,8 @@ import org.springframework.stereotype.Controller;
 
 import com.bot.KaworiSpring.discord.controller.GuildaController;
 import com.bot.KaworiSpring.service.StatusService;
+import com.bot.KaworiSpring.util.Util;
+import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
 
 import net.dv8tion.jda.api.events.ReadyEvent;
@@ -35,6 +37,8 @@ public class ReadyListener extends ListenerAdapter {
 
         }
         statusService.setStatusBot("Online");
+        
+        e.getJDA().getPresence().setActivity(Activity.playing(Util.PREFIX + "help"));
 
     }
 

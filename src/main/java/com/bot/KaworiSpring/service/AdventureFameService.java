@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.bot.KaworiSpring.model.AdventureFame;
 import com.bot.KaworiSpring.repository.AdventureFameRepository;
+import java.util.List;
 
 @Service
 public class AdventureFameService {
@@ -31,5 +32,9 @@ public class AdventureFameService {
 	public AdventureFame findByTypeAndName(String type,String name) {
 		return adventureFameRepository.findByTypeAndName(type, name);
 	}
+        
+        public List<AdventureFame> findAll(){
+            return adventureFameRepository.findAll();
+        }
 	
 }

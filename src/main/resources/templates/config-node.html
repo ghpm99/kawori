@@ -71,8 +71,49 @@
                 </div>
             </nav>
             <div class="content">
-                <p class="info">configuracao - node</p>
-                <!-- Ajax loaded content here -->
+                <p class="info">Configuracao - Node</p>
+                <div class="info">
+                    <div class="container-table100">
+                        <div class="wrap-table100">
+                            <div class="table100 ver5 m-b-110">
+                                <div class="table100-head">
+                                    <table>
+                                        <thead>
+                                            <tr class="row100 head">
+                                                <th class="cell100 column1">Id</th>
+                                                <th class="cell100 column2">Nome</th>
+                                                <th class="cell100 column3">Servidor</th>
+                                                <th class="cell100 column4">Canal</th>
+                                                <th class="cell100 column5">Dia da Semana</th>
+                                                <th class="cell100 column6">Tier</th>
+                                                <th class="cell100 column7">Limite de Player</th>                                                
+                                                <th class="cell100 column8">Limite de Heroi</th>                                                
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+
+                                <div class="table100-body js-pscroll">
+                                    <table id="event">
+                                        <tbody>                                        
+                                            <tr class="row100 body" th:each="node: ${nodes}" th:id="${node.id}">
+                                                <td class="cell100 column1" th:text="${node.id}"></td>
+                                                <td class="cell100 column2" th:text="${node.name}"></td>
+                                                <td class="cell100 column3" th:text="${node.server}"></td>
+                                                <td class="cell100 column4" th:text="${node.channel}"></td>
+                                                <td class="cell100 column5" th:text="${node.dayOfWeek}"></td>
+                                                <td class="cell100 column6" th:text="${node.tier}"></td>
+                                                <td class="cell100 column7" th:text="${node.limitPlayer}"></td>
+                                                <td class="cell100 column8" th:text="${node.limitHeroi}"></td>
+                                            </tr>                                        
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- /view -->
