@@ -39,7 +39,7 @@ public class CommandParser {
 			this.raw = raw;
 			this.beheaded = beheaded;
 			this.splitBeheaded = splitBeheaded;
-			this.invoke = invoke;
+			this.invoke = invoke.toLowerCase();
 			this.args = args;
 			this.event = event;
 		}

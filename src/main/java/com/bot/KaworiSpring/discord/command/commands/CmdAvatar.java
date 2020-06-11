@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import org.springframework.stereotype.Controller;
 
@@ -26,53 +27,41 @@ import org.springframework.stereotype.Controller;
  */
 @Controller
 public class CmdAvatar implements Command {
-    
-    @Override
-    public boolean called(String[] args, MessageReceivedEvent event) {
-        return false;
-    }
-    
-    @Override
-    public void action(String[] args, MessageReceivedEvent event) {
-        List<Member> mention = event.getMessage().getMentionedMembers();
-        String avatarURL = "";
-        if (mention.isEmpty()) {
-            avatarURL = event.getAuthor().getAvatarUrl();
-            
-        } else {
-            avatarURL = mention.get(0).getUser().getAvatarUrl();
-        }
-        
-        MessageController.sendEmbed(event.getChannel(), EmbedPattern.createEmbedImage(avatarURL));
-    }
-    
-    @Override
-    public void executed(boolean success, MessageReceivedEvent event) {
-        
-    }
-    
-    @Override
-    public String help() {
-        return null;
-    }
-    
-    @Override
-    public int nivelNecessario() {
-        return 0;
-    }
-    
-    private InputStream urlToStream(String imageUrl) {
-        InputStream in = null;
-        try {
-            URL url = new URL(imageUrl);
-            in = new BufferedInputStream(url.openStream());
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(CmdAvatar.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(CmdAvatar.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return in;
-    }
-    
+
+	@Override
+	public boolean called(String[] args, MessageReceivedEvent event) {
+		return false;
+	}
+
+	@Override
+	public void action(String[] args, MessageReceivedEvent event) {
+		List<Member> mention = event.getMessage().getMentionedMembers();
+		User user;
+		if (mention.isEmpty()) {
+			user = event.getAuthor();
+
+		} else {
+			user = mention.get(0).getUser();
+		}
+
+		MessageController.sendEmbed(event.getChannel(),
+				EmbedPattern.createEmbedImage(user,event.getChannel(),event.getGuild(),user.getAvatarUrl()+"?size=1024","msg_avatar_sucess"));
+	}
+
+	@Override
+	public void executed(boolean success, MessageReceivedEvent event) {
+
+	}
+
+	@Override
+	public String help() {
+		return null;
+	}
+
+	@Override
+	public int nivelNecessario() {
+		return 0;
+	}
+	
+
 }

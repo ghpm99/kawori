@@ -20,6 +20,7 @@ public class NodeService {
 	}
 	
 	public List<Node> findByTierAndDayOfWeek(String tier,int dayOfWeek){
+		System.out.println("tier: " + tier + " dia: "+ dayOfWeek);
 		return nodeRepository.findByTierAndDayOfWeek(tier, dayOfWeek);
 	}
 	

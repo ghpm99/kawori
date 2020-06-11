@@ -22,7 +22,7 @@ public class EmbedPattern {
 	public static EmbedBuilder createSelectTierEmbed(User user, MessageChannel channel, Guild guild) {
 
 		EmbedBuilder embed = new EmbedBuilder();
-                
+
 		MessageController.setEmbedHead(guild, channel, user, embed);
 		MessageController.setEmbedTitle(guild, channel, user, embed, "msg_nw_title_01");
 		MessageController.setEmbedDescription(guild, channel, user, embed, "msg_nw_description_01");
@@ -83,7 +83,8 @@ public class EmbedPattern {
 
 		for (int i = 0; i < nodes.size(); i++) {
 			Node node = nodes.get(i);
-			embed.addField(MessageController.createEmbedField(guild, channel, user, String.valueOf(i),
+			embed.addField(MessageController.createEmbedField(guild, channel, user,
+					String.valueOf(i + 1) + " " + MessageController.createMessage(guild, channel, user, node.getName()),
 					"msg_nw_field_show", String.valueOf(node.getLimitPlayer()), node.getChannel()));
 		}
 
@@ -127,7 +128,9 @@ public class EmbedPattern {
 		MessageController.setEmbedTitle(guild, channel, user, embed, "msg_nw_title_01");
 		MessageController.setEmbedDescription(guild, channel, user, embed, "msg_nw_sucess");
 
-		embed.addField(MessageController.createEmbedField(guild, channel, user, sdf.format(nodeWar.getDate()),
+		embed.addField(MessageController.createEmbedField(guild, channel, user,
+				sdf.format(nodeWar.getDate()) + " "
+						+ MessageController.createMessage(guild, channel, user, nodeWar.getNode().getName()),
 				"msg_nw_field_show", String.valueOf(nodeWar.getNode().getLimitPlayer()),
 				nodeWar.getNode().getChannel()));
 
@@ -242,13 +245,23 @@ public class EmbedPattern {
 
 		return embed;
 	}
-        
-        public static EmbedBuilder createEmbedImage(String url){
-            EmbedBuilder embed = new EmbedBuilder();
-            
-            embed.setImage(url);
-            
-            return embed;
-        }
+
+	public static EmbedBuilder createEmbedImage(User user, MessageChannel channel, Guild guild, String url,
+			String description) {
+		EmbedBuilder embed = new EmbedBuilder();
+		MessageController.setEmbedDescription(guild, channel, user, embed, description);
+		embed.setImage(url);
+
+		return embed;
+	}
+
+	public static EmbedBuilder createEmbedFun(User user, MessageChannel channel, Guild guild, String url,
+			String description, String... args) {
+		EmbedBuilder embed = new EmbedBuilder();
+		MessageController.setEmbedDescription(guild, channel, user, embed, description, args);
+		embed.setImage(url);
+
+		return embed;
+	}
 
 }

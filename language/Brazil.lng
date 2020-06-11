@@ -204,3 +204,6 @@ embed_nw_presence_title=Confirmacao presenca
 embed_nw_presence_description=Relatorio de confirmacao presenca node _arg !\nServidor: _arg !
 embed_nw_presence_field=Hora: _arg - Membro: _arg 
 msg_pick_error=Erro ao utilizar o comando
+msg_avatar_sucess=Avatar do _nameMention 
+msg_fun_hug_couple= _arg esta abracando _arg 
+msg_fun_hug_solo= _nameMention esta se abracando.

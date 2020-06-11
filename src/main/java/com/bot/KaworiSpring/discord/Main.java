@@ -12,6 +12,7 @@ import com.bot.KaworiSpring.discord.command.commands.CmdAdm;
 import com.bot.KaworiSpring.discord.command.commands.CmdAvatar;
 import com.bot.KaworiSpring.discord.command.commands.CmdGS;
 import com.bot.KaworiSpring.discord.command.commands.CmdHelp;
+import com.bot.KaworiSpring.discord.command.commands.CmdHug;
 import com.bot.KaworiSpring.discord.command.commands.CmdNodeWar;
 import com.bot.KaworiSpring.discord.command.commands.CmdPick;
 import com.bot.KaworiSpring.discord.command.commands.CmdRank;
@@ -51,6 +52,8 @@ public class Main {
     private CmdPick cmdPick;
     @Autowired
     private CmdAvatar cmdAvatar;
+    @Autowired
+    private CmdHug cmdHug;
     
     //Eventos Listeners
     @Autowired
@@ -120,6 +123,7 @@ public class Main {
         CommandHandler.commands.put("adm", cmdAdm);
         CommandHandler.commands.put("pick",cmdPick);
         CommandHandler.commands.put("avatar",cmdAvatar);
+        CommandHandler.commands.put("hug", cmdHug);
         logService.addEvent(new Log(new Date(), "Comandos adicionados", 0, 0, "OK"));
     }
 

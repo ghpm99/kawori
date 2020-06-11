@@ -20,7 +20,7 @@ public class ReadyListener extends ListenerAdapter {
     @Autowired
     private StatusService statusService;
 
-    private boolean carregar = true;
+    private boolean carregar = false;
 
     @Override
     public void onReady(ReadyEvent e) {
