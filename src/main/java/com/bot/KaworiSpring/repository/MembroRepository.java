@@ -8,7 +8,7 @@ public interface MembroRepository extends JpaRepository<Membro, Long>{
 	
 	public Membro findById(long id);
 	
-	public Membro findByIdAndIdGuild(long id, long idGuild);
+	public Membro findByIdUserAndIdGuild(long idUser, long idGuild);
 	
 
 }

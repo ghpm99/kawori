@@ -26,7 +26,7 @@ public class MembroService {
 	}
 	
 	public Membro findByIdAndIdGuild(long id, long idGuild) {
-		return membroRepository.findByIdAndIdGuild(id, idGuild);
+		return membroRepository.findByIdUserAndIdGuild(id, idGuild);
 	}
 	
 }

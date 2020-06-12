@@ -10,6 +10,7 @@ import com.bot.KaworiSpring.model.Gear;
 import com.bot.KaworiSpring.model.Node;
 import com.bot.KaworiSpring.model.NodeWar;
 import com.bot.KaworiSpring.model.NodeWarPresence;
+import com.bot.KaworiSpring.model.Personagem;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
@@ -260,6 +261,23 @@ public class EmbedPattern {
 		EmbedBuilder embed = new EmbedBuilder();
 		MessageController.setEmbedDescription(guild, channel, user, embed, description, args);
 		embed.setImage(url);
+
+		return embed;
+	}
+
+	public static EmbedBuilder createEmbedChar(User user, MessageChannel channel, Guild guild,
+			List<Personagem> personagens) {
+		EmbedBuilder embed = new EmbedBuilder();
+		MessageController.setEmbedHead(guild, channel, user, embed);
+		MessageController.setEmbedTitle(guild, channel, user, embed, "embed_char_show_title");
+		MessageController.setEmbedDescription(guild, channel, user, embed, "embed_char_show_description");
+		
+		for (Personagem personagem : personagens) {
+			
+			embed.addField(MessageController.createEmbedField(guild, channel, user, personagem.getName(),
+					"embed_char_show_field", personagem.getClasse(), personagem.getBattleMode()));
+			
+		}
 
 		return embed;
 	}

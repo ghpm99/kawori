@@ -1,6 +1,7 @@
 package com.bot.KaworiSpring.model;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -18,6 +19,11 @@ public class Gear extends Model {
 	private int dp;
 
 	private int level;
+	
+	@ManyToOne
+	private Personagem personagem;
+	
+	private boolean ativo;
 
 	public Long getIdDiscord() {
 		return idDiscord;
@@ -60,8 +66,8 @@ public class Gear extends Model {
 	}
 
 	public void setDp(int dp) {
-		if (dp > 700)
-			dp = 700;
+		if (dp > 500)
+			dp = 500;
 		this.dp = dp;
 	}
 
@@ -75,4 +81,22 @@ public class Gear extends Model {
 		this.level = level;
 	}
 
+	public Personagem getPersonagem() {
+		return personagem;
+	}
+
+	public void setPersonagem(Personagem personagem) {
+		this.personagem = personagem;
+	}
+
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
+
+	
+	
 }

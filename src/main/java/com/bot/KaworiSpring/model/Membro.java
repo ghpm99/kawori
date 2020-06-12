@@ -3,7 +3,10 @@ package com.bot.KaworiSpring.model;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -11,6 +14,7 @@ import javax.persistence.Table;
 public class Membro {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
 	private long idDiscord;
@@ -20,6 +24,8 @@ public class Membro {
 	private long idUser;
 
 	private String nick;
+	
+	private String familyName;
 
 	private boolean banned;
 
@@ -32,7 +38,7 @@ public class Membro {
 	private boolean visitor;
 
 	private boolean novice;	
-	
+			
 	public long getId() {
 		return id;
 	}
@@ -121,6 +127,13 @@ public class Membro {
 		this.idDiscord = idDiscord;
 	}
 
+	public String getFamilyName() {
+		return familyName;
+	}
+
+	public void setFamilyName(String familyName) {
+		this.familyName = familyName;
+	}
 	
 	
 }

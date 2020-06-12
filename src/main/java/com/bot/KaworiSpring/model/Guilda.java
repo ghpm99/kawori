@@ -28,7 +28,7 @@ public class Guilda {
 	private long defaultTextChannel;
 	
 	private String defaultWelcomeMessage;
-
+		
 	public long getId() {
 		return id;
 	}
@@ -108,8 +108,7 @@ public class Guilda {
 
 	public void setDefaultWelcomeMessage(String defaultWelcomeMessage) {
 		this.defaultWelcomeMessage = defaultWelcomeMessage;
-	}	
-	
-	
+	}
+
 
 }

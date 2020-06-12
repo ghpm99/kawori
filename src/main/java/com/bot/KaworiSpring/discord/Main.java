@@ -10,9 +10,10 @@ import org.springframework.stereotype.Component;
 import com.bot.KaworiSpring.discord.command.CommandHandler;
 import com.bot.KaworiSpring.discord.command.commands.CmdAdm;
 import com.bot.KaworiSpring.discord.command.commands.CmdAvatar;
+import com.bot.KaworiSpring.discord.command.commands.CmdChar;
 import com.bot.KaworiSpring.discord.command.commands.CmdGS;
 import com.bot.KaworiSpring.discord.command.commands.CmdHelp;
-import com.bot.KaworiSpring.discord.command.commands.CmdHug;
+import com.bot.KaworiSpring.discord.command.commands.CmdFun;
 import com.bot.KaworiSpring.discord.command.commands.CmdNodeWar;
 import com.bot.KaworiSpring.discord.command.commands.CmdPick;
 import com.bot.KaworiSpring.discord.command.commands.CmdRank;
@@ -26,6 +27,8 @@ import com.bot.KaworiSpring.model.Log;
 import com.bot.KaworiSpring.service.ConfigurationService;
 import com.bot.KaworiSpring.service.LogService;
 import com.bot.KaworiSpring.service.StatusService;
+import com.bot.KaworiSpring.util.Util;
+
 import java.util.Date;
 
 import net.dv8tion.jda.api.AccountType;
@@ -53,7 +56,9 @@ public class Main {
     @Autowired
     private CmdAvatar cmdAvatar;
     @Autowired
-    private CmdHug cmdHug;
+    private CmdFun cmdFun;
+    @Autowired
+    private CmdChar cmdChar;
     
     //Eventos Listeners
     @Autowired
@@ -81,11 +86,11 @@ public class Main {
     public void init() {
         statusService.setStatusBot("Iniciando...");
         logService.addEvent(new Log(new Date(), "Iniciando Bot", 0, 0, "OK"));
+        
+        Util.PREFIX = configService.getByType("prefix").getValue();
 
         JDABuilder builder = new JDABuilder(AccountType.BOT).setToken(configService.getByType("token").getValue())
-                .setAutoReconnect(true);
-        
-        
+                .setAutoReconnect(true);               
         
         setListeners(builder);
 
@@ -123,7 +128,28 @@ public class Main {
         CommandHandler.commands.put("adm", cmdAdm);
         CommandHandler.commands.put("pick",cmdPick);
         CommandHandler.commands.put("avatar",cmdAvatar);
-        CommandHandler.commands.put("hug", cmdHug);
+        CommandHandler.commands.put("hug", cmdFun);
+        CommandHandler.commands.put("slap", cmdFun);
+        CommandHandler.commands.put("nom", cmdFun);
+        CommandHandler.commands.put("cuddle", cmdFun);
+        CommandHandler.commands.put("kiss", cmdFun);
+        CommandHandler.commands.put("bite", cmdFun);
+        CommandHandler.commands.put("dance", cmdFun);
+        CommandHandler.commands.put("awoo", cmdFun);
+        CommandHandler.commands.put("owo", cmdFun);
+        CommandHandler.commands.put("poke", cmdFun);
+        CommandHandler.commands.put("lewd", cmdFun);
+        CommandHandler.commands.put("blush", cmdFun);
+        CommandHandler.commands.put("confused", cmdFun);
+        CommandHandler.commands.put("cry", cmdFun);
+        CommandHandler.commands.put("sad", cmdFun);
+        CommandHandler.commands.put("pat", cmdFun);
+        CommandHandler.commands.put("fox", cmdFun);
+        CommandHandler.commands.put("punch", cmdFun);
+        CommandHandler.commands.put("trap", cmdFun);
+        CommandHandler.commands.put("explosion", cmdFun);
+        CommandHandler.commands.put("char", cmdChar);
+        
         logService.addEvent(new Log(new Date(), "Comandos adicionados", 0, 0, "OK"));
     }
 

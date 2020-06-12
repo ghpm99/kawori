@@ -34,4 +34,12 @@ public class GearService {
 	public List<Gear> findByIdGuild(Long idGuild){
 		return gearRepository.findByIdGuild(idGuild);
 	}
+	
+	public Gear findById(Long id) {
+		return gearRepository.findById(id).get();
+	}
+	
+	public Gear findByIdUserIdGuildIsAtivo(Long idDiscord, Long idGuild, boolean ativo) {
+		return gearRepository.findByIdDiscordAndIdGuildAndAtivo(idDiscord, idGuild, ativo);
+	}
 }

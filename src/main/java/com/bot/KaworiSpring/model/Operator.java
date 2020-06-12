@@ -8,7 +8,7 @@ import javax.persistence.Table;
 @Table(name = "user")
 public class Operator {
 
-	@Id
+	@Id	
 	private long id;
 	
 	private long idDiscord;

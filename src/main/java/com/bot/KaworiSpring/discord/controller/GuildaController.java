@@ -51,11 +51,11 @@ public class GuildaController {
 
 		Membro membro = findMember(member.getIdLong(), guild.getIdLong());
 
-		membro.setIdUser(member.getUser().getIdLong());
-
 		membro.setVisitor(true);
 
 		membro.setNick(member.getNickname());
+
+		membro.setFamilyName(member.getUser().getName());
 
 		operatorController.updateOperator(member.getUser());
 
@@ -81,8 +81,8 @@ public class GuildaController {
 		Membro membro = membroService.findByIdAndIdGuild(id, idGuild);
 		if (membro == null) {
 			membro = new Membro();
-			membro.setId(id);
 			membro.setIdGuild(idGuild);
+			membro.setIdUser(id);
 		}
 		return membro;
 	}
@@ -109,11 +109,11 @@ public class GuildaController {
 		}
 
 	}
-	
+
 	public void onRoleUpdateName(long id, String newName) {
 		Tag tag = tagService.findByIdRole(id);
 		tag.setName(newName);
-		
+
 		tagService.save(tag);
 	}
 
@@ -124,18 +124,18 @@ public class GuildaController {
 			tagService.delete(tag);
 		}
 	}
-	
+
 	public void onGuildUpdateName(long id, String newName) {
 		Guilda guilda = guildaService.findById(id);
 		guilda.setName(newName);
-		
+
 		guildaService.save(guilda);
 	}
-	
+
 	public void onGuildUpdateOwner(long id, long idNewOwner) {
 		Guilda guilda = guildaService.findById(id);
 		guilda.setIdOwner(idNewOwner);
-		
+
 		guildaService.save(guilda);
 	}
 
@@ -210,6 +210,12 @@ public class GuildaController {
 
 		MessageController.sendMessageSingle(guild, channel, member.getUser(), message);
 
+	}
+
+	public void onGuildMemberUpdateNickname(Member member, String newNick) {
+		Membro membro = findMember(member.getIdLong(), member.getGuild().getIdLong());
+		membro.setNick(newNick);
+		membroService.save(membro);
 	}
 
 }

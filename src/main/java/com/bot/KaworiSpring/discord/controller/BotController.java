@@ -15,15 +15,19 @@ public class BotController {
 	private GuildaService guildaService;
 
 	public void onGuildJoin(Guild guild) {
-		Guilda guilda = new Guilda();
-		guilda.setId(guild.getIdLong());
-		guilda.setRegion(guild.getRegion().getName());
+		Guilda guilda = guildaService.findById(guild.getIdLong());
+
+		if (guilda == null) {
+			guilda = new Guilda();
+			guilda.setId(guild.getIdLong());
+			guilda.setDefaultWelcomeMessage("_nameMention  welcome!");
+			guilda.setRegion(guild.getRegion().getName());
+		}
+
 		guilda.setName(guild.getName());
 		guilda.setActive(true);
-		guilda.setIdOwner(guild.getOwnerIdLong());
-		
-		guilda.setDefaultWelcomeMessage("_nameMention  welcome!");
-		
+		guilda.setIdOwner(guild.getOwnerIdLong());		
+
 		guildaService.save(guilda);
 	}
 
@@ -32,4 +36,5 @@ public class BotController {
 		guild.setActive(false);
 		guildaService.save(guild);
 	}
+
 }

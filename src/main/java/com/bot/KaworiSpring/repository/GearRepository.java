@@ -9,9 +9,11 @@ import com.bot.KaworiSpring.model.Gear;
 public interface GearRepository extends JpaRepository<Gear, Long> {
 
 	public Gear findByIdDiscord(Long id);
-	
+
 	public Gear findByIdDiscordAndIdGuild(Long idDiscord, Long idGuild);
-	
+
 	public List<Gear> findByIdGuild(Long idGuild);
-	
+
+	public Gear findByIdDiscordAndIdGuildAndAtivo(Long idDiscord, Long idGuild, boolean ativo);
+
 }

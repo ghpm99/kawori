@@ -1,6 +1,7 @@
 package com.bot.KaworiSpring.discord.command.commands;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,16 @@ import com.bot.KaworiSpring.discord.controller.TagController;
 import com.bot.KaworiSpring.discord.message.EmbedPattern;
 import com.bot.KaworiSpring.discord.message.MessageController;
 import com.bot.KaworiSpring.model.Gear;
+import com.bot.KaworiSpring.model.Personagem;
 import com.bot.KaworiSpring.service.GearService;
+import com.bot.KaworiSpring.service.MembroService;
+import com.bot.KaworiSpring.service.PersonagemService;
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 @Controller
@@ -26,6 +33,12 @@ public class CmdGS implements Command {
 	@Autowired
 	private TagController tagController;
 
+	@Autowired
+	private MembroService membroService;
+
+	@Autowired
+	private PersonagemService personagemService;
+
 	public boolean called(String[] args, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
 
@@ -36,16 +49,18 @@ public class CmdGS implements Command {
 		// TODO Auto-generated method stub
 
 		if (!event.getMessage().getMentionedMembers().isEmpty()) {
-			showGearMember(event);
+			showGearMember(event.getGuild(), event.getAuthor(), event.getChannel(),
+					event.getMessage().getMentionedMembers());
+			return;
+		}
+
+		if (args.length == 0) {
+			showGearMember(event.getGuild(), event.getAuthor(), event.getChannel(),
+					Arrays.asList(event.getGuild().getMember(event.getAuthor())));
 			return;
 		}
 
 		Gear gear = generateGear(event.getAuthor().getIdLong(), event.getGuild().getIdLong());
-
-		if (args.length == 0) {
-			showGear(gear, event);
-			return;
-		}
 
 		if (!atualizarAtributo(gear, args, event)) {
 			MessageController.sendMessage(event.getGuild(), event.getChannel(), event.getAuthor(), "msg_gs_error");
@@ -72,37 +87,51 @@ public class CmdGS implements Command {
 		return 1;
 	}
 
-	private void showGearMember(MessageReceivedEvent event) {
-		List<Member> mencionados = event.getMessage().getMentionedMembers();
+	private void showGearMember(Guild guild, User author, MessageChannel channel, List<Member> mentionedMembers) {
+
 		ArrayList<Gear> members = new ArrayList<>();
-		for (Member mencionado : mencionados) {
-			Gear temp = generateGear(mencionado.getUser().getIdLong(), event.getGuild().getIdLong());
+		for (Member mencionado : mentionedMembers) {
+			Gear temp = generateGear(mencionado.getUser().getIdLong(), guild.getIdLong());
 			members.add(temp);
 		}
 
-		EmbedBuilder embed = EmbedPattern.createEmbedShowGear(event.getAuthor(), event.getChannel(), event.getGuild(), members);
-		
-		MessageController.sendEmbed(event.getChannel(), embed);
+		EmbedBuilder embed = EmbedPattern.createEmbedShowGear(author, channel, guild, members);
+
+		MessageController.sendEmbed(channel, embed);
 	}
 
 	private Gear generateGear(long idDiscord, long idGuild) {
 		Gear gear = loadGear(idDiscord, idGuild);
 
-		if (gear == null)
+		if (gear == null) {
 			gear = createGear(idDiscord, idGuild);
+			gear.setPersonagem(createPersonagem(idDiscord,idGuild));
+		}
 
 		return gear;
 	}
 
 	private Gear loadGear(long idDiscord, long idGuild) {
-		return gearService.findByIdDiscordAndIdGuild(idDiscord, idGuild);
+		Gear gear = gearService.findByIdUserIdGuildIsAtivo(idDiscord, idGuild, true);
+
+		return gear;
 	}
 
 	private Gear createGear(long idDiscord, long idGuild) {
 		Gear gear = new Gear();
 		gear.setIdDiscord(idDiscord);
 		gear.setIdGuild(idGuild);
+		gear.setAtivo(true);
 		return gear;
+	}
+
+	public Personagem createPersonagem(long idMembro,long idGuild) {
+		Personagem personagem = new Personagem();
+		personagem.setMembro(membroService.findByIdAndIdGuild(idMembro, idGuild));
+		personagem.setBattleMode("");
+		personagem.setClasse("");
+		personagem.setName(personagem.getMembro().getFamilyName());
+		return personagem;
 	}
 
 	private boolean atualizarAtributo(Gear gear, String[] args, MessageReceivedEvent event) {
@@ -116,12 +145,13 @@ public class CmdGS implements Command {
 
 	private Gear saveGear(Gear gear, MessageReceivedEvent event) {
 		MessageController.sendMessage(event.getGuild(), event.getChannel(), event.getAuthor(), "msg_gs_sucess");
+		personagemService.save(gear.getPersonagem());
 		return gearService.save(gear);
 	}
 
 	private boolean verificarAtributo(Gear gear, String arg) {
 		boolean retorno = false;
-		String[] args = arg.split(":");
+		String[] args = arg.split("=");
 
 		if (args.length == 1)
 			return retorno;
@@ -152,12 +182,6 @@ public class CmdGS implements Command {
 
 	private void updateTag(Gear gear, MessageReceivedEvent messageReceived) {
 		tagController.updateTag(gear, messageReceived.getGuild(), messageReceived.getAuthor());
-	}
-
-	private void showGear(Gear gear, MessageReceivedEvent messageReceived) {
-		MessageController.sendMessage(messageReceived.getGuild(), messageReceived.getChannel(),
-				messageReceived.getAuthor(), "msg_gs_show_owner", String.valueOf(gear.getAp()),
-				String.valueOf(gear.getApAwak()), String.valueOf(gear.getDp()), String.valueOf(gear.getLevel()));
 	}
 
 }
