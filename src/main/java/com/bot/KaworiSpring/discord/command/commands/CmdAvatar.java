@@ -5,21 +5,17 @@
  */
 package com.bot.KaworiSpring.discord.command.commands;
 
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+
 import com.bot.KaworiSpring.discord.command.Command;
 import com.bot.KaworiSpring.discord.message.EmbedPattern;
 import com.bot.KaworiSpring.discord.message.MessageController;
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import org.springframework.stereotype.Controller;
 
 /**
  *
@@ -44,8 +40,8 @@ public class CmdAvatar implements Command {
 			user = mention.get(0).getUser();
 		}
 
-		MessageController.sendEmbed(event.getChannel(),
-				EmbedPattern.createEmbedImage(user,event.getChannel(),event.getGuild(),user.getAvatarUrl()+"?size=1024","msg_avatar_sucess"));
+		MessageController.sendEmbed(event.getChannel(), EmbedPattern.createEmbedImage(user, event.getChannel(),
+				event.getGuild(), user.getAvatarUrl() + "?size=1024", "msg_avatar_sucess"), null);
 	}
 
 	@Override
@@ -62,6 +58,5 @@ public class CmdAvatar implements Command {
 	public int nivelNecessario() {
 		return 0;
 	}
-	
 
 }

@@ -16,29 +16,31 @@ public class MembroController {
 	MembroService membroService;
 	@Autowired
 	OperatorController operatorController;
-	
+
 	public void updateAllMembers(Guild guild) {
-		
+
 		guild.getMembers().forEach((member) -> {
 			System.out.println("update member:" + member.getIdLong() + " from guild:" + member.getGuild().getIdLong());
 			updateMember(member);
 		});
-		
+
 	}
-	
-	public void updateMember(Member member) {		
+
+	public void updateMember(Member member) {
 		Membro membro = membroService.findByIdAndIdGuild(member.getIdLong(), member.getGuild().getIdLong());
-		if(membro == null) {
+		if (membro == null) {
 			membro = new Membro();
 			membro.setBanned(false);
 			membro.setGear(false);
 			membro.setIdGuild(member.getGuild().getIdLong());
 			membro.setIdUser(member.getIdLong());
+		}
+		if (membro.getFamilyName() == null) {
 			membro.setFamilyName(member.getUser().getName());
 		}
 		membro.setNick(member.getNickname());
 		operatorController.updateOperator(member.getUser());
 		membroService.save(membro);
 	}
-	
+
 }

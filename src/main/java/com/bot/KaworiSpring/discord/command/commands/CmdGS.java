@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 
 import com.bot.KaworiSpring.discord.command.Command;
@@ -21,7 +23,6 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 @Controller
@@ -39,8 +40,33 @@ public class CmdGS implements Command {
 	@Autowired
 	private PersonagemService personagemService;
 
+	private List<Member> mentioned;
+
+	private String cmd;
+
+	private Guild guild;
+
+	private Member author;
+
+	private MessageChannel channel;
+
 	public boolean called(String[] args, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
+		cmd = "show";
+		mentioned = event.getMessage().getMentionedMembers();
+
+		if (mentioned.size() == 0)
+			mentioned = Arrays.asList(event.getMember());
+
+		for (String arg : args) {
+			if (arg.startsWith("-")) {
+				cmd = arg.replaceFirst("-", "");
+			}
+		}
+
+		channel = event.getChannel();
+		author = event.getMember();
+		guild = event.getGuild();
 
 		return false;
 	}
@@ -48,27 +74,20 @@ public class CmdGS implements Command {
 	public void action(String[] args, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
 
-		if (!event.getMessage().getMentionedMembers().isEmpty()) {
-			showGearMember(event.getGuild(), event.getAuthor(), event.getChannel(),
-					event.getMessage().getMentionedMembers());
-			return;
+		switch (cmd) {
+		case "show":
+			showGearMember(guild, author, channel, mentioned);
+			break;
+		case "add":
+			createGear(author.getUser().getIdLong(), guild.getIdLong(), author.getUser().getName());
+			break;
+		case "select":
+			selectGear();
+			break;
+		case "set":
+			setGear(args, event);
+			break;
 		}
-
-		if (args.length == 0) {
-			showGearMember(event.getGuild(), event.getAuthor(), event.getChannel(),
-					Arrays.asList(event.getGuild().getMember(event.getAuthor())));
-			return;
-		}
-
-		Gear gear = generateGear(event.getAuthor().getIdLong(), event.getGuild().getIdLong());
-
-		if (!atualizarAtributo(gear, args, event)) {
-			MessageController.sendMessage(event.getGuild(), event.getChannel(), event.getAuthor(), "msg_gs_error");
-			return;
-		}
-
-		saveGear(gear, event);
-		updateTag(gear, event);
 
 	}
 
@@ -87,25 +106,27 @@ public class CmdGS implements Command {
 		return 1;
 	}
 
-	private void showGearMember(Guild guild, User author, MessageChannel channel, List<Member> mentionedMembers) {
+	private void showGearMember(Guild guild, Member author, MessageChannel channel, List<Member> mentionedMembers) {
 
 		ArrayList<Gear> members = new ArrayList<>();
+
 		for (Member mencionado : mentionedMembers) {
-			Gear temp = generateGear(mencionado.getUser().getIdLong(), guild.getIdLong());
+			Gear temp = generateGear(mencionado.getUser().getIdLong(), guild.getIdLong(), author.getUser().getName());
 			members.add(temp);
 		}
 
-		EmbedBuilder embed = EmbedPattern.createEmbedShowGear(author, channel, guild, members);
+		EmbedBuilder embed = EmbedPattern.createEmbedShowGear(author.getUser(), channel, guild, members);
 
 		MessageController.sendEmbed(channel, embed);
 	}
 
-	private Gear generateGear(long idDiscord, long idGuild) {
+	private Gear generateGear(long idDiscord, long idGuild, String name) {
 		Gear gear = loadGear(idDiscord, idGuild);
 
 		if (gear == null) {
-			gear = createGear(idDiscord, idGuild);
-			gear.setPersonagem(createPersonagem(idDiscord,idGuild));
+
+			gear = createGear(idDiscord, idGuild, name);
+
 		}
 
 		return gear;
@@ -117,25 +138,32 @@ public class CmdGS implements Command {
 		return gear;
 	}
 
-	private Gear createGear(long idDiscord, long idGuild) {
-		Gear gear = new Gear();
-		gear.setIdDiscord(idDiscord);
-		gear.setIdGuild(idGuild);
-		gear.setAtivo(true);
-		return gear;
+	private Gear createGear(long idUser, long idGuild, String name) {
+		Personagem personagem = loadPersonagem(idUser, idGuild, name);
+		return createGear(idUser, idGuild, personagem);
 	}
 
-	public Personagem createPersonagem(long idMembro,long idGuild) {
-		Personagem personagem = new Personagem();
-		personagem.setMembro(membroService.findByIdAndIdGuild(idMembro, idGuild));
-		personagem.setBattleMode("");
-		personagem.setClasse("");
-		personagem.setName(personagem.getMembro().getFamilyName());
+	private Gear createGear(long idUser, long idGuild, Personagem personagem) {
+		return gearService.createNewGear(idUser, idGuild, personagem);
+	}
+
+	private Personagem loadPersonagem(long idMembro, long idGuild, String name) {
+		Personagem personagem = personagemService.findByMembroIdAndAtivo(idMembro, true);
+		if (personagem == null)
+			personagem = createPersonagem(idMembro, idGuild, name);
 		return personagem;
 	}
 
-	private boolean atualizarAtributo(Gear gear, String[] args, MessageReceivedEvent event) {
+	private Personagem createPersonagem(long idMembro, long idGuild, String name) {
+
+		return personagemService.createNewPersonagem(membroService.findByIdAndIdGuild(idMembro, idGuild), name);
+
+	}
+
+	private boolean atualizarAtributo(Gear gear, String[] args) {
 		for (String arg : args) {
+			if (arg.equals("-set"))
+				continue;
 			if (!verificarAtributo(gear, arg)) {
 				return false;
 			}
@@ -182,6 +210,32 @@ public class CmdGS implements Command {
 
 	private void updateTag(Gear gear, MessageReceivedEvent messageReceived) {
 		tagController.updateTag(gear, messageReceived.getGuild(), messageReceived.getAuthor());
+	}
+
+	private void selectGear() {
+		Page<Gear> gears = gearService.findByIdDiscordAndIdGuild(author.getUser().getIdLong(), guild.getIdLong(),
+				PageRequest.of(0, 10));
+		System.out.println("Size:" + gears.getSize() + " Number:" + gears.getNumber());
+		gears.get().forEach((s) -> {
+			System.out.println("AP: " + s.getAp() + " DP:" + s.getDp());
+		});
+		Page<Gear> gearsTemp = gearService.findByIdDiscordAndIdGuild(author.getUser().getIdLong(), guild.getIdLong(),
+				gears.nextPageable());
+		System.out.println("Size:" + gearsTemp.getSize() + " Number:" + gearsTemp.getNumber());
+		gearsTemp.get().forEach((s) -> {
+			System.out.println("AP: " + s.getAp() + " DP:" + s.getDp());
+		});
+		
+	}
+
+	private void setGear(String[] args, MessageReceivedEvent event) {
+		Gear gear = generateGear(author.getIdLong(), guild.getIdLong(), author.getUser().getName());
+		if (!atualizarAtributo(gear, args)) {
+			System.out.println("falhou em atualizar");
+			return;
+		}
+		saveGear(gear, event);
+		updateTag(gear, event);
 	}
 
 }

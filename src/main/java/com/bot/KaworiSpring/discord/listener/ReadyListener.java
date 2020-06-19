@@ -38,6 +38,7 @@ public class ReadyListener extends ListenerAdapter {
 		if (configService.getByType("load").getValue().equals("1")) {
 			
 			e.getJDA().getGuilds().forEach((guild) -> {
+				
 				System.out.println("update Guild:" + guild.getIdLong());
 				botController.onGuildJoin(guild);
 				System.out.println("update Tags guild:" + guild.getIdLong());

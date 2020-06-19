@@ -1,6 +1,7 @@
 package com.bot.KaworiSpring.discord.message;
 
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -183,15 +184,14 @@ public class EmbedPattern {
 		MessageController.setEmbedHead(guild, channel, user, embed);
 		MessageController.setEmbedTitle(guild, channel, user, embed, "msg_gs_show_member_title");
 		MessageController.setEmbedDescription(guild, channel, user, embed, "msg_gs_show_member_description");
-
 		for (Gear gear : gears) {
 
 			Member member = guild.getMemberById(gear.getIdDiscord());
 
 			if (member == null)
 				continue;
-
-			embed.addField(MessageController.createEmbedField(guild, channel, user, member.getUser().getName(),
+			
+			embed.addField(MessageController.createEmbedField(guild, channel, user, gears.indexOf(gear) + gear.getPersonagem().getName(),
 					"msg_gs_show_member_field", String.valueOf(gear.getAp()), String.valueOf(gear.getApAwak()),
 					String.valueOf(gear.getDp()), String.valueOf(gear.getLevel())));
 		}
@@ -271,13 +271,37 @@ public class EmbedPattern {
 		MessageController.setEmbedHead(guild, channel, user, embed);
 		MessageController.setEmbedTitle(guild, channel, user, embed, "embed_char_show_title");
 		MessageController.setEmbedDescription(guild, channel, user, embed, "embed_char_show_description");
-		
+
 		for (Personagem personagem : personagens) {
-			
+
 			embed.addField(MessageController.createEmbedField(guild, channel, user, personagem.getName(),
 					"embed_char_show_field", personagem.getClasse(), personagem.getBattleMode()));
-			
+
 		}
+
+		return embed;
+	}
+
+	public static EmbedBuilder createEmbedInfoUser(User user, MessageChannel channel, Guild guild, String familyName,
+			String activePersonagem, String activeGear) {
+		EmbedBuilder embed = new EmbedBuilder();
+
+		MessageController.setEmbedHead(guild, channel, user, embed);
+		MessageController.setEmbedTitle(guild, channel, user, embed, "embed_info_title");
+		MessageController.setEmbedDescription(guild, channel, user, embed, "embed_info_description");
+
+		String joined = guild.getMember(user).getTimeJoined().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+		embed.addField(MessageController.createEmbedField(guild, channel, user, "Info", "embed_info_field_1",
+				user.getId(), guild.getMember(user).getNickname(), user.getName()));
+		embed.addField(MessageController.createEmbedField(guild, channel, user, "Joined on", "embed_info_field_2", true,
+				joined));
+		embed.addField(MessageController.createEmbedField(guild, channel, user, "Family", "embed_info_field_2", true,
+				familyName));
+		embed.addField(MessageController.createEmbedField(guild, channel, user, "Active Personagem",
+				"embed_info_field_2", activePersonagem));
+		embed.addField(MessageController.createEmbedField(guild, channel, user, "Active Gear", "embed_info_field_2",
+				activeGear));
 
 		return embed;
 	}

@@ -1,5 +1,7 @@
 package com.bot.KaworiSpring.discord;
 
+import java.util.Date;
+
 import javax.annotation.PostConstruct;
 import javax.security.auth.login.LoginException;
 
@@ -11,9 +13,10 @@ import com.bot.KaworiSpring.discord.command.CommandHandler;
 import com.bot.KaworiSpring.discord.command.commands.CmdAdm;
 import com.bot.KaworiSpring.discord.command.commands.CmdAvatar;
 import com.bot.KaworiSpring.discord.command.commands.CmdChar;
+import com.bot.KaworiSpring.discord.command.commands.CmdFun;
 import com.bot.KaworiSpring.discord.command.commands.CmdGS;
 import com.bot.KaworiSpring.discord.command.commands.CmdHelp;
-import com.bot.KaworiSpring.discord.command.commands.CmdFun;
+import com.bot.KaworiSpring.discord.command.commands.CmdInfo;
 import com.bot.KaworiSpring.discord.command.commands.CmdNodeWar;
 import com.bot.KaworiSpring.discord.command.commands.CmdPick;
 import com.bot.KaworiSpring.discord.command.commands.CmdRank;
@@ -29,8 +32,6 @@ import com.bot.KaworiSpring.service.LogService;
 import com.bot.KaworiSpring.service.StatusService;
 import com.bot.KaworiSpring.util.Util;
 
-import java.util.Date;
-
 import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -38,130 +39,132 @@ import net.dv8tion.jda.api.JDABuilder;
 @Component
 public class Main {
 
-    private JDA jda;
+	private JDA jda;
 
-    //Comandos
-    @Autowired
-    private CmdGS cmdGS;
-    @Autowired
-    private CmdRank cmdRank;
-    @Autowired
-    private CmdHelp cmdHelp;
-    @Autowired
-    private CmdNodeWar cmdNodeWar;
-    @Autowired
-    private CmdAdm cmdAdm;
-    @Autowired
-    private CmdPick cmdPick;
-    @Autowired
-    private CmdAvatar cmdAvatar;
-    @Autowired
-    private CmdFun cmdFun;
-    @Autowired
-    private CmdChar cmdChar;
-    
-    //Eventos Listeners
-    @Autowired
-    private ReadyListener readyListener;
-    @Autowired
-    private MessageListener messageListener;
-    @Autowired
-    private ReactionListener reactionListener;
-    @Autowired
-    private GuildListener guildListener;
-    @Autowired
-    private BotListener botListener;
-    @Autowired
-    private UserListener userListener;
-  
-    //Services
-    @Autowired
-    private StatusService statusService;
-    @Autowired
-    private LogService logService;
-    @Autowired
-    ConfigurationService configService;
+	// Comandos
+	@Autowired
+	private CmdGS cmdGS;
+	@Autowired
+	private CmdRank cmdRank;
+	@Autowired
+	private CmdHelp cmdHelp;
+	@Autowired
+	private CmdNodeWar cmdNodeWar;
+	@Autowired
+	private CmdAdm cmdAdm;
+	@Autowired
+	private CmdPick cmdPick;
+	@Autowired
+	private CmdAvatar cmdAvatar;
+	@Autowired
+	private CmdFun cmdFun;
+	@Autowired
+	private CmdChar cmdChar;
+	@Autowired
+	private CmdInfo cmdInfo;
 
-    @PostConstruct
-    public void init() {
-        statusService.setStatusBot("Iniciando...");
-        logService.addEvent(new Log(new Date(), "Iniciando Bot", 0, 0, "OK"));
-        
-        Util.PREFIX = configService.getByType("prefix").getValue();
+	// Eventos Listeners
+	@Autowired
+	private ReadyListener readyListener;
+	@Autowired
+	private MessageListener messageListener;
+	@Autowired
+	private ReactionListener reactionListener;
+	@Autowired
+	private GuildListener guildListener;
+	@Autowired
+	private BotListener botListener;
+	@Autowired
+	private UserListener userListener;
 
-        JDABuilder builder = new JDABuilder(AccountType.BOT).setToken(configService.getByType("token").getValue())
-                .setAutoReconnect(true);               
-        
-        setListeners(builder);
+	// Services
+	@Autowired
+	private StatusService statusService;
+	@Autowired
+	private LogService logService;
+	@Autowired
+	ConfigurationService configService;
 
-        setCommands();
+	@PostConstruct
+	public void init() {
+		statusService.setStatusBot("Iniciando...");
+		logService.addEvent(new Log(new Date(), "Iniciando Bot", 0, 0, "OK"));
 
-        try {
-            jda = builder.build();
-            
-        } catch (LoginException e) {
-            // TODO Auto-generated catch block
-            
-            e.printStackTrace();
-        }
-        
+		Util.PREFIX = configService.getByType("prefix").getValue();
 
-    }
+		JDABuilder builder = new JDABuilder(AccountType.BOT).setToken(configService.getByType("token").getValue())
+				.setAutoReconnect(true);
 
-    private void setListeners(JDABuilder builder) {
-        logService.addEvent(new Log(new Date(), "Adicionando Listeners", 0, 0, "-"));
-        builder.addEventListeners(readyListener);
-        builder.addEventListeners(messageListener);
-        builder.addEventListeners(reactionListener);
-        builder.addEventListeners(guildListener);
-        builder.addEventListeners(botListener);
-        builder.addEventListeners(userListener);
-        logService.addEvent(new Log(new Date(), "Listeners adicionados", 0, 0, "OK"));
-    }
+		setListeners(builder);
 
-    private void setCommands() {
-        logService.addEvent(new Log(new Date(), "Adicionando Comandos", 0, 0, "-"));
-        CommandHandler.commands.put("help", cmdHelp);
-        CommandHandler.commands.put("gs", cmdGS);
-        CommandHandler.commands.put("rank", cmdRank);
-        CommandHandler.commands.put("nw", cmdNodeWar);
-        CommandHandler.commands.put("adm", cmdAdm);
-        CommandHandler.commands.put("pick",cmdPick);
-        CommandHandler.commands.put("avatar",cmdAvatar);
-        CommandHandler.commands.put("hug", cmdFun);
-        CommandHandler.commands.put("slap", cmdFun);
-        CommandHandler.commands.put("nom", cmdFun);
-        CommandHandler.commands.put("cuddle", cmdFun);
-        CommandHandler.commands.put("kiss", cmdFun);
-        CommandHandler.commands.put("bite", cmdFun);
-        CommandHandler.commands.put("dance", cmdFun);
-        CommandHandler.commands.put("awoo", cmdFun);
-        CommandHandler.commands.put("owo", cmdFun);
-        CommandHandler.commands.put("poke", cmdFun);
-        CommandHandler.commands.put("lewd", cmdFun);
-        CommandHandler.commands.put("blush", cmdFun);
-        CommandHandler.commands.put("confused", cmdFun);
-        CommandHandler.commands.put("cry", cmdFun);
-        CommandHandler.commands.put("sad", cmdFun);
-        CommandHandler.commands.put("pat", cmdFun);
-        CommandHandler.commands.put("fox", cmdFun);
-        CommandHandler.commands.put("punch", cmdFun);
-        CommandHandler.commands.put("trap", cmdFun);
-        CommandHandler.commands.put("explosion", cmdFun);
-        CommandHandler.commands.put("char", cmdChar);
-        
-        logService.addEvent(new Log(new Date(), "Comandos adicionados", 0, 0, "OK"));
-    }
+		setCommands();
 
-    public JDA getJDA() {
-        return jda;
-    }
+		try {
+			jda = builder.build();
 
-    // @Scheduled(cron = "0 0 12 ? * MON,TUE,WED,THU,FRI,SAT,SUN *")
-    @Scheduled(cron = "0 0/1 * 1/1 * ?")
-    private void scheduledNodeWar() {
-        //System.out.println("Executando node war");
-        cmdNodeWar.scheduledNodeWar(jda);
-    }
+		} catch (LoginException e) {
+			// TODO Auto-generated catch block
+
+			e.printStackTrace();
+		}
+
+	}
+
+	private void setListeners(JDABuilder builder) {
+		logService.addEvent(new Log(new Date(), "Adicionando Listeners", 0, 0, "-"));
+		builder.addEventListeners(readyListener);
+		builder.addEventListeners(messageListener);
+		builder.addEventListeners(reactionListener);
+		builder.addEventListeners(guildListener);
+		builder.addEventListeners(botListener);
+		builder.addEventListeners(userListener);
+		logService.addEvent(new Log(new Date(), "Listeners adicionados", 0, 0, "OK"));
+	}
+
+	private void setCommands() {
+		logService.addEvent(new Log(new Date(), "Adicionando Comandos", 0, 0, "-"));
+		CommandHandler.commands.put("help", cmdHelp);
+		CommandHandler.commands.put("gs", cmdGS);
+		CommandHandler.commands.put("rank", cmdRank);
+		CommandHandler.commands.put("nw", cmdNodeWar);
+		CommandHandler.commands.put("adm", cmdAdm);
+		CommandHandler.commands.put("pick", cmdPick);
+		CommandHandler.commands.put("avatar", cmdAvatar);
+		CommandHandler.commands.put("hug", cmdFun);
+		CommandHandler.commands.put("slap", cmdFun);
+		CommandHandler.commands.put("nom", cmdFun);
+		CommandHandler.commands.put("cuddle", cmdFun);
+		CommandHandler.commands.put("kiss", cmdFun);
+		CommandHandler.commands.put("bite", cmdFun);
+		CommandHandler.commands.put("dance", cmdFun);
+		CommandHandler.commands.put("awoo", cmdFun);
+		CommandHandler.commands.put("owo", cmdFun);
+		CommandHandler.commands.put("poke", cmdFun);
+		CommandHandler.commands.put("lewd", cmdFun);
+		CommandHandler.commands.put("blush", cmdFun);
+		CommandHandler.commands.put("confused", cmdFun);
+		CommandHandler.commands.put("cry", cmdFun);
+		CommandHandler.commands.put("sad", cmdFun);
+		CommandHandler.commands.put("pat", cmdFun);
+		CommandHandler.commands.put("fox", cmdFun);
+		CommandHandler.commands.put("punch", cmdFun);
+		CommandHandler.commands.put("trap", cmdFun);
+		CommandHandler.commands.put("explosion", cmdFun);
+		CommandHandler.commands.put("char", cmdChar);
+		CommandHandler.commands.put("info", cmdInfo);
+
+		logService.addEvent(new Log(new Date(), "Comandos adicionados", 0, 0, "OK"));
+	}
+
+	public JDA getJDA() {
+		return jda;
+	}
+
+	// @Scheduled(cron = "0 0 12 ? * MON,TUE,WED,THU,FRI,SAT,SUN *")
+	@Scheduled(cron = "0 0/1 * 1/1 * ?")
+	private void scheduledNodeWar() {
+		// System.out.println("Executando node war");
+		cmdNodeWar.scheduledNodeWar(jda);
+	}
 
 }
