@@ -15,6 +15,7 @@ import com.bot.KaworiSpring.service.PersonagemService;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -27,32 +28,52 @@ public class CmdChar implements Command {
 	@Autowired
 	private PersonagemService personagemService;
 	
+	private String cmd;
+	
+	private Guild guild;
+
+	private Member author;
+
+	private MessageChannel channel;
+	
 	@Override
 	public boolean called(String[] args, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
+		cmd = "show";
+		
+		for (String arg : args) {
+			if (arg.startsWith("-")) {
+				cmd = arg.replaceFirst("-", "").toLowerCase();
+			}
+		}
+		
+
+		channel = event.getChannel();
+		author = event.getMember();
+		guild = event.getGuild();
+		
 		return false;
 	}
 
 	@Override
 	public void action(String[] args, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
-		if (args[0].toLowerCase().equals("all")) {
-			showPersonagens(event);
-			return;
-		}
-
-		Personagem personagem = generatePersonagem(event.getAuthor().getIdLong(), event.getGuild().getIdLong(),
-				event.getAuthor().getName());
-
-		if (!atualizarAtributo(personagem, args, event)) {
-			MessageController.sendMessage(event.getGuild(), event.getChannel(), event.getAuthor(), "msg_gs_error");
-			return;
-		}
-
-		savePersonagem(personagem, event);
+		
+		switch(cmd) {
+		case "all":
+			showPersonagens();
+			break;
+		case "set":
+			setPersonagem(args,event);
+			break;
+		case "select":
+			selectPersonagem();
+			break;
+		}	
 
 	}
-
+	
+	
 	@Override
 	public void executed(boolean success, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
@@ -76,9 +97,9 @@ public class CmdChar implements Command {
 		MessageController.sendEmbed(channel, builder);
 	}
 
-	private void showPersonagens(MessageReceivedEvent event) {
-		Membro membro = membroService.findByIdAndIdGuild(event.getAuthor().getIdLong(), event.getGuild().getIdLong());
-		showEmbedPersonagens(event.getAuthor(), event.getChannel(), event.getGuild(),
+	private void showPersonagens() {
+		Membro membro = membroService.findByIdAndIdGuild(author.getIdLong(), guild.getIdLong());
+		showEmbedPersonagens(author.getUser(), channel, guild,
 				personagemService.findByMembroId(membro.getId()));
 	}
 
@@ -108,6 +129,9 @@ public class CmdChar implements Command {
 
 	private boolean atualizarAtributo(Personagem personagem, String[] args, MessageReceivedEvent event) {
 		for (String arg : args) {
+			if(arg.equals("-set")) {
+				continue;
+			}
 			if (!verificarAtributo(personagem, arg)) {
 				return false;
 			}
@@ -246,4 +270,19 @@ public class CmdChar implements Command {
 		personagemService.save(personagem);
 	}
 
+	private void setPersonagem(String[] args,MessageReceivedEvent event) {
+		Personagem personagem = generatePersonagem(author.getUser().getIdLong(), guild.getIdLong(),
+				author.getUser().getName());
+
+		if (!atualizarAtributo(personagem, args, event)) {
+			MessageController.sendMessage(guild, channel, author.getUser(), "msg_gs_error");
+			return;
+		}
+		savePersonagem(personagem, event);		
+	}
+	
+	private void selectPersonagem() {
+		
+	}
+	
 }

@@ -50,12 +50,19 @@ public class PersonagemService {
 		return personagemRepository.save(personagem);
 	}
 
-	private void removeAtivos(Long id) {
-		Personagem perso = findByMembroIdAndAtivo(id, true);
+	private void removeAtivos(Long idMembro) {
+		Personagem perso = findByMembroIdAndAtivo(idMembro, true);
 		if (perso != null) {
 			perso.setAtivo(false);
 			personagemRepository.save(perso);
 		}
 		
 	}
+	
+	public void updateAtivo(Personagem personagem) {
+		removeAtivos(personagem.getMembro().getId());
+		personagem.setAtivo(true);
+		save(personagem);
+	}
+	
 }

@@ -53,16 +53,22 @@ public class GearService {
 		gear.setIdGuild(idGuild);
 		gear.setPersonagem(personagem);
 		gear.setAtivo(true);
-		removeAtivos(idUser, idGuild);
+		removeAtivo(idUser, idGuild);
 		return save(gear);
 	}
 
-	private void removeAtivos(long idUser, long idGuild) {
+	private void removeAtivo(long idUser, long idGuild) {
 		Gear gear = findByIdUserIdGuildIsAtivo(idUser, idGuild, true);
 		if (gear != null) {
 			gear.setAtivo(false);
 			save(gear);
 		}
+	}
+	
+	public void updateAtivo(Gear gear) {
+		removeAtivo(gear.getIdDiscord(), gear.getIdGuild());
+		gear.setAtivo(true);
+		save(gear);
 	}
 
 }

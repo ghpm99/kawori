@@ -28,4 +28,5 @@ public class BotListener extends ListenerAdapter {
 		// TODO Auto-generated method stub
 		botController.onGuildLeave(event.getGuild());
 	}
+
 }

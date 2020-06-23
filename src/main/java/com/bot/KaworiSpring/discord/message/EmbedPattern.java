@@ -190,10 +190,11 @@ public class EmbedPattern {
 
 			if (member == null)
 				continue;
-			
-			embed.addField(MessageController.createEmbedField(guild, channel, user, gears.indexOf(gear) + gear.getPersonagem().getName(),
-					"msg_gs_show_member_field", String.valueOf(gear.getAp()), String.valueOf(gear.getApAwak()),
-					String.valueOf(gear.getDp()), String.valueOf(gear.getLevel())));
+
+			embed.addField(MessageController.createEmbedField(guild, channel, user,
+					gears.indexOf(gear) + " - " + gear.getPersonagem().getName(), "msg_gs_show_member_field",
+					String.valueOf(gear.getAp()), String.valueOf(gear.getApAwak()), String.valueOf(gear.getDp()),
+					String.valueOf(gear.getLevel())));
 		}
 
 		return embed;
@@ -285,6 +286,10 @@ public class EmbedPattern {
 	public static EmbedBuilder createEmbedInfoUser(User user, MessageChannel channel, Guild guild, String familyName,
 			String activePersonagem, String activeGear) {
 		EmbedBuilder embed = new EmbedBuilder();
+		String nick = guild.getMember(user).getNickname();
+		if (nick == null) {
+			nick = "null";
+		}
 
 		MessageController.setEmbedHead(guild, channel, user, embed);
 		MessageController.setEmbedTitle(guild, channel, user, embed, "embed_info_title");
@@ -293,7 +298,7 @@ public class EmbedPattern {
 		String joined = guild.getMember(user).getTimeJoined().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
 		embed.addField(MessageController.createEmbedField(guild, channel, user, "Info", "embed_info_field_1",
-				user.getId(), guild.getMember(user).getNickname(), user.getName()));
+				user.getId(), nick, user.getName()));
 		embed.addField(MessageController.createEmbedField(guild, channel, user, "Joined on", "embed_info_field_2", true,
 				joined));
 		embed.addField(MessageController.createEmbedField(guild, channel, user, "Family", "embed_info_field_2", true,

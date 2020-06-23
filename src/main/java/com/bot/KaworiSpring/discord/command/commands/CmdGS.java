@@ -3,25 +3,31 @@ package com.bot.KaworiSpring.discord.command.commands;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 
 import com.bot.KaworiSpring.discord.command.Command;
 import com.bot.KaworiSpring.discord.controller.TagController;
 import com.bot.KaworiSpring.discord.message.EmbedPattern;
 import com.bot.KaworiSpring.discord.message.MessageController;
+import com.bot.KaworiSpring.discord.reaction.Reaction;
+import com.bot.KaworiSpring.discord.reaction.ReactionHandler;
 import com.bot.KaworiSpring.model.Gear;
 import com.bot.KaworiSpring.model.Personagem;
 import com.bot.KaworiSpring.service.GearService;
 import com.bot.KaworiSpring.service.MembroService;
 import com.bot.KaworiSpring.service.PersonagemService;
+import com.bot.KaworiSpring.util.Emojis;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
@@ -60,7 +66,7 @@ public class CmdGS implements Command {
 
 		for (String arg : args) {
 			if (arg.startsWith("-")) {
-				cmd = arg.replaceFirst("-", "");
+				cmd = arg.replaceFirst("-", "").toLowerCase();
 			}
 		}
 
@@ -213,19 +219,7 @@ public class CmdGS implements Command {
 	}
 
 	private void selectGear() {
-		Page<Gear> gears = gearService.findByIdDiscordAndIdGuild(author.getUser().getIdLong(), guild.getIdLong(),
-				PageRequest.of(0, 10));
-		System.out.println("Size:" + gears.getSize() + " Number:" + gears.getNumber());
-		gears.get().forEach((s) -> {
-			System.out.println("AP: " + s.getAp() + " DP:" + s.getDp());
-		});
-		Page<Gear> gearsTemp = gearService.findByIdDiscordAndIdGuild(author.getUser().getIdLong(), guild.getIdLong(),
-				gears.nextPageable());
-		System.out.println("Size:" + gearsTemp.getSize() + " Number:" + gearsTemp.getNumber());
-		gearsTemp.get().forEach((s) -> {
-			System.out.println("AP: " + s.getAp() + " DP:" + s.getDp());
-		});
-		
+		showEmbedSelect(PageRequest.of(0, 5));
 	}
 
 	private void setGear(String[] args, MessageReceivedEvent event) {
@@ -236,6 +230,90 @@ public class CmdGS implements Command {
 		}
 		saveGear(gear, event);
 		updateTag(gear, event);
+	}
+
+	private void showEmbedSelect(Pageable pageable) {
+		Page<Gear> gears = gearService.findByIdDiscordAndIdGuild(author.getUser().getIdLong(), guild.getIdLong(),
+				pageable);
+		EmbedBuilder embed = EmbedPattern.createEmbedShowGear(author.getUser(), channel, guild,
+				new ArrayList<Gear>(gears.getContent()));
+		MessageController.sendEmbed(channel, embed, (s) -> {
+
+			if (gears.hasPrevious()) {
+				s.addReaction(Emojis.BACK.getEmoji()).queue();
+			}
+			if (gears.hasNext()) {
+				s.addReaction(Emojis.NEXT.getEmoji()).queue();
+			}
+			for (int i = 0; i < gears.getSize(); i++) {
+				s.addReaction(Emojis.getEmoji(i).getEmoji()).queue();
+			}
+			ReactionHandler.reactions.put(s.getIdLong(), new Reaction() {
+
+				@Override
+				public void onGuildMessageReactionAdd(String emote, long idUser, long idGuild) {
+					if (idUser == author.getUser().getIdLong() && idGuild == guild.getIdLong()) {
+						Emojis emoji = Emojis.getEmojis(emote);
+						if (emoji == null)
+							return;
+						else if (emoji.equals(Emojis.NEXT)) {
+							editEmbedSelect(s, gears.nextPageable());
+						} else if (emoji.equals(Emojis.BACK)) {
+							editEmbedSelect(s, gears.previousPageable());
+						} else
+							selectedGear(s,gears.toList().get(emoji.getId()));
+					}
+				}
+			});
+			s.delete().queueAfter(15, TimeUnit.MINUTES,(a) -> {
+				ReactionHandler.reactions.remove(s.getIdLong());
+			});
+		});
+
+	}
+
+	private void editEmbedSelect(Message message, Pageable pageable) {
+		Page<Gear> gears = gearService.findByIdDiscordAndIdGuild(author.getUser().getIdLong(), guild.getIdLong(),
+				pageable);		
+		EmbedBuilder embed = EmbedPattern.createEmbedShowGear(author.getUser(), channel, guild,
+				new ArrayList<Gear>(gears.getContent()));
+		MessageController.changeEmbed(channel, message, embed, (s) -> {
+
+			if (gears.hasPrevious()) {
+				s.addReaction(Emojis.BACK.getEmoji()).queue();
+			}
+			if (gears.hasNext()) {
+				s.addReaction(Emojis.NEXT.getEmoji()).queue();
+			}
+			for (int i = 0; i < gears.getNumberOfElements(); i++) {
+				s.addReaction(Emojis.getEmoji(i).getEmoji()).queue();
+			}
+			ReactionHandler.reactions.put(s.getIdLong(), new Reaction() {
+
+				@Override
+				public void onGuildMessageReactionAdd(String emote, long idUser, long idGuild) {
+					if (idUser == author.getUser().getIdLong() && idGuild == guild.getIdLong()) {
+						Emojis emoji = Emojis.getEmojis(emote);
+						if (emoji == null) {
+							return;
+						} else if (emoji.equals(Emojis.NEXT)) {
+							editEmbedSelect(s, gears.nextPageable());
+						} else if (emoji.equals(Emojis.BACK)) {
+							editEmbedSelect(s, gears.previousPageable());
+						} else
+							selectedGear(s,gears.toList().get(emoji.getId()));
+					}
+				}
+			});
+		});
+	}
+
+	private void selectedGear(Message message,Gear gear) {		
+		message.delete().queue();
+		ReactionHandler.reactions.remove(message.getIdLong());
+		personagemService.updateAtivo(gear.getPersonagem());
+		gearService.updateAtivo(gear);
+		MessageController.sendMessage(guild, channel, author.getUser(), "msg_gs_select_sucess");
 	}
 
 }

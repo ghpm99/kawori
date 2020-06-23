@@ -55,9 +55,9 @@ public class CmdNodeWar implements Command {
 		// TODO Auto-generated method stub
 		if (args.length == 0) {
 			scheduleNodeWar(event);
-		} else if (args[0].toLowerCase().equals("show")) {
+		} else if (args[0].toLowerCase().equals("-show")) {
 			showNodeWar(event);
-		} else if (args[0].toLowerCase().equals("presence")) {
+		} else if (args[0].toLowerCase().equals("-presence")) {
 			showPresenceNodeWar(args, event);
 		}
 	}

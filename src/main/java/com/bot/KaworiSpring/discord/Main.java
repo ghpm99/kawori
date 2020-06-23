@@ -163,7 +163,7 @@ public class Main {
 	// @Scheduled(cron = "0 0 12 ? * MON,TUE,WED,THU,FRI,SAT,SUN *")
 	@Scheduled(cron = "0 0/1 * 1/1 * ?")
 	private void scheduledNodeWar() {
-		// System.out.println("Executando node war");
+		//System.out.println("Executando node war");
 		cmdNodeWar.scheduledNodeWar(jda);
 	}
 

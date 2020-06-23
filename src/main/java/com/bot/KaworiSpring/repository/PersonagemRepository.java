@@ -13,5 +13,7 @@ public interface PersonagemRepository extends JpaRepository<Personagem, Long> {
 	public List<Personagem> findByMembroIdAndClasse(Long id, String classe);
 
 	public Personagem findByMembroIdAndAtivo(Long id, boolean ativo);
+	
+	
 
 }
