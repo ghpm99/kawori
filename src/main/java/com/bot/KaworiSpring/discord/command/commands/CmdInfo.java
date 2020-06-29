@@ -16,7 +16,7 @@ import com.bot.KaworiSpring.service.PersonagemService;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 @Controller
-public class CmdInfo implements Command {
+public class CmdInfo extends Command {
 
 	@Autowired
 	private MembroService membroService;
@@ -75,6 +75,12 @@ public class CmdInfo implements Command {
 	public int nivelNecessario() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	@Override
+	public String helpShort() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

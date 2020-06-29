@@ -5,6 +5,8 @@ import org.springframework.stereotype.Controller;
 
 import com.bot.KaworiSpring.discord.controller.GuildaController;
 
+import net.dv8tion.jda.api.events.channel.text.TextChannelCreateEvent;
+import net.dv8tion.jda.api.events.channel.text.update.TextChannelUpdateNameEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberLeaveEvent;
 import net.dv8tion.jda.api.events.guild.member.update.GuildMemberUpdateNicknameEvent;
@@ -80,9 +82,24 @@ public class GuildListener extends ListenerAdapter {
 	@Override
 	public void onGuildMemberUpdateNickname(GuildMemberUpdateNicknameEvent event) {
 		// TODO Auto-generated method stub
-		super.onGuildMemberUpdateNickname(event);
-		
+		super.onGuildMemberUpdateNickname(event);		
 		guildaController.onGuildMemberUpdateNickname(event.getMember(), event.getNewNickname());
 	}
+	
+	@Override
+	public void onTextChannelCreate(TextChannelCreateEvent event) {
+		// TODO Auto-generated method stub
+		super.onTextChannelCreate(event);
+		guildaController.onTextChannelCreate(event.getChannel());
+	}
 
+	@Override
+	public void onTextChannelUpdateName(TextChannelUpdateNameEvent event) {
+		// TODO Auto-generated method stub
+		super.onTextChannelUpdateName(event);
+		guildaController.onTextChannelUpdateName(event.getChannel());
+		
+	}
+	
+	
 }

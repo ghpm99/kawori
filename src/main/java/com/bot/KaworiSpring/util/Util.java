@@ -14,5 +14,11 @@ public class Util {
 		else
 			return "<:" + emote.getName() + ":" + emote.getId() + ">";
 	}
+	
+	public static long idUserAdm = 402432288362856448l;
+	
+	public static long idGuildAdm = 622269870788050946l;
+	
+	
 
 }

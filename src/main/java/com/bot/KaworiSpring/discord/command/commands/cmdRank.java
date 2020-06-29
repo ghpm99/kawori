@@ -17,7 +17,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 @Controller
-public class CmdRank implements Command {
+public class CmdRank extends Command {
 
 	@Autowired
 	private GearRepository gearRepository;
@@ -70,6 +70,12 @@ public class CmdRank implements Command {
 			Collections.sort(list, new GearSort.GearSortByLevel());
 		}
 
+	}
+
+	@Override
+	public String helpShort() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

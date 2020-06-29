@@ -22,7 +22,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
  * @author ghpm9
  */
 @Controller
-public class CmdAvatar implements Command {
+public class CmdAvatar extends Command {
 
 	@Override
 	public boolean called(String[] args, MessageReceivedEvent event) {
@@ -57,6 +57,12 @@ public class CmdAvatar implements Command {
 	@Override
 	public int nivelNecessario() {
 		return 0;
+	}
+
+	@Override
+	public String helpShort() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

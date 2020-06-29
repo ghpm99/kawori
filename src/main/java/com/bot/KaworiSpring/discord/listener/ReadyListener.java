@@ -27,26 +27,25 @@ public class ReadyListener extends ListenerAdapter {
 	private BotController botController;
 	@Autowired
 	private MembroController membroController;
-	
 
 	@Override
 	public void onReady(ReadyEvent e) {
-		
+
 		statusService.setStatusBot("Loading...");
 
-		
 		if (configService.getByType("load").getValue().equals("1")) {
-			
+
 			e.getJDA().getGuilds().forEach((guild) -> {
-				
+
 				System.out.println("update Guild:" + guild.getIdLong());
 				botController.onGuildJoin(guild);
 				System.out.println("update Tags guild:" + guild.getIdLong());
 				guildaController.updateGuildTag(guild);
 				System.out.println("update members guild:" + guild.getIdLong());
 				membroController.updateAllMembers(guild);
-				
-			});		
+				System.out.println("update channel guild:" + guild.getId());
+				guildaController.updateGuildChannel(guild);
+			});
 
 		}
 		statusService.setStatusBot("Online");

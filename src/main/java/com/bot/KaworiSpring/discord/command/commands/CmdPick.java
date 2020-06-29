@@ -5,20 +5,22 @@
  */
 package com.bot.KaworiSpring.discord.command.commands;
 
+import java.util.Random;
+
+import org.springframework.stereotype.Controller;
+
 import com.bot.KaworiSpring.discord.command.Command;
 import com.bot.KaworiSpring.discord.message.MessageController;
 import com.bot.KaworiSpring.util.Util;
 
-import java.util.Random;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import org.springframework.stereotype.Controller;
 
 /**
  *
  * @author ghpm9
  */
 @Controller
-public class CmdPick implements Command {
+public class CmdPick extends Command {
 
 	@Override
 	public boolean called(String[] args, MessageReceivedEvent event) {
@@ -58,6 +60,12 @@ public class CmdPick implements Command {
 	@Override
 	public int nivelNecessario() {
 		return 0;
+	}
+
+	@Override
+	public String helpShort() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

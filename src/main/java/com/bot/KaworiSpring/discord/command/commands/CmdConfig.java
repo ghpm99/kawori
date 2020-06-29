@@ -7,9 +7,7 @@ import com.bot.KaworiSpring.discord.command.Command;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 @Controller
-public class CmdAdm  extends Command {
-
-	
+public class CmdConfig extends Command{
 
 	@Override
 	public boolean called(String[] args, MessageReceivedEvent event) {
@@ -20,7 +18,7 @@ public class CmdAdm  extends Command {
 	@Override
 	public void action(String[] args, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
-				
+		
 	}
 
 	@Override
@@ -36,15 +34,16 @@ public class CmdAdm  extends Command {
 	}
 
 	@Override
+	public String helpShort() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public int nivelNecessario() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
-	public String helpShort() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

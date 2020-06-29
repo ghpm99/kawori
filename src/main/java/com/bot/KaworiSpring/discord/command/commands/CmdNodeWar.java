@@ -33,7 +33,7 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 @Controller
-public class CmdNodeWar implements Command {
+public class CmdNodeWar extends Command {
 
 	@Autowired
 	private NodeWarService nodeWarService;
@@ -468,6 +468,12 @@ public class CmdNodeWar implements Command {
 			e.printStackTrace();
 		}
 
+	}
+
+	@Override
+	public String helpShort() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

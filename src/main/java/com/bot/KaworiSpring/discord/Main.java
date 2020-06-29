@@ -13,6 +13,7 @@ import com.bot.KaworiSpring.discord.command.CommandHandler;
 import com.bot.KaworiSpring.discord.command.commands.CmdAdm;
 import com.bot.KaworiSpring.discord.command.commands.CmdAvatar;
 import com.bot.KaworiSpring.discord.command.commands.CmdChar;
+import com.bot.KaworiSpring.discord.command.commands.CmdConfig;
 import com.bot.KaworiSpring.discord.command.commands.CmdFun;
 import com.bot.KaworiSpring.discord.command.commands.CmdGS;
 import com.bot.KaworiSpring.discord.command.commands.CmdHelp;
@@ -62,6 +63,8 @@ public class Main {
 	private CmdChar cmdChar;
 	@Autowired
 	private CmdInfo cmdInfo;
+	@Autowired
+	private CmdConfig cmdConfig;
 
 	// Eventos Listeners
 	@Autowired
@@ -152,6 +155,7 @@ public class Main {
 		CommandHandler.commands.put("explosion", cmdFun);
 		CommandHandler.commands.put("char", cmdChar);
 		CommandHandler.commands.put("info", cmdInfo);
+		CommandHandler.commands.put("config", cmdConfig);
 
 		logService.addEvent(new Log(new Date(), "Comandos adicionados", 0, 0, "OK"));
 	}

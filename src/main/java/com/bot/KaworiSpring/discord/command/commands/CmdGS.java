@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,7 @@ import com.bot.KaworiSpring.discord.message.MessageController;
 import com.bot.KaworiSpring.discord.reaction.Reaction;
 import com.bot.KaworiSpring.discord.reaction.ReactionHandler;
 import com.bot.KaworiSpring.model.Gear;
+import com.bot.KaworiSpring.model.Membro;
 import com.bot.KaworiSpring.model.Personagem;
 import com.bot.KaworiSpring.service.GearService;
 import com.bot.KaworiSpring.service.MembroService;
@@ -32,7 +34,7 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 @Controller
-public class CmdGS implements Command {
+public class CmdGS extends Command {
 
 	@Autowired
 	private GearService gearService;
@@ -85,7 +87,7 @@ public class CmdGS implements Command {
 			showGearMember(guild, author, channel, mentioned);
 			break;
 		case "add":
-			createGear(author.getUser().getIdLong(), guild.getIdLong(), author.getUser().getName());
+			checkIsNew();
 			break;
 		case "select":
 			selectGear();
@@ -131,7 +133,7 @@ public class CmdGS implements Command {
 
 		if (gear == null) {
 
-			gear = createGear(idDiscord, idGuild, name);
+			gear = createGear(idDiscord, idGuild, false);
 
 		}
 
@@ -144,8 +146,22 @@ public class CmdGS implements Command {
 		return gear;
 	}
 
-	private Gear createGear(long idUser, long idGuild, String name) {
-		Personagem personagem = loadPersonagem(idUser, idGuild, name);
+	private void createGear(long idUser, long idGuild, boolean isNew, Message embed) {
+
+		createGear(idUser, idGuild, isNew);
+		MessageController.changeEmbed(channel, embed,
+				EmbedPattern.createEmbedSucessGear(author.getUser(), channel, guild));
+	}
+
+	private Gear createGear(long idUser, long idGuild, boolean isNew) {
+		Membro membro = membroService.findByIdAndIdGuild(idUser, idGuild);
+		Gear gear = createGear(idUser, idGuild, membro.getId(), author.getUser().getName(), isNew);
+
+		return gear;
+	}
+
+	private Gear createGear(long idUser, long idGuild, long idMembro, String name, boolean isNew) {
+		Personagem personagem = loadPersonagem(idUser, idMembro, idGuild, name, isNew);
 		return createGear(idUser, idGuild, personagem);
 	}
 
@@ -153,16 +169,49 @@ public class CmdGS implements Command {
 		return gearService.createNewGear(idUser, idGuild, personagem);
 	}
 
-	private Personagem loadPersonagem(long idMembro, long idGuild, String name) {
+	private void checkIsNew() {
+		Consumer<Message> callback = (message) -> {
+
+			message.addReaction("☑️").queue();
+			message.addReaction("🆕").queue();
+
+			ReactionHandler.reactions.put(message.getIdLong(), (emote, idUser, idGuild) -> {
+				if (idUser == author.getIdLong() && idGuild == guild.getIdLong()) {
+					switch (emote) {
+					case "☑️":
+						createGear(idUser, idGuild, false, message);
+						break;
+					case "🆕":
+						createGear(idUser, idGuild, true, message);
+						break;
+
+					}
+				}
+
+			});
+
+			message.delete().queueAfter(2, TimeUnit.MINUTES, (s) -> {
+				ReactionHandler.reactions.remove(message.getIdLong());
+			});
+
+		};
+
+		EmbedBuilder embed = EmbedPattern.createEmbedCheckIsNewPersonagem(author.getUser(), channel, guild);
+		MessageController.sendEmbed(channel, embed, callback);
+
+	}
+
+	private Personagem loadPersonagem(long idUser, long idMembro, long idGuild, String name, boolean isNew) {
 		Personagem personagem = personagemService.findByMembroIdAndAtivo(idMembro, true);
-		if (personagem == null)
-			personagem = createPersonagem(idMembro, idGuild, name);
+
+		if (personagem == null || isNew)
+			personagem = createPersonagem(idUser, idGuild, name);
 		return personagem;
 	}
 
-	private Personagem createPersonagem(long idMembro, long idGuild, String name) {
+	private Personagem createPersonagem(long idUser, long idGuild, String name) {
 
-		return personagemService.createNewPersonagem(membroService.findByIdAndIdGuild(idMembro, idGuild), name);
+		return personagemService.createNewPersonagem(membroService.findByIdAndIdGuild(idUser, idGuild), name);
 
 	}
 
@@ -245,7 +294,7 @@ public class CmdGS implements Command {
 			if (gears.hasNext()) {
 				s.addReaction(Emojis.NEXT.getEmoji()).queue();
 			}
-			for (int i = 0; i < gears.getSize(); i++) {
+			for (int i = 0; i < gears.getTotalElements(); i++) {
 				s.addReaction(Emojis.getEmoji(i).getEmoji()).queue();
 			}
 			ReactionHandler.reactions.put(s.getIdLong(), new Reaction() {
@@ -261,11 +310,11 @@ public class CmdGS implements Command {
 						} else if (emoji.equals(Emojis.BACK)) {
 							editEmbedSelect(s, gears.previousPageable());
 						} else
-							selectedGear(s,gears.toList().get(emoji.getId()));
+							selectedGear(s, gears.toList().get(emoji.getId()));
 					}
 				}
 			});
-			s.delete().queueAfter(15, TimeUnit.MINUTES,(a) -> {
+			s.delete().queueAfter(15, TimeUnit.MINUTES, (a) -> {
 				ReactionHandler.reactions.remove(s.getIdLong());
 			});
 		});
@@ -274,7 +323,7 @@ public class CmdGS implements Command {
 
 	private void editEmbedSelect(Message message, Pageable pageable) {
 		Page<Gear> gears = gearService.findByIdDiscordAndIdGuild(author.getUser().getIdLong(), guild.getIdLong(),
-				pageable);		
+				pageable);
 		EmbedBuilder embed = EmbedPattern.createEmbedShowGear(author.getUser(), channel, guild,
 				new ArrayList<Gear>(gears.getContent()));
 		MessageController.changeEmbed(channel, message, embed, (s) -> {
@@ -301,19 +350,25 @@ public class CmdGS implements Command {
 						} else if (emoji.equals(Emojis.BACK)) {
 							editEmbedSelect(s, gears.previousPageable());
 						} else
-							selectedGear(s,gears.toList().get(emoji.getId()));
+							selectedGear(s, gears.toList().get(emoji.getId()));
 					}
 				}
 			});
 		});
 	}
 
-	private void selectedGear(Message message,Gear gear) {		
+	private void selectedGear(Message message, Gear gear) {
 		message.delete().queue();
 		ReactionHandler.reactions.remove(message.getIdLong());
 		personagemService.updateAtivo(gear.getPersonagem());
 		gearService.updateAtivo(gear);
 		MessageController.sendMessage(guild, channel, author.getUser(), "msg_gs_select_sucess");
+	}
+
+	@Override
+	public String helpShort() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

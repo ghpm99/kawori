@@ -311,4 +311,32 @@ public class EmbedPattern {
 		return embed;
 	}
 
+	public static EmbedBuilder createEmbedCheckIsNewPersonagem(User user, MessageChannel channel, Guild guild) {
+		EmbedBuilder embed = new EmbedBuilder();
+		MessageController.setEmbedHead(guild, channel, user, embed);
+		MessageController.setEmbedTitle(guild, channel, user, embed, "embed_gs_new_title");
+		MessageController.setEmbedDescription(guild, channel, user, embed, "embed_gs_new_description");
+		
+		embed.addField(MessageController.createEmbedField(guild, channel, user, "", "embed_gs_new_field_1","☑️"));
+		embed.addField(MessageController.createEmbedField(guild, channel, user, "", "embed_gs_new_field_2","🆕"));
+		
+		return embed;
+		
+	}
+	
+	public static EmbedBuilder createEmbedCanceled(User user, MessageChannel channel, Guild guild) {
+		EmbedBuilder embed = new EmbedBuilder();
+		MessageController.setEmbedHead(guild, channel, user, embed);
+		MessageController.setEmbedTitle(guild, channel, user, embed, "embed_canceled_title");
+		
+		return embed;
+	}
+	
+	public static EmbedBuilder createEmbedSucessGear(User user, MessageChannel channel, Guild guild) {
+		EmbedBuilder embed = new EmbedBuilder();
+		MessageController.setEmbedHead(guild, channel, user, embed);
+		MessageController.setEmbedTitle(guild, channel, user, embed, "embed_sucess_gear_title");
+		
+		return embed;
+	}
 }

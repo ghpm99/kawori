@@ -18,7 +18,7 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 @Controller
-public class CmdFun implements Command {
+public class CmdFun extends Command {
 
 	@Autowired
 	private GifBDService gifBd;
@@ -216,6 +216,12 @@ public class CmdFun implements Command {
 
 		MessageController.sendEmbed(channel, EmbedPattern.createEmbedFun(user1, channel, guild, url, msg,
 				user1.getAsMention(), user2.getAsMention()), null);
+	}
+
+	@Override
+	public String helpShort() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

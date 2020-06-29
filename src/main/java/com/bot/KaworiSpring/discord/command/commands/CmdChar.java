@@ -21,7 +21,7 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 @Controller
-public class CmdChar implements Command {
+public class CmdChar extends Command {
 
 	@Autowired
 	private MembroService membroService;
@@ -283,6 +283,12 @@ public class CmdChar implements Command {
 	
 	private void selectPersonagem() {
 		
+	}
+
+	@Override
+	public String helpShort() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

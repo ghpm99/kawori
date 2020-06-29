@@ -25,6 +25,7 @@ public class MessageListener extends ListenerAdapter {
 	private StatusService statusService;
 	@Autowired
 	private EventService eventService;
+	
 
 	@Override
 	public void onMessageReceived(MessageReceivedEvent evento) {
@@ -62,6 +63,7 @@ public class MessageListener extends ListenerAdapter {
 					new Log(new Date(), message, evento.getGuild().getIdLong(), evento.getAuthor().getIdLong(), "-"));
 			statusService.increaseCmdReceived();
 			CommandHandler.handleCommand(CommandHandler.parser.parse(message, evento));
+			
 		}
 	}
 

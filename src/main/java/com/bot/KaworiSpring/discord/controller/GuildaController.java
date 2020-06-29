@@ -12,6 +12,7 @@ import com.bot.KaworiSpring.model.Guilda;
 import com.bot.KaworiSpring.model.Membro;
 import com.bot.KaworiSpring.model.Tag;
 import com.bot.KaworiSpring.service.AdventureFameService;
+import com.bot.KaworiSpring.service.CanalService;
 import com.bot.KaworiSpring.service.ColorBDService;
 import com.bot.KaworiSpring.service.GuildaService;
 import com.bot.KaworiSpring.service.MembroService;
@@ -22,6 +23,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.role.RoleCreateEvent;
 import net.dv8tion.jda.api.events.role.RoleDeleteEvent;
 import net.dv8tion.jda.api.events.role.update.RoleUpdatePermissionsEvent;
@@ -46,6 +48,9 @@ public class GuildaController {
 
 	@Autowired
 	private GuildaService guildaService;
+
+	@Autowired
+	private CanalService canalService;
 
 	public void onGuildMemberJoin(Guild guild, Member member) {
 
@@ -216,6 +221,21 @@ public class GuildaController {
 		Membro membro = findMember(member.getIdLong(), member.getGuild().getIdLong());
 		membro.setNick(newNick);
 		membroService.save(membro);
+	}
+
+	public void updateGuildChannel(Guild guild) {
+		guild.getTextChannels().forEach((canal) -> {
+			onTextChannelUpdateName(canal);
+		});
+	}
+
+	public void onTextChannelCreate(TextChannel event) {
+		canalService.createNew(event);
+
+	}
+	
+	public void onTextChannelUpdateName(TextChannel event) {
+		canalService.UpdateCanal(event);
 	}
 
 }
