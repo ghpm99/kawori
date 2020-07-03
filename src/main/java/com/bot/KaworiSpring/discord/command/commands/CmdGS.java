@@ -18,6 +18,7 @@ import com.bot.KaworiSpring.discord.message.EmbedPattern;
 import com.bot.KaworiSpring.discord.message.MessageController;
 import com.bot.KaworiSpring.discord.reaction.Reaction;
 import com.bot.KaworiSpring.discord.reaction.ReactionHandler;
+import com.bot.KaworiSpring.discord.security.Permissions;
 import com.bot.KaworiSpring.model.Gear;
 import com.bot.KaworiSpring.model.Membro;
 import com.bot.KaworiSpring.model.Personagem;
@@ -109,10 +110,7 @@ public class CmdGS extends Command {
 		return null;
 	}
 
-	public int nivelNecessario() {
-		// TODO Auto-generated method stub
-		return 1;
-	}
+	
 
 	private void showGearMember(Guild guild, Member author, MessageChannel channel, List<Member> mentionedMembers) {
 
@@ -369,6 +367,12 @@ public class CmdGS extends Command {
 	public String helpShort() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Permissions getPermissions() {
+		// TODO Auto-generated method stub
+		return Permissions.CMD_BUILD;
 	}
 
 }

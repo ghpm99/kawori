@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import com.bot.KaworiSpring.discord.command.Command;
 import com.bot.KaworiSpring.discord.command.CommandHandler;
 import com.bot.KaworiSpring.discord.message.MessageController;
+import com.bot.KaworiSpring.discord.security.Permissions;
 import com.bot.KaworiSpring.util.Util;
 
 import net.dv8tion.jda.api.entities.Guild;
@@ -15,37 +16,14 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 @Controller
 public class CmdHelp extends Command {
 
-	private String cmd;
-	
 	private String help = "";
-	
-	private Guild guild;
-	
-	private MessageChannel channel;
-	
-	private User user;
-
-	public boolean called(String[] args, MessageReceivedEvent event) {
-		// TODO Auto-generated method stub
-		if (args.length == 0 || args[0].toLowerCase().equals("all")) {
-			cmd = "all";
-		}else {
-			cmd = args[0];
-		}
-		guild = event.getGuild();
-		
-		channel = event.getChannel();
-		
-		user = event.getAuthor();
-		return false;
-	}
 
 	public void action(String[] args, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
-		if(cmd.equals("all")) {
-			showAll();
-		}else {
-			CommandHandler.commands.get(cmd);
+		if (args.length == 0 || args[0].toLowerCase().equals("all")) {
+			showAll(event.getGuild(), event.getChannel(), event.getAuthor());
+		} else {
+			CommandHandler.commands.get(args[0]);
 		}
 
 	}
@@ -59,27 +37,29 @@ public class CmdHelp extends Command {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	public int nivelNecessario() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
 
 	@Override
 	public String helpShort() {
 		// TODO Auto-generated method stub
-		return null;
+		return "comando para ajuda";
 	}
 
-	private void showAll() {		
+	private void showAll(Guild guild, MessageChannel channel, User user) {
 		CommandHandler.commands.forEach((key, command) -> {
 			generateHelpShort(key, command.helpShort());
 		});
 		MessageController.sendMessageSingle(guild, channel, user, help);
 	}
-	
+
 	private void generateHelpShort(String key, String helpShort) {
 		help = help.concat(Util.PREFIX + key + "\n   ->" + helpShort + "\n");
+	}
+
+	@Override
+	public Permissions getPermissions() {
+		// TODO Auto-generated method stub
+		return Permissions.CMD_UTIL;
 	}
 
 }

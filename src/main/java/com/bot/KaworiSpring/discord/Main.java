@@ -126,11 +126,23 @@ public class Main {
 
 	private void setCommands() {
 		logService.addEvent(new Log(new Date(), "Adicionando Comandos", 0, 0, "-"));
+		//util
 		CommandHandler.commands.put("help", cmdHelp);
+		CommandHandler.commands.put("info", cmdInfo);
+		
+		//build
 		CommandHandler.commands.put("gs", cmdGS);
 		CommandHandler.commands.put("rank", cmdRank);
+		CommandHandler.commands.put("char", cmdChar);
+		
+		//node war
 		CommandHandler.commands.put("nw", cmdNodeWar);
+		
+		//adm
 		CommandHandler.commands.put("adm", cmdAdm);
+		CommandHandler.commands.put("config", cmdConfig);
+		
+		//fun
 		CommandHandler.commands.put("pick", cmdPick);
 		CommandHandler.commands.put("avatar", cmdAvatar);
 		CommandHandler.commands.put("hug", cmdFun);
@@ -153,9 +165,7 @@ public class Main {
 		CommandHandler.commands.put("punch", cmdFun);
 		CommandHandler.commands.put("trap", cmdFun);
 		CommandHandler.commands.put("explosion", cmdFun);
-		CommandHandler.commands.put("char", cmdChar);
-		CommandHandler.commands.put("info", cmdInfo);
-		CommandHandler.commands.put("config", cmdConfig);
+		
 
 		logService.addEvent(new Log(new Date(), "Comandos adicionados", 0, 0, "OK"));
 	}

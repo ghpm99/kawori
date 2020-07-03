@@ -3,6 +3,7 @@ package com.bot.KaworiSpring.discord.command.commands;
 import org.springframework.stereotype.Controller;
 
 import com.bot.KaworiSpring.discord.command.Command;
+import com.bot.KaworiSpring.discord.security.Permissions;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
@@ -39,10 +40,11 @@ public class CmdConfig extends Command{
 		return null;
 	}
 
+	
 	@Override
-	public int nivelNecessario() {
+	public Permissions getPermissions() {
 		// TODO Auto-generated method stub
-		return 0;
+		return Permissions.CMD_ADM;
 	}
 
 

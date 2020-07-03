@@ -39,16 +39,19 @@ public class TagService {
 	public Tag findByIdRole(long idRole) {
 		return tagRepository.findByIdRole(idRole);
 	}
-	
+
 	public void delete(Tag tag) {
 		this.tagRepository.delete(tag);
 	}
-        
-        public List<Tag> findAll(){
-            return tagRepository.findAll();
-        }
-        public Page<Tag> findAll(Pageable pgbl){
-            return tagRepository.findAll(pgbl);
-        }
+
+	public List<Tag> findAll() {
+		return tagRepository.findAll();
+	}
+
+	public Page<Tag> findAll(Pageable pgbl) {
+		return tagRepository.findAll(pgbl);
+	}
 	
+	
+
 }

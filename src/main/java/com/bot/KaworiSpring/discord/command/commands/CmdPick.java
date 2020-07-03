@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 
 import com.bot.KaworiSpring.discord.command.Command;
 import com.bot.KaworiSpring.discord.message.MessageController;
+import com.bot.KaworiSpring.discord.security.Permissions;
 import com.bot.KaworiSpring.util.Util;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -57,15 +58,18 @@ public class CmdPick extends Command {
 		return null;
 	}
 
-	@Override
-	public int nivelNecessario() {
-		return 0;
-	}
+	
 
 	@Override
 	public String helpShort() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Permissions getPermissions() {
+		// TODO Auto-generated method stub
+		return Permissions.CMD_FUN;
 	}
 
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import com.bot.KaworiSpring.discord.command.Command;
 import com.bot.KaworiSpring.discord.message.EmbedPattern;
 import com.bot.KaworiSpring.discord.message.MessageController;
+import com.bot.KaworiSpring.discord.security.Permissions;
 import com.bot.KaworiSpring.model.Gear;
 import com.bot.KaworiSpring.model.Membro;
 import com.bot.KaworiSpring.model.Personagem;
@@ -71,16 +72,18 @@ public class CmdInfo extends Command {
 		return null;
 	}
 
-	@Override
-	public int nivelNecessario() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
 
 	@Override
 	public String helpShort() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Permissions getPermissions() {
+		// TODO Auto-generated method stub
+		return Permissions.CMD_UTIL;
 	}
 
 }

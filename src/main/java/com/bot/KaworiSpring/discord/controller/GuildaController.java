@@ -177,6 +177,8 @@ public class GuildaController {
 
 		tag.setActive(true);
 
+		tag.setNivel(0);
+		
 		return tag;
 	}
 

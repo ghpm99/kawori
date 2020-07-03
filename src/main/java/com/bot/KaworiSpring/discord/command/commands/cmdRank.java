@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import com.bot.KaworiSpring.discord.command.Command;
 import com.bot.KaworiSpring.discord.message.EmbedPattern;
 import com.bot.KaworiSpring.discord.message.MessageController;
+import com.bot.KaworiSpring.discord.security.Permissions;
 import com.bot.KaworiSpring.model.Gear;
 import com.bot.KaworiSpring.repository.GearRepository;
 import com.bot.KaworiSpring.util.GearSort;
@@ -51,10 +52,7 @@ public class CmdRank extends Command {
 		return null;
 	}
 
-	public int nivelNecessario() {
-		// TODO Auto-generated method stub
-		return 2;
-	}
+	
 
 	private void sortList(List<Gear> list, String arg) {
 
@@ -76,6 +74,12 @@ public class CmdRank extends Command {
 	public String helpShort() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Permissions getPermissions() {
+		// TODO Auto-generated method stub
+		return Permissions.CMD_RANK;
 	}
 
 }

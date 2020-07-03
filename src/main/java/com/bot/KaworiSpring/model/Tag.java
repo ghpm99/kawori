@@ -48,7 +48,8 @@ public class Tag extends Model{
 	private boolean botRole;
 	
 	private boolean active;
-		
+	
+	
 
 	public int getPosition() {
 		return position;
@@ -216,6 +217,6 @@ public class Tag extends Model{
 		this.green = color.getGreen();
 		this.blue = color.getBlue();
 	}
-	
+
 	
 }
