@@ -16,4 +16,6 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
 	
 	public Tag findByIdRole(long idRole);
 	
+	public Tag findByIdGuildAndIdRole(long idGuild, long idRole);
+	
 }

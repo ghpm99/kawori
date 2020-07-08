@@ -23,10 +23,7 @@ public class CmdRank extends Command {
 	@Autowired
 	private GearRepository gearRepository;
 
-	public boolean called(String[] args, MessageReceivedEvent event) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 
 	public void action(String[] args, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
@@ -49,7 +46,7 @@ public class CmdRank extends Command {
 
 	public String help() {
 		// TODO Auto-generated method stub
-		return null;
+		return "msg_rank_help";
 	}
 
 	
@@ -73,7 +70,7 @@ public class CmdRank extends Command {
 	@Override
 	public String helpShort() {
 		// TODO Auto-generated method stub
-		return null;
+		return "msg_rank_helpshort";
 	}
 
 	@Override

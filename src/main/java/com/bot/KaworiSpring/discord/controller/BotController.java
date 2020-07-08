@@ -22,6 +22,7 @@ public class BotController {
 			guilda.setId(guild.getIdLong());
 			guilda.setDefaultWelcomeMessage("_nameMention  welcome!");
 			guilda.setRegion(guild.getRegion().getName());
+			
 		}
 
 		guilda.setName(guild.getName());
@@ -37,4 +38,6 @@ public class BotController {
 		guildaService.save(guild);
 	}
 
+	
+	
 }

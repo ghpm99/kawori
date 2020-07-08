@@ -36,10 +36,14 @@ public class SecurityCommand {
 	public boolean authenticateCommand(MessageReceivedEvent event, Permissions permission) {
 		boolean retorno = false;
 		boolean canSpeak = verifyCanSpeak(event.getTextChannel());
-		boolean canUse = verifyRoles(event.getMember()) > permission.getNivel();
+		boolean canUse = verifyRoles(event.getMember(),permission);
 		boolean userBanned = verifyIsUserBanned(event.getAuthor());
 		boolean guildBanned = verifyIsGuildBanned(event.getGuild());
-		
+		if(verifyIsOwner(event.getMember())) {
+			canUse = true;
+			canSpeak = true;
+		}
+		retorno = canSpeak && canUse && !userBanned && !guildBanned;
 		return retorno;
 
 	}
@@ -54,23 +58,43 @@ public class SecurityCommand {
 		}
 	}
 
-	private int verifyRoles(Member author) {
-		if(author.isOwner()) return 10;
-		int nivel = 0;
+	private boolean verifyRoles(Member author,Permissions permission) {		
+		boolean atual = false;
 		for(Role role : author.getRoles()) {
-			int atual = verifyRole(role);
-			if(atual > nivel) {
-				nivel = atual;
-			}
+			atual = atual | verifyRole(role,permission);			
 		}
 		
-		return nivel;
+		return atual;
 	}
 	
-	private int verifyRole(Role role) {
+	private boolean verifyRole(Role role,Permissions permission) {
 		Tag tag = tagService.findByIdRole(role.getIdLong());
+		switch (permission) {
+		case CMD_ADM: {
+			return tag.isCmdAdm();			
+		}
+		case CMD_BUILD: {
+			return tag.isCmdBuild();
+		}
+		case CMD_DEV:{
+			return false;
+		}
+		case CMD_FUN:{
+			return tag.isCmdFun();
+		}
+		case CMD_NW:{
+			return tag.isCmdNodeWar();
+		}
+		case CMD_RANK:{
+			return tag.isCmdRank();
+		}
+		case CMD_UTIL:{
+			return tag.isCmdUtil();
+		}
+		default:
+			throw new IllegalArgumentException("Unexpected value: " + permission);
+		}
 		
-		return tag.getNivel();
 	}
 	
 	
@@ -87,4 +111,8 @@ public class SecurityCommand {
 		return guilda.isBlock();
 	}
 
+	private boolean verifyIsOwner(Member author) {
+		return author.isOwner();
+	}
+	
 }

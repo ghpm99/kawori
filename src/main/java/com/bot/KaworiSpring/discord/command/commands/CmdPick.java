@@ -23,10 +23,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 @Controller
 public class CmdPick extends Command {
 
-	@Override
-	public boolean called(String[] args, MessageReceivedEvent event) {
-		return false;
-	}
+	
 
 	@Override
 	public void action(String[] args, MessageReceivedEvent event) {
@@ -55,7 +52,7 @@ public class CmdPick extends Command {
 
 	@Override
 	public String help() {
-		return null;
+		return "msg_pick_help";
 	}
 
 	
@@ -63,7 +60,7 @@ public class CmdPick extends Command {
 	@Override
 	public String helpShort() {
 		// TODO Auto-generated method stub
-		return null;
+		return "msg_pick_helpshort";
 	}
 
 	@Override

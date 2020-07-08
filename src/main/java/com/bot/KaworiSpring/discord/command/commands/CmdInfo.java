@@ -26,11 +26,7 @@ public class CmdInfo extends Command {
 	@Autowired
 	private GearService gearService;
 
-	@Override
-	public boolean called(String[] args, MessageReceivedEvent event) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 
 	@Override
 	public void action(String[] args, MessageReceivedEvent event) {
@@ -69,7 +65,7 @@ public class CmdInfo extends Command {
 	@Override
 	public String help() {
 		// TODO Auto-generated method stub
-		return null;
+		return "msg_info_help";
 	}
 
 	
@@ -77,7 +73,7 @@ public class CmdInfo extends Command {
 	@Override
 	public String helpShort() {
 		// TODO Auto-generated method stub
-		return null;
+		return "msg_info_helpshort";
 	}
 
 	@Override

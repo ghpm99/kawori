@@ -4,10 +4,11 @@ import org.springframework.stereotype.Controller;
 
 import com.bot.KaworiSpring.discord.command.Command;
 import com.bot.KaworiSpring.discord.command.CommandHandler;
+import com.bot.KaworiSpring.discord.message.EmbedPattern;
 import com.bot.KaworiSpring.discord.message.MessageController;
 import com.bot.KaworiSpring.discord.security.Permissions;
-import com.bot.KaworiSpring.util.Util;
 
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -16,14 +17,13 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 @Controller
 public class CmdHelp extends Command {
 
-	private String help = "";
-
 	public void action(String[] args, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
 		if (args.length == 0 || args[0].toLowerCase().equals("all")) {
 			showAll(event.getGuild(), event.getChannel(), event.getAuthor());
 		} else {
-			CommandHandler.commands.get(args[0]);
+			showHelp(event.getGuild(), event.getChannel(), event.getAuthor(), CommandHandler.commands.get(args[0].toLowerCase()),
+					args[0]);
 		}
 
 	}
@@ -35,25 +35,25 @@ public class CmdHelp extends Command {
 
 	public String help() {
 		// TODO Auto-generated method stub
-		return null;
+		return "msg_help_help";
 	}
-	
 
 	@Override
 	public String helpShort() {
 		// TODO Auto-generated method stub
-		return "comando para ajuda";
+		return "msg_help_helpshort";
 	}
 
 	private void showAll(Guild guild, MessageChannel channel, User user) {
-		CommandHandler.commands.forEach((key, command) -> {
-			generateHelpShort(key, command.helpShort());
-		});
-		MessageController.sendMessageSingle(guild, channel, user, help);
-	}
+		EmbedBuilder embed = EmbedPattern.createEmbedHelpAll(user, channel, guild, CommandHandler.commands);
+		MessageController.sendEmbed(channel, embed);		
+	}	
 
-	private void generateHelpShort(String key, String helpShort) {
-		help = help.concat(Util.PREFIX + key + "\n   ->" + helpShort + "\n");
+	private void showHelp(Guild guild, MessageChannel channel, User user, Command command, String commandKey) {
+		if (command == null)
+			return;
+		EmbedBuilder embed = EmbedPattern.createEmbedHelp(user, channel, guild, command, commandKey);
+		MessageController.sendEmbed(channel, embed);
 	}
 
 	@Override

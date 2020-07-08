@@ -24,11 +24,7 @@ public class CmdFun extends Command {
 	@Autowired
 	private GifBDService gifBd;
 
-	@Override
-	public boolean called(String[] args, MessageReceivedEvent event) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 
 	@Override
 	public void action(String[] args, MessageReceivedEvent event) {
@@ -179,7 +175,7 @@ public class CmdFun extends Command {
 	@Override
 	public String help() {
 		// TODO Auto-generated method stub
-		return null;
+		return "msg_fun_help";
 	}
 
 	
@@ -218,7 +214,7 @@ public class CmdFun extends Command {
 	@Override
 	public String helpShort() {
 		// TODO Auto-generated method stub
-		return null;
+		return "msg_fun_helpshort";
 	}
 
 	@Override

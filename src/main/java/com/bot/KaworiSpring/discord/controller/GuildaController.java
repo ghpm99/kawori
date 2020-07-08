@@ -163,7 +163,7 @@ public class GuildaController {
 		tag.setIdGuild(guild.getIdLong());
 		tag.setIdRole(role.getIdLong());
 		tag.setName(role.getName());
-
+		tag.setPosition(role.getPosition());
 		tag.setColor(role.getColor());
 
 		setPermission(tag, role);
@@ -177,13 +177,19 @@ public class GuildaController {
 
 		tag.setActive(true);
 
-		tag.setNivel(0);
-		
+		tag.setCmdAdm(guild.getRoles().indexOf(role) == 0);
+		tag.setCmdNodeWar(guild.getRoles().indexOf(role) <= 1);
+		tag.setCmdRank(guild.getRoles().indexOf(role) <= 2);
+		tag.setCmdBuild(guild.getRoles().indexOf(role) <= 3);
+		tag.setCmdFun(guild.getRoles().indexOf(role) <= 4);
+		tag.setCmdUtil(true);
+
 		return tag;
 	}
 
 	public void updateGuildTag(Guild guild) {
 		for (Role role : guild.getRoles()) {
+
 			Tag tag = tagService.findByIdRole(role.getIdLong());
 			if (tag == null) {
 				tagService.save(createNewTag(guild, role));
@@ -235,7 +241,7 @@ public class GuildaController {
 		canalService.createNew(event);
 
 	}
-	
+
 	public void onTextChannelUpdateName(TextChannel event) {
 		canalService.UpdateCanal(event);
 	}

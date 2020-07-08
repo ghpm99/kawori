@@ -28,53 +28,46 @@ public class CmdChar extends Command {
 	private MembroService membroService;
 	@Autowired
 	private PersonagemService personagemService;
-	
+
 	private String cmd;
-	
+
 	private Guild guild;
 
 	private Member author;
 
 	private MessageChannel channel;
+
 	
+
 	@Override
-	public boolean called(String[] args, MessageReceivedEvent event) {
+	public void action(String[] args, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
 		cmd = "show";
-		
+
 		for (String arg : args) {
 			if (arg.startsWith("-")) {
 				cmd = arg.replaceFirst("-", "").toLowerCase();
 			}
 		}
-		
 
 		channel = event.getChannel();
 		author = event.getMember();
 		guild = event.getGuild();
-		
-		return false;
-	}
 
-	@Override
-	public void action(String[] args, MessageReceivedEvent event) {
-		// TODO Auto-generated method stub
-		
-		switch(cmd) {
+		switch (cmd) {
 		case "all":
 			showPersonagens();
 			break;
 		case "set":
-			setPersonagem(args,event);
+			setPersonagem(args, event);
 			break;
 		case "select":
 			selectPersonagem();
 			break;
-		}	
+		}
 
 	}
-	
-	
+
 	@Override
 	public void executed(boolean success, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
@@ -84,7 +77,7 @@ public class CmdChar extends Command {
 	@Override
 	public String help() {
 		// TODO Auto-generated method stub
-		return null;
+		return "msg_char_help";
 	}
 
 	private void showEmbedPersonagens(User author, MessageChannel channel, Guild guild, List<Personagem> personagens) {
@@ -94,8 +87,7 @@ public class CmdChar extends Command {
 
 	private void showPersonagens() {
 		Membro membro = membroService.findByIdAndIdGuild(author.getIdLong(), guild.getIdLong());
-		showEmbedPersonagens(author.getUser(), channel, guild,
-				personagemService.findByMembroId(membro.getId()));
+		showEmbedPersonagens(author.getUser(), channel, guild, personagemService.findByMembroId(membro.getId()));
 	}
 
 	private Personagem generatePersonagem(long idUser, long idGuild, String name) {
@@ -124,7 +116,7 @@ public class CmdChar extends Command {
 
 	private boolean atualizarAtributo(Personagem personagem, String[] args, MessageReceivedEvent event) {
 		for (String arg : args) {
-			if(arg.equals("-set")) {
+			if (arg.equals("-set")) {
 				continue;
 			}
 			if (!verificarAtributo(personagem, arg)) {
@@ -265,7 +257,7 @@ public class CmdChar extends Command {
 		personagemService.save(personagem);
 	}
 
-	private void setPersonagem(String[] args,MessageReceivedEvent event) {
+	private void setPersonagem(String[] args, MessageReceivedEvent event) {
 		Personagem personagem = generatePersonagem(author.getUser().getIdLong(), guild.getIdLong(),
 				author.getUser().getName());
 
@@ -273,9 +265,9 @@ public class CmdChar extends Command {
 			MessageController.sendMessage(guild, channel, author.getUser(), "msg_gs_error");
 			return;
 		}
-		savePersonagem(personagem, event);		
+		savePersonagem(personagem, event);
 	}
-	
+
 	private void selectPersonagem() {
 		
 	}
@@ -283,7 +275,7 @@ public class CmdChar extends Command {
 	@Override
 	public String helpShort() {
 		// TODO Auto-generated method stub
-		return null;
+		return "msg_char_helpshort";
 	}
 
 	@Override
@@ -291,5 +283,5 @@ public class CmdChar extends Command {
 		// TODO Auto-generated method stub
 		return Permissions.CMD_BUILD;
 	}
-	
+
 }

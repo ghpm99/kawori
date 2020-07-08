@@ -59,8 +59,11 @@ public class CmdGS extends Command {
 
 	private MessageChannel channel;
 
-	public boolean called(String[] args, MessageReceivedEvent event) {
+	
+
+	public void action(String[] args, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
+
 		cmd = "show";
 		mentioned = event.getMessage().getMentionedMembers();
 
@@ -76,13 +79,7 @@ public class CmdGS extends Command {
 		channel = event.getChannel();
 		author = event.getMember();
 		guild = event.getGuild();
-
-		return false;
-	}
-
-	public void action(String[] args, MessageReceivedEvent event) {
-		// TODO Auto-generated method stub
-
+		
 		switch (cmd) {
 		case "show":
 			showGearMember(guild, author, channel, mentioned);
@@ -107,7 +104,7 @@ public class CmdGS extends Command {
 
 	public String help() {
 		// TODO Auto-generated method stub
-		return null;
+		return "msg_gs_help";
 	}
 
 	
@@ -173,7 +170,7 @@ public class CmdGS extends Command {
 			message.addReaction("☑️").queue();
 			message.addReaction("🆕").queue();
 
-			ReactionHandler.reactions.put(message.getIdLong(), (emote, idUser, idGuild) -> {
+			ReactionHandler.reactions.put(message.getIdLong(), (emote, idUser, idGuild,isAdd) -> {
 				if (idUser == author.getIdLong() && idGuild == guild.getIdLong()) {
 					switch (emote) {
 					case "☑️":
@@ -298,7 +295,7 @@ public class CmdGS extends Command {
 			ReactionHandler.reactions.put(s.getIdLong(), new Reaction() {
 
 				@Override
-				public void onGuildMessageReactionAdd(String emote, long idUser, long idGuild) {
+				public void onGuildMessageReaction(String emote, long idUser, long idGuild,boolean isAdd) {
 					if (idUser == author.getUser().getIdLong() && idGuild == guild.getIdLong()) {
 						Emojis emoji = Emojis.getEmojis(emote);
 						if (emoji == null)
@@ -338,7 +335,7 @@ public class CmdGS extends Command {
 			ReactionHandler.reactions.put(s.getIdLong(), new Reaction() {
 
 				@Override
-				public void onGuildMessageReactionAdd(String emote, long idUser, long idGuild) {
+				public void onGuildMessageReaction(String emote, long idUser, long idGuild,boolean isAdd) {
 					if (idUser == author.getUser().getIdLong() && idGuild == guild.getIdLong()) {
 						Emojis emoji = Emojis.getEmojis(emote);
 						if (emoji == null) {
@@ -366,7 +363,7 @@ public class CmdGS extends Command {
 	@Override
 	public String helpShort() {
 		// TODO Auto-generated method stub
-		return null;
+		return "msg_gs_helpshort";
 	}
 
 	@Override

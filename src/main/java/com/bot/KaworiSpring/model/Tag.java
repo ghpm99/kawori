@@ -49,7 +49,17 @@ public class Tag extends Model{
 	
 	private boolean active;
 	
+	private boolean cmdFun;
 	
+	private boolean cmdUtil;
+	
+	private boolean cmdBuild;
+	
+	private boolean cmdNodeWar;
+	
+	private boolean cmdAdm;
+	
+	private boolean cmdRank;
 
 	public int getPosition() {
 		return position;
@@ -218,5 +228,54 @@ public class Tag extends Model{
 		this.blue = color.getBlue();
 	}
 
+	public boolean isCmdFun() {
+		return cmdFun;
+	}
+
+	public void setCmdFun(boolean cmdFun) {
+		this.cmdFun = cmdFun;
+	}
+
+	public boolean isCmdUtil() {
+		return cmdUtil;
+	}
+
+	public void setCmdUtil(boolean cmdUtil) {
+		this.cmdUtil = cmdUtil;
+	}
+
+	public boolean isCmdBuild() {
+		return cmdBuild;
+	}
+
+	public void setCmdBuild(boolean cmdBuild) {
+		this.cmdBuild = cmdBuild;
+	}
+
+	public boolean isCmdNodeWar() {
+		return cmdNodeWar;
+	}
+
+	public void setCmdNodeWar(boolean cmdNodeWar) {
+		this.cmdNodeWar = cmdNodeWar;
+	}
+
+	public boolean isCmdAdm() {
+		return cmdAdm;
+	}
+
+	public void setCmdAdm(boolean cmdAdm) {
+		this.cmdAdm = cmdAdm;
+	}
+
+	public boolean isCmdRank() {
+		return cmdRank;
+	}
+
+	public void setCmdRank(boolean cmdRank) {
+		this.cmdRank = cmdRank;
+	}
+
+	
 	
 }

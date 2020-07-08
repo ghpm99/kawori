@@ -45,11 +45,7 @@ public class CmdNodeWar extends Command {
 	@Autowired
 	private NodeWarPresenceService nodeWarPresenceService;
 
-	@Override
-	public boolean called(String[] args, MessageReceivedEvent event) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 
 	@Override
 	public void action(String[] args, MessageReceivedEvent event) {
@@ -72,7 +68,7 @@ public class CmdNodeWar extends Command {
 	@Override
 	public String help() {
 		// TODO Auto-generated method stub
-		return null;
+		return "msg_nodewar_help";
 	}
 
 	
@@ -109,7 +105,7 @@ public class CmdNodeWar extends Command {
 			message.addReaction(Emojis.FIVE.getEmoji()).queue();
 			message.addReaction(Emojis.CANCEL.getEmoji()).queue();
 
-			ReactionHandler.reactions.put(message.getIdLong(), (emote, idUser, idGuild) -> {
+			ReactionHandler.reactions.put(message.getIdLong(), (emote, idUser, idGuild,isAdd) -> {
 				if (idUser == user.getIdLong() && idGuild == guild.getIdLong()) {
 
 					Emojis emoji = Emojis.getEmojis(emote);
@@ -162,7 +158,7 @@ public class CmdNodeWar extends Command {
 			message.addReaction(Emojis.THREE.getEmoji()).queue();
 			message.addReaction(Emojis.CANCEL.getEmoji()).queue();
 
-			ReactionHandler.reactions.put(message.getIdLong(), (emote, idUser, idGuild) -> {
+			ReactionHandler.reactions.put(message.getIdLong(), (emote, idUser, idGuild,isAdd) -> {
 				if (idUser == user.getIdLong() && idGuild == guild.getIdLong()) {
 
 					Emojis emoji = Emojis.getEmojis(emote);
@@ -209,7 +205,7 @@ public class CmdNodeWar extends Command {
 			message.addReaction(Emojis.SIX.getEmoji()).queue();
 			message.addReaction(Emojis.CANCEL.getEmoji()).queue();
 
-			ReactionHandler.reactions.put(message.getIdLong(), (emote, idUser, idGuild) -> {
+			ReactionHandler.reactions.put(message.getIdLong(), (emote, idUser, idGuild,isAdd) -> {
 				if (idUser == user.getIdLong() && idGuild == guild.getIdLong()) {
 
 					Emojis emoji = Emojis.getEmojis(emote);
@@ -274,7 +270,7 @@ public class CmdNodeWar extends Command {
 
 			message.addReaction(Emojis.CANCEL.getEmoji()).queue();
 
-			ReactionHandler.reactions.put(message.getIdLong(), (emote, idUser, idGuild) -> {
+			ReactionHandler.reactions.put(message.getIdLong(), (emote, idUser, idGuild,isAdd) -> {
 				if (idUser == user.getIdLong() && idGuild == guild.getIdLong()) {
 
 					Emojis emoji = Emojis.getEmojis(emote);
@@ -317,7 +313,7 @@ public class CmdNodeWar extends Command {
 
 			message.addReaction(Emojis.CANCEL.getEmoji()).queue();
 
-			ReactionHandler.reactions.put(message.getIdLong(), (emote, idUser, idGuild) -> {
+			ReactionHandler.reactions.put(message.getIdLong(), (emote, idUser, idGuild,isAdd) -> {
 				if (idUser == user.getIdLong() && idGuild == guild.getIdLong()) {
 					Emojis emoji = Emojis.getEmojis(emote);
 
@@ -410,7 +406,7 @@ public class CmdNodeWar extends Command {
 			message.addReaction(Emojis.CHECK_OK.getEmoji()).queue();
 			message.addReaction(Emojis.CANCEL.getEmoji()).queue();
 
-			ReactionHandler.reactions.put(message.getIdLong(), (emote, idUser, idGuild) -> {
+			ReactionHandler.reactions.put(message.getIdLong(), (emote, idUser, idGuild,isAdd) -> {
 
 				if (user.getIdLong() == idUser) {
 					return;
@@ -469,7 +465,7 @@ public class CmdNodeWar extends Command {
 	@Override
 	public String helpShort() {
 		// TODO Auto-generated method stub
-		return null;
+		return "msg_nodewar_helpshort";
 	}
 
 	@Override

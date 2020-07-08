@@ -52,6 +52,8 @@ public class TagService {
 		return tagRepository.findAll(pgbl);
 	}
 	
-	
+	public Tag findByIdGuildAndIdRole(long idGuild, long idRole) {
+		return tagRepository.findByIdGuildAndIdRole(idGuild, idRole);
+	}
 
 }
