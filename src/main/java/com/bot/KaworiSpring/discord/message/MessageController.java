@@ -12,6 +12,7 @@ import java.util.function.Consumer;
 
 import com.bot.KaworiSpring.util.Util;
 
+import net.dv8tion.jda.api.exceptions.ErrorHandler;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
@@ -19,6 +20,7 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.MessageEmbed.Field;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.requests.ErrorResponse;
 
 public class MessageController {
 
@@ -153,7 +155,7 @@ public class MessageController {
 
     public static void changeEmbed(MessageChannel channel, Message currentMessage, EmbedBuilder embed) {
         changeEmbed(channel, currentMessage, embed, (s) -> {
-            s.delete().queueAfter(5, TimeUnit.MINUTES);
+            s.delete().queueAfter(5, TimeUnit.MINUTES,null, new ErrorHandler().ignore(ErrorResponse.UNKNOWN_MESSAGE));
         });
 
     }

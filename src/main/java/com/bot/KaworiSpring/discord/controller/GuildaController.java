@@ -66,7 +66,7 @@ public class GuildaController {
 
 		membroService.save(membro);
 
-		sendMessageOnJoin(guild, member);
+		//sendMessageOnJoin(guild, member);
 
 	}
 
