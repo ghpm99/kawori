@@ -159,16 +159,16 @@ name_nw_8=Siege Calpheon
 name_nw_132=Crio
 name_nw_9=Siege Mediah
 name_nw_133=Posto de Sentinela da Arvore Folha Longa
-msg_help_01=Digite _prefix gs AP:valor APAWAK:valor DP:valor LVL:valor\nDigite _prefix rank para verificar o rank
-msg_help_gs=Para cadastrar/atualizar seu gs utilize o comando _prefix gs AP:valor APAWAK:valor DP:valor LVL:valor \nE necessario incluir todas as informacoes e apenas numeros inteiros, exemplo: _prefix gs AP:255 APAWAK:253 DP:296 LVL:61
+msg_help_01=Digite _prefix gs AP:valor AAP:valor DP:valor LVL:valor\nDigite _prefix rank para verificar o rank
+msg_help_gs=Para cadastrar/atualizar seu gs utilize o comando _prefix gs AP:valor AAP:valor DP:valor LVL:valor \nE necessario incluir todas as informacoes e apenas numeros inteiros, exemplo: _prefix gs AP:255 AAP:253 DP:296 LVL:61
 msg_gs_01= _nameMention gentileza verificar o comando \nPara ajuda utilize o comando _prefix help gs
 msg_gs_error=_nameMention  falhou em atualizar o Gear Score \nGentileza verificar o comando e tentar novamente! \nPara ajuda utilize o comando _prefix help para acessar a mensagem de ajuda!
 msg_gs_sucess=_nameMention  Gear Score atualizado com sucesso!
 msg_gs_show_member_title=Consulta
-msg_gs_show_member_description=Consulta de Gear Score
+msg_gs_show_member_description=Consulta de Gear Score\nGS = (Maior(AP ou AAP) + DP)
 msg_nw_field_show=_arg  pessoas - Servidor _arg 
-msg_gs_show_owner=_nameMention  seu Gear Score e AP:_arg  APAWK:_arg  DP:_arg  LVL:_arg !
-msg_gs_show_member_field=AP:_arg  | APAWK:_arg  | DP:_arg  | LVL:_arg 
+msg_gs_show_owner=_nameMention  seu Gear Score e AP:_arg  AAP:_arg  DP:_arg  LVL:_arg !
+msg_gs_show_member_field=AP:_arg  | AAP:_arg  | DP:_arg  | LVL:_arg 
 msg_rank_title=Rank de GS
 msg_rank_description=Rank de Gear Score como criterio _arg  !
 msg_nw_title_01=Agendamento de Node War
@@ -290,7 +290,7 @@ msg_config_help=_prefix config <canais> configura se o bot pode aceitar comandos
 msg_fun_helpshort=Comando de interação com outro usuario
 msg_fun_help=Comando de interação com outro usuario.Utilize _prefix <comando> <usuario>
 msg_gs_helpshort=Mostra ou configura informações sobre a gear ativa, também possibilita a troca entre builds/personagem. 
-msg_gs_help=_prefix gs -show [opcional:<usuario>] mostra a gear ativa do usuário mencionado, caso nao possua ninguem mencionado será mostrada a gear do autor.\n_prefix gs -add adiciona uma nova gear\n_prefix gs -select comando para alternar entre os gear cadastrados.\n_prefix gs -set <parametro=valor> altera dados da gear ativa.\nParametros validos:AP,APAWAK,DP,LVL.\nExemplo de comando: _prefix gs -set ap=190 apawak=187
+msg_gs_help=_prefix gs -show [opcional:<usuario>] mostra a gear ativa do usuário mencionado, caso nao possua ninguem mencionado será mostrada a gear do autor.\n_prefix gs -add adiciona uma nova gear\n_prefix gs -select comando para alternar entre os gear cadastrados.\n_prefix gs -set <parametro=valor> altera dados da gear ativa.\nParametros validos:AP,AAP,DP,LVL.\nExemplo de comando: _prefix gs -set ap=190 AAP=187
 msg_adm_helpshort=Sem uso
 msg_adm_help=Sem uso
 msg_info_helpshort=Mostra informações do perfil do usuario
@@ -300,5 +300,5 @@ msg_nodewar_help=_prefix nw :Agenda uma node war\n_prefix nw -show :Mostra as No
 msg_pick_helpshort=Escolhe aleatoriamente entre varias opções
 msg_pick_help=_prefix pick <opção>,<opção>,<opção>... :Escolhe aleatoriamente entre as opções.
 msg_rank_helpshort=Mostra o rank de Gear de acordo com critério selecionado
-msg_rank_help=_prefix rank [opcional:<critério>] : Mostra o rank de Gear de acordo com critério selecionado\nCritérios disponiveis:GS,AP,APAWAK,DP,LVL
+msg_rank_help=_prefix rank [opcional:<critério>] : Mostra o rank de Gear de acordo com critério selecionado\nCritérios disponiveis:GS,AP,AAP,DP,LVL
 embed_help_title=Instruções

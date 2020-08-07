@@ -31,12 +31,15 @@ public class GearService {
 	}
 
 	public Page<Gear> findByIdDiscordAndIdGuild(Long idDiscord, Long idGuild,Pageable pageable) {
-		
 		return gearRepository.findByIdDiscordAndIdGuild(idDiscord, idGuild, pageable);
 	}
 
 	public List<Gear> findByIdGuild(Long idGuild) {
 		return gearRepository.findByIdGuild(idGuild);
+	}
+	
+	public List<Gear> findByIdGuild(long idGuild,Pageable pageable){
+		return gearRepository.findByIdGuild(idGuild, pageable);
 	}
 
 	public Gear findById(Long id) {
@@ -48,15 +51,26 @@ public class GearService {
 	}
 
 	public Gear createNewGear(long idUser, long idGuild, Personagem personagem) {
-		Gear gear = new Gear();
-		gear.setIdDiscord(idUser);
-		gear.setIdGuild(idGuild);
-		gear.setPersonagem(personagem);
+		Gear gear = checkYoung(idUser, idGuild, personagem);
 		gear.setAtivo(true);
+		
 		removeAtivo(idUser, idGuild);
 		return save(gear);
 	}
 
+	private Gear checkYoung(long idUser, long idGuild, Personagem personagem) {
+		Gear gear = gearRepository.findByIdDiscordAndIdGuildAndYoung(idUser, idGuild, true);
+		if(gear != null) {
+			return gear;
+		}
+		gear = new Gear();
+		gear.setIdDiscord(idUser);
+		gear.setIdGuild(idGuild);
+		gear.setPersonagem(personagem);
+		gear.setYoung(true);
+		return gear;
+	}
+	
 	private void removeAtivo(long idUser, long idGuild) {
 		Gear gear = findByIdUserIdGuildIsAtivo(idUser, idGuild, true);
 		if (gear != null) {

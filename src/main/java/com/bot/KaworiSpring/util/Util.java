@@ -15,10 +15,14 @@ public class Util {
 			return "<:" + emote.getName() + ":" + emote.getId() + ">";
 	}
 	
+	
 	public static long idUserAdm = 402432288362856448l;
 	
 	public static long idGuildAdm = 622269870788050946l;
 	
-	
+	public static int calculateGearScore(int ap, int aap, int dp) {
+		int higherAp = Math.max(ap, aap);
+		return higherAp + dp;
+	}
 
 }

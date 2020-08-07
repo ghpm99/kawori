@@ -10,8 +10,8 @@ public class GearSort {
 
 		@Override
 		public int compare(Gear o1, Gear o2) {
-			int gs1 = ((o1.getAp() + o1.getApAwak()) / 2) + o1.getDp();
-			int gs2 = ((o2.getAp() + o2.getApAwak()) / 2) + o2.getDp();
+			int gs1 = Util.calculateGearScore(o1.getAp(), o1.getApAwak(), o1.getDp());
+			int gs2 = Util.calculateGearScore(o2.getAp(), o2.getApAwak(), o2.getDp());
 			return  gs2 - gs1;
 			
 		}

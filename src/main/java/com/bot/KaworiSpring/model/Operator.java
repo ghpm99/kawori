@@ -8,9 +8,9 @@ import javax.persistence.Table;
 @Table(name = "user")
 public class Operator {
 
-	@Id	
+	@Id
 	private long id;
-	
+
 	private long idDiscord;
 
 	private String name;
@@ -22,7 +22,57 @@ public class Operator {
 	private String email;
 
 	private String password;
-	
+
+	private int level;
+
+	private int exp;
+
+	private int expRequired;
+
+	private int msgCount;
+
+	private int cmdCount;
+
+	public void increaseMsgCount() {
+		setMsgCount(getMsgCount() + 1);
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	public int getExpRequired() {
+		return expRequired;
+	}
+
+	public void setExpRequired(int expRequired) {
+		this.expRequired = expRequired;
+	}
+
+	public int getMsgCount() {
+		return msgCount;
+	}
+
+	public void setMsgCount(int msgCount) {
+		this.msgCount = msgCount;
+	}
+
+	public void increaseCmdCount() {
+		setCmdCount(getCmdCount() + 1);
+	}
+
+	public int getCmdCount() {
+		return cmdCount;
+	}
+
+	public void setCmdCount(int cmdCount) {
+		this.cmdCount = cmdCount;
+	}
+
 	public long getId() {
 		return id;
 	}
@@ -78,7 +128,22 @@ public class Operator {
 	public void setIdDiscord(long idDiscord) {
 		this.idDiscord = idDiscord;
 	}
-	
-	
+
+	public int getExp() {
+		return exp;
+	}
+
+	public void setExp(int exp) {
+		if (getExp() >= getExpRequired()) {
+			setLevel(getLevel() + 1);			
+			setExpRequired(getExpRequired() + 200);
+			exp = 0;
+		}
+		this.exp = exp;
+	}
+
+	public void increaseExp(int exp) {
+		setExp(exp + getExp());		
+	}
 
 }

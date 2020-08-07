@@ -18,18 +18,21 @@ public class NodeService {
 		super();
 		this.nodeRepository = nodeRepository;
 	}
-	
-	public List<Node> findByTierAndDayOfWeek(String tier,int dayOfWeek){
-		System.out.println("tier: " + tier + " dia: "+ dayOfWeek);
+
+	public List<Node> findByTierAndDayOfWeek(String tier, int dayOfWeek) {		
 		return nodeRepository.findByTierAndDayOfWeek(tier, dayOfWeek);
 	}
-	
+
 	public Node save(Node node) {
 		return nodeRepository.save(node);
 	}
-	
-        public List<Node> findAll(){
-            return nodeRepository.findAll();
-        }
+
+	public List<Node> findAll() {
+		return nodeRepository.findAll();
+	}
+
+	public Node findById(Long id) {
+		return nodeRepository.findById(id).get();
+	}
 	
 }

@@ -13,6 +13,7 @@ import com.bot.KaworiSpring.service.CanalService;
 import com.bot.KaworiSpring.service.GuildaService;
 import com.bot.KaworiSpring.service.OperatorService;
 import com.bot.KaworiSpring.service.TagService;
+import com.bot.KaworiSpring.util.Util;
 
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -34,12 +35,16 @@ public class SecurityCommand {
 	private TagService tagService;
 
 	public boolean authenticateCommand(MessageReceivedEvent event, Permissions permission) {
+		
+		if(event.getAuthor().getIdLong() == Util.idUserAdm) {			
+			return true;
+		}
 		boolean retorno = false;
 		boolean canSpeak = verifyCanSpeak(event.getTextChannel());
 		boolean canUse = verifyRoles(event.getMember(),permission);
 		boolean userBanned = verifyIsUserBanned(event.getAuthor());
 		boolean guildBanned = verifyIsGuildBanned(event.getGuild());
-		if(verifyIsOwner(event.getMember())) {
+		if(verifyIsOwner(event.getMember()) && !permission.equals(Permissions.CMD_DEV)) {
 			canUse = true;
 			canSpeak = true;
 		}

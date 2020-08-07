@@ -9,7 +9,6 @@ import com.bot.KaworiSpring.discord.command.CommandHandler;
 import com.bot.KaworiSpring.model.Log;
 import com.bot.KaworiSpring.service.EventService;
 import com.bot.KaworiSpring.service.LogService;
-import com.bot.KaworiSpring.service.StatusService;
 import com.bot.KaworiSpring.util.Util;
 
 import net.dv8tion.jda.api.entities.ChannelType;
@@ -21,11 +20,9 @@ public class MessageListener extends ListenerAdapter {
 
 	@Autowired
 	private LogService logService;
-	@Autowired
-	private StatusService statusService;
+
 	@Autowired
 	private EventService eventService;
-	
 
 	@Override
 	public void onMessageReceived(MessageReceivedEvent evento) {
@@ -52,7 +49,6 @@ public class MessageListener extends ListenerAdapter {
 	}
 
 	private void onGuildMessage(MessageReceivedEvent evento) {
-
 		eventService.guildMessageEvent(evento.getAuthor().getIdLong(), evento.getGuild().getIdLong());
 
 		String message = evento.getMessage().getContentDisplay();
@@ -61,9 +57,9 @@ public class MessageListener extends ListenerAdapter {
 				& !evento.getAuthor().getId().equals(evento.getJDA().getSelfUser().getId())) {
 			logService.addEvent(
 					new Log(new Date(), message, evento.getGuild().getIdLong(), evento.getAuthor().getIdLong(), "-"));
-			statusService.increaseCmdReceived();
+			eventService.cmdReceivedEvent(evento.getAuthor().getIdLong(), evento.getGuild().getIdLong());
 			CommandHandler.handleCommand(CommandHandler.parser.parse(message, evento));
-			
+
 		}
 	}
 

@@ -24,9 +24,7 @@ public class CmdInfo extends Command {
 	@Autowired
 	private PersonagemService personagemService;
 	@Autowired
-	private GearService gearService;
-
-	
+	private GearService gearService;	
 
 	@Override
 	public void action(String[] args, MessageReceivedEvent event) {
@@ -47,9 +45,8 @@ public class CmdInfo extends Command {
 			personagemName = personagem.getName();
 		}
 
-		if (gear != null) {
-			int gs = (gear.getAp() + gear.getApAwak()) / 2 + gear.getDp();
-			gearName = String.valueOf(gs);
+		if (gear != null) {			
+			gearName = String.valueOf(gear.getScore());
 		}
 
 		MessageController.sendEmbed(event.getChannel(), EmbedPattern.createEmbedInfoUser(event.getAuthor(),

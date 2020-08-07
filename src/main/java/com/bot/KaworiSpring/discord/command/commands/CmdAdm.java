@@ -8,22 +8,21 @@ import com.bot.KaworiSpring.discord.security.Permissions;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 @Controller
-public class CmdAdm  extends Command {
-
-	
-
-	
+public class CmdAdm extends Command {
 
 	@Override
 	public void action(String[] args, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
-				
+		for(String arg : args) {
+			checkCmd(arg, event);
+		}
+		
 	}
 
 	@Override
 	public void executed(boolean success, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -32,7 +31,6 @@ public class CmdAdm  extends Command {
 		return "msg_adm_help";
 	}
 
-	
 	@Override
 	public String helpShort() {
 		// TODO Auto-generated method stub
@@ -43,6 +41,10 @@ public class CmdAdm  extends Command {
 	public Permissions getPermissions() {
 		// TODO Auto-generated method stub
 		return Permissions.CMD_DEV;
+	}
+	
+	private void checkCmd(String arg, MessageReceivedEvent event) {
+		System.out.println(arg);
 	}
 
 }

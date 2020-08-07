@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TimeZone;
 
 import com.bot.KaworiSpring.discord.command.Command;
 import com.bot.KaworiSpring.model.Gear;
@@ -150,7 +151,9 @@ public class EmbedPattern {
 		EmbedBuilder embed = new EmbedBuilder();
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-
+		
+		sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+		
 		MessageController.setEmbedHead(guild, channel, user, embed);
 		MessageController.setEmbedTitle(guild, channel, user, embed, "msg_nw_scheduled_title");
 		MessageController.setEmbedDescription(guild, channel, user, embed, "msg_nw_scheduled_description",
@@ -196,13 +199,27 @@ public class EmbedPattern {
 			if (member == null)
 				continue;
 
-			embed.addField(MessageController.createEmbedField(guild, channel, user,
-					gears.indexOf(gear) + " - " + gear.getPersonagem().getName(), "msg_gs_show_member_field",
-					String.valueOf(gear.getAp()), String.valueOf(gear.getApAwak()), String.valueOf(gear.getDp()),
-					String.valueOf(gear.getLevel())));
+			createFieldGear(embed, gear);
+		}
+
+		if (gears.size() == 1) {
+			embed.setImage(gears.get(0).getLink());
 		}
 
 		return embed;
+	}
+
+	private static void createFieldGear(EmbedBuilder embed, Gear gear) {
+		embed.addField(gear.getPersonagem().getName(), gear.getPersonagem().getClasse(), true);
+		embed.addField("GS", String.valueOf(gear.getScore()), true);
+		embed.addBlankField(true);
+		embed.addField("AP", String.valueOf(gear.getAp()), true);
+		embed.addField("AAP", String.valueOf(gear.getApAwak()), true);
+		embed.addField("DP", String.valueOf(gear.getDp()), true);
+		embed.addField("LVL", String.valueOf(gear.getLevel()), true);
+		embed.addField("Battle Mode", String.valueOf(gear.getPersonagem().getBattleMode()), true);
+		embed.addBlankField(false);
+
 	}
 
 	public static EmbedBuilder createEmbedRankGear(User user, MessageChannel channel, Guild guild, List<Gear> gears,
@@ -214,13 +231,15 @@ public class EmbedPattern {
 		MessageController.setEmbedDescription(guild, channel, user, embed, "msg_rank_description", sortBy);
 
 		for (Gear gear : gears) {
-
+			if(!gear.getPersonagem().getMembro().isGear()) {
+				continue;
+			}
 			Member member = guild.getMemberById(gear.getIdDiscord());
 
-			if (member == null)
+			if (member == null || gear.isYoung())
 				continue;
 
-			embed.addField(MessageController.createEmbedField(guild, channel, user, member.getUser().getName(),
+			embed.addField(MessageController.createEmbedField(guild, channel, user, gear.getPersonagem().getName(),
 					"msg_gs_show_member_field", String.valueOf(gear.getAp()), String.valueOf(gear.getApAwak()),
 					String.valueOf(gear.getDp()), String.valueOf(gear.getLevel())));
 		}
@@ -231,11 +250,11 @@ public class EmbedPattern {
 	public static EmbedBuilder createEmbedNodeWarPresence(User user, MessageChannel channel, Guild guild,
 			NodeWar nodeWar, List<NodeWarPresence> presences) {
 		EmbedBuilder embed = new EmbedBuilder();
-
+		
 		MessageController.setEmbedHead(guild, channel, user, embed);
 		MessageController.setEmbedTitle(guild, channel, user, embed, "embed_nw_presence_title");
 		MessageController.setEmbedDescription(guild, channel, user, embed, "embed_nw_presence_description",
-				String.valueOf(nodeWar.getNode().getId()), nodeWar.getNode().getChannel());
+				MessageController.createMessage(guild, channel, user, nodeWar.getNode().getName()), nodeWar.getNode().getChannel());
 
 		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
 
@@ -436,43 +455,47 @@ public class EmbedPattern {
 		commands.forEach((key, command) -> {
 			switch (command.getPermissions()) {
 			case CMD_FUN:
-				cmdFun.add(key );
+				cmdFun.add(key);
 				break;
 			case CMD_UTIL:
-				cmdUtil.add(key+ "("+MessageController.createMessage(guild, channel, user, command.helpShort()) + ")");
+				cmdUtil.add(
+						key + "(" + MessageController.createMessage(guild, channel, user, command.helpShort()) + ")");
 				break;
 			case CMD_BUILD:
-				cmdBuild.add(key+ "("+MessageController.createMessage(guild, channel, user, command.helpShort()) + ")");
+				cmdBuild.add(
+						key + "(" + MessageController.createMessage(guild, channel, user, command.helpShort()) + ")");
 				break;
 			case CMD_RANK:
-				cmdRank.add(key+ "("+MessageController.createMessage(guild, channel, user, command.helpShort()) + ")");
+				cmdRank.add(
+						key + "(" + MessageController.createMessage(guild, channel, user, command.helpShort()) + ")");
 				break;
 			case CMD_NW:
-				cmdNw.add(key+ "("+MessageController.createMessage(guild, channel, user, command.helpShort()) + ")");
+				cmdNw.add(key + "(" + MessageController.createMessage(guild, channel, user, command.helpShort()) + ")");
 				break;
 			case CMD_ADM:
-				cmdAdm.add(key+ "("+MessageController.createMessage(guild, channel, user, command.helpShort()) + ")");
+				cmdAdm.add(
+						key + "(" + MessageController.createMessage(guild, channel, user, command.helpShort()) + ")");
 				break;
 			}
 		});
-		
+
 		embed.addField("ADM", cmdAdm.toString(), false);
 		embed.addField("NODEWAR", cmdNw.toString(), false);
 		embed.addField("RANK", cmdRank.toString(), false);
 		embed.addField("BUILD", cmdBuild.toString(), false);
-		embed.addField("FUN", cmdFun.toString(), false);	
+		embed.addField("FUN", cmdFun.toString(), false);
 		embed.addField("UTIL", cmdUtil.toString(), false);
-				
-		
+
 		return embed;
 	}
-	
-	public static EmbedBuilder createEmbedHelp(User user, MessageChannel channel, Guild guild,Command command,String commandKey) {
+
+	public static EmbedBuilder createEmbedHelp(User user, MessageChannel channel, Guild guild, Command command,
+			String commandKey) {
 		EmbedBuilder embed = new EmbedBuilder();
 		embed.setAuthor("Kaori Bot", "https://discord.gg/xtFBD6M", channel.getJDA().getSelfUser().getAvatarUrl());
 		embed.setTitle(commandKey.toUpperCase());
 		MessageController.setEmbedDescription(guild, channel, user, embed, command.help());
-		
+
 		return embed;
 	}
 

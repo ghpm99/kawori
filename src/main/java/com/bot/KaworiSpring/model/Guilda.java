@@ -10,7 +10,7 @@ public class Guilda {
 
 	@Id
 	private long id;
-	
+
 	private long idDiscord;
 
 	private String name;
@@ -24,11 +24,19 @@ public class Guilda {
 	private boolean site;
 
 	private long idOwner;
-	
+
 	private long defaultTextChannel;
-	
+
 	private String defaultWelcomeMessage;
-		
+
+	private int cmdCount;
+
+	private int level;
+
+	private int exp;
+
+	private int expRequired;
+
 	public long getId() {
 		return id;
 	}
@@ -53,7 +61,6 @@ public class Guilda {
 		this.active = active;
 	}
 
-	
 	public String getRegion() {
 		return region;
 	}
@@ -110,5 +117,49 @@ public class Guilda {
 		this.defaultWelcomeMessage = defaultWelcomeMessage;
 	}
 
+	public int getCmdCount() {
+		return cmdCount;
+	}
 
+	public void setCmdCount(int cmdCount) {
+		this.cmdCount = cmdCount;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	public int getExp() {
+		return exp;
+	}
+
+	public void setExp(int exp) {
+		if (exp >= getExpRequired()) {
+			setLevel(getLevel() + 1);
+			exp = 0;
+			setExpRequired(getExpRequired() + 1000);
+		}
+		this.exp = exp;
+	}
+
+	public int getExpRequired() {
+		return expRequired;
+	}
+
+	public void setExpRequired(int expRequired) {
+		this.expRequired = expRequired;
+	}
+
+	public void increaseCmdCount() {
+		setCmdCount(getCmdCount() + 1);
+	}
+
+	public void increaseExp(int exp) {
+		setExp(getExp() + exp);
+	}
+	
 }

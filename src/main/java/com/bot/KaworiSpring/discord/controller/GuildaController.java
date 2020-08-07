@@ -1,6 +1,7 @@
 package com.bot.KaworiSpring.discord.controller;
 
 import java.awt.Color;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -66,7 +67,7 @@ public class GuildaController {
 
 		membroService.save(membro);
 
-		//sendMessageOnJoin(guild, member);
+		sendMessageOnJoin(guild, member);
 
 	}
 
@@ -244,6 +245,32 @@ public class GuildaController {
 
 	public void onTextChannelUpdateName(TextChannel event) {
 		canalService.UpdateCanal(event);
+	}
+
+	public void onGuildMemberRoleAdd(Guild guild, List<Role> roles, Member member) {
+		Membro membro = membroService.findByIdAndIdGuild(member.getIdLong(), guild.getIdLong());
+		boolean canGear = membro.isGear();
+
+		for (Role role : roles) {
+			Tag tag = tagService.findByIdGuildAndIdRole(role.getGuild().getIdLong(), role.getIdLong());
+			canGear = canGear || tag.isCmdBuild();
+		}
+
+		membro.setGear(canGear);
+		membroService.save(membro);
+
+	}
+
+	public void onGuildMemberRoleRemove(Guild guild, List<Role> roles, Member member) {
+		Membro membro = membroService.findByIdAndIdGuild(member.getIdLong(), guild.getIdLong());
+		boolean canGear = false;
+		for (Role role : member.getRoles()) {
+			Tag tag = tagService.findByIdGuildAndIdRole(guild.getIdLong(), role.getIdLong());
+			canGear = canGear || tag.isCmdBuild();
+		}
+		membro.setGear(canGear);
+		membroService.save(membro);
+
 	}
 
 }

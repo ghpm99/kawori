@@ -8,7 +8,9 @@ import com.bot.KaworiSpring.discord.controller.GuildaController;
 import net.dv8tion.jda.api.events.channel.text.TextChannelCreateEvent;
 import net.dv8tion.jda.api.events.channel.text.update.TextChannelUpdateNameEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
-import net.dv8tion.jda.api.events.guild.member.GuildMemberLeaveEvent;
+import net.dv8tion.jda.api.events.guild.member.GuildMemberRemoveEvent;
+import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleAddEvent;
+import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleRemoveEvent;
 import net.dv8tion.jda.api.events.guild.member.update.GuildMemberUpdateNicknameEvent;
 import net.dv8tion.jda.api.events.guild.update.GuildUpdateNameEvent;
 import net.dv8tion.jda.api.events.guild.update.GuildUpdateOwnerEvent;
@@ -34,8 +36,9 @@ public class GuildListener extends ListenerAdapter {
 
 	// membro sai do servidor
 	@Override
-	public void onGuildMemberLeave(GuildMemberLeaveEvent event) {
+	public void onGuildMemberRemove(GuildMemberRemoveEvent event) {
 		// TODO Auto-generated method stub
+		super.onGuildMemberRemove(event);
 		guildaController.onGuildMemberLeave(event.getGuild(), event.getMember());
 	}
 
@@ -82,10 +85,10 @@ public class GuildListener extends ListenerAdapter {
 	@Override
 	public void onGuildMemberUpdateNickname(GuildMemberUpdateNicknameEvent event) {
 		// TODO Auto-generated method stub
-		super.onGuildMemberUpdateNickname(event);		
+		super.onGuildMemberUpdateNickname(event);
 		guildaController.onGuildMemberUpdateNickname(event.getMember(), event.getNewNickname());
 	}
-	
+
 	@Override
 	public void onTextChannelCreate(TextChannelCreateEvent event) {
 		// TODO Auto-generated method stub
@@ -98,8 +101,21 @@ public class GuildListener extends ListenerAdapter {
 		// TODO Auto-generated method stub
 		super.onTextChannelUpdateName(event);
 		guildaController.onTextChannelUpdateName(event.getChannel());
-		
+
 	}
-	
-	
+
+	@Override
+	public void onGuildMemberRoleAdd(GuildMemberRoleAddEvent event) {
+		// TODO Auto-generated method stub
+		super.onGuildMemberRoleAdd(event);
+		guildaController.onGuildMemberRoleAdd(event.getGuild(), event.getRoles(), event.getMember());
+	}
+
+	@Override
+	public void onGuildMemberRoleRemove(GuildMemberRoleRemoveEvent event) {
+		// TODO Auto-generated method stub
+		super.onGuildMemberRoleRemove(event);
+		guildaController.onGuildMemberRoleRemove(event.getGuild(), event.getRoles(), event.getMember());
+	}
+
 }

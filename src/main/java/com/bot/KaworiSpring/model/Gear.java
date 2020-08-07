@@ -20,10 +20,16 @@ public class Gear extends Model {
 
 	private int level;
 	
+	private int score;
+	
 	@ManyToOne
 	private Personagem personagem;
 	
 	private boolean ativo;
+
+	private String link;
+	
+	private boolean young;
 
 	public Long getIdDiscord() {
 		return idDiscord;
@@ -97,6 +103,30 @@ public class Gear extends Model {
 		this.ativo = ativo;
 	}
 
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
+	}
+
+	public boolean isYoung() {
+		return young;
+	}
+
+	public void setYoung(boolean young) {
+		this.young = young;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+	
 	
 	
 }

@@ -12,10 +12,14 @@ public interface GearRepository extends JpaRepository<Gear, Long> {
 
 	public Gear findByIdDiscord(Long id);
 
-	public Page<Gear> findByIdDiscordAndIdGuild(Long idDiscord, Long idGuild,Pageable pageable);
+	public Page<Gear> findByIdDiscordAndIdGuild(Long idDiscord, Long idGuild, Pageable pageable);
 
 	public List<Gear> findByIdGuild(Long idGuild);
 
+	public List<Gear> findByIdGuild(Long idGuild, Pageable pageable);
+
 	public Gear findByIdDiscordAndIdGuildAndAtivo(Long idDiscord, Long idGuild, boolean ativo);
+
+	public Gear findByIdDiscordAndIdGuildAndYoung(Long idDiscord, Long idGuild, boolean young);
 
 }

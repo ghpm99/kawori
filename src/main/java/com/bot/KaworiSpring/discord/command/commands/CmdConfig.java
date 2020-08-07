@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.bot.KaworiSpring.discord.command.Command;
+import com.bot.KaworiSpring.discord.controller.MembroController;
 import com.bot.KaworiSpring.discord.message.EmbedPattern;
 import com.bot.KaworiSpring.discord.message.MessageController;
 import com.bot.KaworiSpring.discord.reaction.Reaction;
@@ -22,6 +23,7 @@ import com.bot.KaworiSpring.util.Emojis;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.Role;
@@ -36,6 +38,8 @@ public class CmdConfig extends Command {
 	private CanalService canalService;
 	@Autowired
 	private TagService tagService;
+	@Autowired
+	private MembroController membroController;
 
 	@Override
 	public void action(String[] args, MessageReceivedEvent event) {
@@ -171,7 +175,9 @@ public class CmdConfig extends Command {
 							case CHECK_OK:
 								changeRoles(event.getMessage().getMentionedRoles(), cmdAdm, cmdNodeWar, cmdRank,
 										cmdBuild, cmdFun, cmdUtil);
-								changeRoleEmbed(message, event.getAuthor(), event.getChannel(), event.getGuild(), event.getMessage().getMentionedRoles());
+								updateMembers(event.getGuild(), event.getMessage().getMentionedRoles());
+								changeRoleEmbed(message, event.getAuthor(), event.getChannel(), event.getGuild(),
+										event.getMessage().getMentionedRoles());
 								break;
 
 							}
@@ -198,7 +204,7 @@ public class CmdConfig extends Command {
 
 							}
 						}
-						
+
 					}
 
 				}
@@ -223,12 +229,22 @@ public class CmdConfig extends Command {
 			tag.setCmdRank(cmdRank);
 			tag.setCmdBuild(cmdBuild);
 			tag.setCmdFun(cmdFun);
-			tag.setCmdFun(cmdFun);
+			tag.setCmdUtil(cmdUtil);
+
 			tagService.save(tag);
 		});
 	}
-	
-	private void changeRoleEmbed(Message oldEmbed,User user, MessageChannel channel, Guild guild, List<Role> roles) {
+
+	private void updateMembers(Guild guild, List<Role> roles) {
+		for (Role role : roles) {
+			List<Member> members = guild.getMembersWithRoles(role);
+			members.forEach((member) -> {
+				membroController.updateCanGearMember(member);
+			});
+		}
+	}
+
+	private void changeRoleEmbed(Message oldEmbed, User user, MessageChannel channel, Guild guild, List<Role> roles) {
 		ReactionHandler.reactions.remove(oldEmbed.getIdLong());
 		EmbedBuilder newEmbed = EmbedPattern.createEmbedConfigureRolesSucess(user, channel, guild, roles);
 		MessageController.changeEmbed(channel, oldEmbed, newEmbed);
