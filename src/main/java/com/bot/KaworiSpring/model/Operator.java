@@ -32,6 +32,8 @@ public class Operator {
 	private int msgCount;
 
 	private int cmdCount;
+	
+	private String region;
 
 	public void increaseMsgCount() {
 		setMsgCount(getMsgCount() + 1);
@@ -145,5 +147,15 @@ public class Operator {
 	public void increaseExp(int exp) {
 		setExp(exp + getExp());		
 	}
+
+	public String getRegion() {
+		return region;
+	}
+
+	public void setRegion(String region) {
+		this.region = region;
+	}
+	
+	
 
 }

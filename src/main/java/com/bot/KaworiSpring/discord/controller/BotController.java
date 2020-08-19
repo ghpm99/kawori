@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 
 import com.bot.KaworiSpring.model.Guilda;
 import com.bot.KaworiSpring.service.GuildaService;
+import com.bot.KaworiSpring.util.Util;
 
 import net.dv8tion.jda.api.entities.Guild;
 
@@ -30,14 +31,18 @@ public class BotController {
 		guilda.setIdOwner(guild.getOwnerIdLong());		
 
 		guildaService.save(guilda);
+		reportGuild(guild.getName() + " adicionou o bot", guild);
 	}
 
-	public void onGuildLeave(Guild guilda) {
-		Guilda guild = guildaService.findById(guilda.getIdLong());
-		guild.setActive(false);
-		guildaService.save(guild);
+	public void onGuildLeave(Guild guild) {
+		Guilda guilda = guildaService.findById(guild.getIdLong());
+		guilda.setActive(false);
+		guildaService.save(guilda);
+		reportGuild(guild.getName() + " expulsou o bot", guild);
 	}
 
-	
+	private void reportGuild(String report, Guild guild) {
+		guild.getJDA().getGuildById(Util.idGuildAdm).getTextChannelById(Util.idLogChannel).sendMessage(report).queue();
+	}
 	
 }

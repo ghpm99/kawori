@@ -7,6 +7,7 @@ package com.bot.KaworiSpring.discord.command.commands;
 
 import java.util.Random;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.bot.KaworiSpring.discord.command.Command;
@@ -23,7 +24,8 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 @Controller
 public class CmdPick extends Command {
 
-	
+	@Autowired
+	private MessageController messageController;
 
 	@Override
 	public void action(String[] args, MessageReceivedEvent event) {
@@ -33,7 +35,7 @@ public class CmdPick extends Command {
 		String[] msgSplit = msg.split(",");
 
 		if (msgSplit.length < 2) {
-			MessageController.sendMessage(event.getGuild(), event.getChannel(), event.getAuthor(), "msg_pick_error");
+			messageController.sendMessage(event.getGuild(), event.getChannel(), event.getAuthor(), "msg_pick_error");
 			return;
 		}
 
@@ -41,7 +43,7 @@ public class CmdPick extends Command {
 		
 		String result = msgSplit[rng.nextInt(msgSplit.length)];
 
-		MessageController.sendMessageSingle(event.getGuild(), event.getChannel(), event.getAuthor(), result);
+		messageController.sendMessageSingle(event.getGuild(), event.getChannel(), event.getAuthor(), result);
 
 	}
 

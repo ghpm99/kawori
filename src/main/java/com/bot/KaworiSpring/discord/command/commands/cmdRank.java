@@ -24,6 +24,10 @@ public class CmdRank extends Command {
 
 	@Autowired
 	private GearService gearService;
+	@Autowired
+	private MessageController messageController;
+	@Autowired
+	private EmbedPattern embedPattern;
 	
 
 	public void action(String[] args, MessageReceivedEvent event) {
@@ -40,9 +44,9 @@ public class CmdRank extends Command {
 		
 		List<Gear> gears = gearService.findByIdGuild(event.getGuild().getIdLong(), PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC,sortBy)));
 
-		EmbedBuilder embed = EmbedPattern.createEmbedRankGear(event.getAuthor(), event.getChannel(), event.getGuild(), gears, sortBy);
+		EmbedBuilder embed = embedPattern.createEmbedRankGear(event.getAuthor(), event.getChannel(), event.getGuild(), gears, sortBy);
 		
-		MessageController.sendEmbed(event.getChannel(), embed);
+		messageController.sendEmbed(event.getChannel(), embed);
 
 	}
 

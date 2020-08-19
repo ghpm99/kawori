@@ -6,9 +6,8 @@ import com.bot.KaworiSpring.util.Util;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-
 public class CommandParser {
-	
+
 	public CommandContainer parse(String raw, MessageReceivedEvent event) {
 
 		String beheaded = raw.replaceFirst(Util.PREFIX, "");
@@ -42,6 +41,7 @@ public class CommandParser {
 			this.invoke = invoke.toLowerCase();
 			this.args = args;
 			this.event = event;
+
 		}
 
 	}

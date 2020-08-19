@@ -1,4 +1,4 @@
-#Arquivo de Idiomas - PT-BR
+#Arquivo de Idiomas - Espanol
 #Wed Jan 29 15:24:26 BRT 2020
 name_nw_123=Forte da Trina
 name_nw_124=Acampamento de Saunil
@@ -197,7 +197,7 @@ msg_nw_sucess=Node War agendada com sucesso!
 msg_nw_show_title=Consulta de Node War
 msg_nw_show_description=Consulta de Node War
 msg_nw_scheduled_title=Aviso Node War
-msg_nw_scheduled_description=Node War dia _arg  !\nServidor:_arg  _arg  pessoas!\nGentileza confirmar presenÁa utilizando reaÁ„o.\nContamos com a presenÁa de todos!
+msg_nw_scheduled_description=Node War dia _arg  !\nServidor:_arg  _arg  pessoas!\nGentileza confirmar presen√ßa utilizando rea√ß√£o.\nContamos com a presen√ßa de todos!
 msg_everyone=_everyone 
 msg_nw_presence_error_code=_nameMention  gentileza informar um codigo valido para a Node War!
 embed_nw_presence_title=Confirmacao presenca
@@ -218,8 +218,8 @@ msg_fun_kiss_couple= _arg esta beijando _arg
 msg_fun_kiss_solo= _nameMention esta se beijando. Amor proprio \u00E9 tudo!
 msg_fun_bite_couple= _arg esta moidendo _arg  nhac :3
 msg_fun_bite_solo= _nameMention esta se moidendo. nhac :3
-msg_fun_dance_couple= _arg esta danÁando com _arg 
-msg_fun_dance_solo= _nameMention esta danÁando.
+msg_fun_dance_couple= _arg esta dan√ßando com _arg 
+msg_fun_dance_solo= _nameMention esta dan√ßando.
 msg_fun_awoo_couple= _arg esta awoozando _arg  AWOOO 
 msg_fun_awoo_solo= AWOOO
 msg_fun_owo_couple= _arg esta owozando _arg  OwO
@@ -262,13 +262,13 @@ embed_gs_new_field_2=_arg  - criar um novo gear em um Personagem novo
 embed_gs_new_field_3=_arg  - cancelar
 embed_canceled_title=Cancelado
 embed_sucess_gear_title=Gear incluso com sucesso!
-embed_configure_channels_title=Configurando permiss„o de canais
+embed_configure_channels_title=Configurando permiss√£o de canais
 embed_configure_channels_description=Configurando canais:_arg 
 embed_configure_channels_field_1=_arg Pode utilizar comandos nesse canal
 embed_configure_channels_field_2=_arg Nao pode utilizar comandos nesse canal
-embed_configure_channels_sucess_title=Sucesso em configurar permiss„o de canal!
+embed_configure_channels_sucess_title=Sucesso em configurar permiss√£o de canal!
 embed_configure_channels_sucess_description=Canais alterados:_arg 
-embed_configure_roles_title=Configurando permiss„o de cargos
+embed_configure_roles_title=Configurando permiss√£o de cargos
 embed_configure_roles_description=Configurando cargos:_arg 
 embed_configure_roles_field_1=_arg  Pode utilizar comandos ADM!
 embed_configure_roles_field_2=_arg  Pode utilizar comandos NODEWAR!
@@ -277,31 +277,31 @@ embed_configure_roles_field_4=_arg  Pode utilizar comandos BUILD!
 embed_configure_roles_field_5=_arg  Pode utilizar comandos FUN!
 embed_configure_roles_field_6=_arg  Pode utilizar comandos UTIL!
 embed_configure_roles_field_7=_arg  Para concluir!
-embed_configure_roles_sucess_title=Sucesso em configurar permiss„o de cargo!
+embed_configure_roles_sucess_title=Sucesso em configurar permiss√£o de cargo!
 embed_configure_roles_sucess_description=Cargos alterados:_arg 
 msg_help_helpshort=Comando para ajuda.Utilize _prefix help <comando> para ter uma ajuda mais especifica.
 msg_help_help=Utilize o comando _prefix help <comando> para ter uma ajuda mais especifica para o comando.\nCaso precise de uma ajuda melhor fique a vontade para entrar no discord: https://discord.gg/xtFBD6M\nLink para invitar o bot:https://discord.com/oauth2/authorize?client_id=622218589243572224&permissions=8&scope=bot
 msg_avatar_helpshort=Visualizar avatar _prefix avatar <usuario>
-msg_avatar_help=_prefix avatar <usuario> : Exibe o avatar do usu·rio
-msg_char_helpshort=Mostra ou configura informaÁıes sobre o personagem ativo.
-msg_char_help=_prefix char -all : Mostra todos personagens cadastrados.\n_prefix char -set <parametro=valor>: Altera informaÁıes sobre personagem ativo no momento.\nInformaÁıes alteraveis: NAME, CLASS, SKILL\nNAME = Altera nome do personagem\nCLASS = Altera classe do personagem\nSKILL = Altera entre despertada e sucess„o\nExemplo de comando _prefix char -set CLASS=wr : altera a classe do personagem ativo para Guerreiro\nLista de classes disponiveis:archer,berserker,darkknight,guardian,kunoichi,lahn,maehwa,musah,mystic,ninja,ranger,shai,sorceress,striker,tamer,valkyrie,warrior,witch,wizard\nLista de modos de batalha disponiveis:awakening,succession
-msg_config_helpshort=Configura permiss„o no Grupo
-msg_config_help=_prefix config <canais> configura se o bot pode aceitar comandos dos canais mencionados.Obs: os canais dever„o ser mencionados, exemplo: _prefix config #geral\n_prefix config <cargos> configura quais grupos de comandos poder„o ser utilizados.Obs: os cargos dever„o ser mencionados, exemplo:_prefix config @officers
-msg_fun_helpshort=Comando de interaÁ„o com outro usuario
-msg_fun_help=Comando de interaÁ„o com outro usuario.Utilize _prefix <comando> <usuario>
-msg_gs_helpshort=Mostra ou configura informaÁıes sobre a gear ativa, tambÈm possibilita a troca entre builds/personagem. 
-msg_gs_help=_prefix gear [opcional:<usuario>] mostra a gear ativa do usu·rio mencionado, caso nao possua ninguem mencionado ser· mostrada a gear do autor.\n_prefix gear -add adiciona uma nova gear\n_prefix gear -select comando para alternar entre os gear cadastrados.\n_prefix gear <parametro=valor> altera dados da gear ativa.\nParametros validos:[AP,APAWAK,DP,LVL,NAME,CLASS,SKILL].\nExemplo de comando: _prefix gear ap=190 apawak=187
+msg_avatar_help=_prefix avatar <usuario> : Exibe o avatar do usu√°rio
+msg_char_helpshort=Mostra ou configura informa√ß√µes sobre o personagem ativo.
+msg_char_help=_prefix char -all : Mostra todos personagens cadastrados.\n_prefix char -set <parametro=valor>: Altera informa√ß√µes sobre personagem ativo no momento.\nInforma√ß√µes alteraveis: NAME, CLASS, SKILL\nNAME = Altera nome do personagem\nCLASS = Altera classe do personagem\nSKILL = Altera entre despertada e sucess√£o\nExemplo de comando _prefix char -set CLASS=wr : altera a classe do personagem ativo para Guerreiro\nLista de classes disponiveis:archer,berserker,darkknight,guardian,kunoichi,lahn,maehwa,musah,mystic,ninja,ranger,shai,sorceress,striker,tamer,valkyrie,warrior,witch,wizard\nLista de modos de batalha disponiveis:awakening,succession
+msg_config_helpshort=Configura permiss√£o no Grupo
+msg_config_help=_prefix config <canais> configura se o bot pode aceitar comandos dos canais mencionados.Obs: os canais dever√£o ser mencionados, exemplo: _prefix config #geral\n_prefix config <cargos> configura quais grupos de comandos poder√£o ser utilizados.Obs: os cargos dever√£o ser mencionados, exemplo:_prefix config @officers
+msg_fun_helpshort=Comando de intera√ß√£o com outro usuario
+msg_fun_help=Comando de intera√ß√£o com outro usuario.Utilize _prefix <comando> <usuario>
+msg_gs_helpshort=Mostra ou configura informa√ß√µes sobre a gear ativa, tamb√©m possibilita a troca entre builds/personagem. 
+msg_gs_help=_prefix gear [opcional:<usuario>] mostra a gear ativa do usu√°rio mencionado, caso nao possua ninguem mencionado ser√° mostrada a gear do autor.\n_prefix gear -add adiciona uma nova gear\n_prefix gear -select comando para alternar entre os gear cadastrados.\n_prefix gear <parametro=valor> altera dados da gear ativa.\nParametros validos:[AP,APAWAK,DP,LVL,NAME,CLASS,SKILL].\nExemplo de comando: _prefix gear ap=190 apawak=187
 msg_adm_helpshort=Sem uso
 msg_adm_help=Sem uso
-msg_info_helpshort=Mostra informaÁıes do perfil do usuario
-msg_info_help=_prefix info : Mostra informaÁıes uteis do perfil do usuario
-msg_nodewar_helpshort=Agenda uma Node War ou verifica lista de presenÁa
-msg_nodewar_help=_prefix nw :Agenda uma node war\n_prefix nw -show :Mostra as NodeWar agendadas\n_prefix nw -presence <id> :Mostra a lista de presenÁa da node war de acordo com a reaÁ„o no aviso.\nO parametro ID se encontra no aviso da NodeWar!
-msg_pick_helpshort=Escolhe aleatoriamente entre varias opÁıes
-msg_pick_help=_prefix pick <opÁ„o>,<opÁ„o>,<opÁ„o>... :Escolhe aleatoriamente entre as opÁıes.
-msg_rank_helpshort=Mostra o rank de Gear de acordo com critÈrio selecionado
-msg_rank_help=_prefix rank [opcional:<critÈrio>] : Mostra o rank de Gear de acordo com critÈrio selecionado\nCritÈrios disponiveis:GS,AP,APAWAK,DP,LVL
-embed_help_title=InstruÁıes
+msg_info_helpshort=Mostra informa√ß√µes do perfil do usuario
+msg_info_help=_prefix info : Mostra informa√ß√µes uteis do perfil do usuario
+msg_nodewar_helpshort=Agenda uma Node War ou verifica lista de presen√ßa
+msg_nodewar_help=_prefix nw :Agenda uma node war\n_prefix nw -show :Mostra as NodeWar agendadas\n_prefix nw -presence <id> :Mostra a lista de presen√ßa da node war de acordo com a rea√ß√£o no aviso.\nO parametro ID se encontra no aviso da NodeWar!
+msg_pick_helpshort=Escolhe aleatoriamente entre varias op√ß√µes
+msg_pick_help=_prefix pick <op√ß√£o>,<op√ß√£o>,<op√ß√£o>... :Escolhe aleatoriamente entre as op√ß√µes.
+msg_rank_helpshort=Mostra o rank de Gear de acordo com crit√©rio selecionado
+msg_rank_help=_prefix rank [opcional:<crit√©rio>] : Mostra o rank de Gear de acordo com crit√©rio selecionado\nCrit√©rios disponiveis:GS,AP,APAWAK,DP,LVL
+embed_help_title=Instru√ß√µes
 msg_excel_helpshort=Exporta a gear para excel
 msg_excel_help=Exporta a lista de gear para excel
 msg_region_helpshort=Altera o idioma

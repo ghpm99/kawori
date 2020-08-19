@@ -40,12 +40,14 @@ public class CmdNodeWar extends Command {
 
 	@Autowired
 	private NodeWarService nodeWarService;
-
 	@Autowired
 	private NodeService nodeService;
-
 	@Autowired
 	private NodeWarPresenceService nodeWarPresenceService;
+	@Autowired
+	private MessageController messageController;
+	@Autowired
+	private EmbedPattern embedPattern;
 
 	@Override
 	public void action(String[] args, MessageReceivedEvent event) {
@@ -74,10 +76,10 @@ public class CmdNodeWar extends Command {
 	private void showNodeWar(MessageReceivedEvent event) {
 		List<NodeWar> nodes = nodeWarService.findByIdGuildAndDate(event.getGuild().getIdLong(), new Date());
 
-		EmbedBuilder embed = EmbedPattern.createEmbedNodeWar(event.getAuthor(), event.getChannel(), event.getGuild(),
+		EmbedBuilder embed = embedPattern.createEmbedNodeWar(event.getAuthor(), event.getChannel(), event.getGuild(),
 				nodes);
 
-		MessageController.sendEmbed(event.getChannel(), embed);
+		messageController.sendEmbed(event.getChannel(), embed);
 	}
 
 	private void scheduleNodeWar(MessageReceivedEvent messageReceived) {
@@ -142,9 +144,9 @@ public class CmdNodeWar extends Command {
 			}, new ErrorHandler().ignore(ErrorResponse.UNKNOWN_MESSAGE));
 		};
 
-		EmbedBuilder embed = EmbedPattern.createSelectTierEmbed(user, channel, guild);
+		EmbedBuilder embed = embedPattern.createSelectTierEmbed(user, channel, guild);
 
-		MessageController.sendEmbed(channel, embed, callback);
+		messageController.sendEmbed(channel, embed, callback);
 
 	}
 
@@ -185,9 +187,9 @@ public class CmdNodeWar extends Command {
 			});
 		};
 
-		EmbedBuilder embed = EmbedPattern.createSelectTierEmbedAdditional(user, channel, guild);
+		EmbedBuilder embed = embedPattern.createSelectTierEmbedAdditional(user, channel, guild);
 
-		MessageController.changeEmbed(channel, currentEmbed, embed, callBack);
+		messageController.changeEmbed(channel, currentEmbed, embed, callBack);
 
 	}
 
@@ -242,9 +244,9 @@ public class CmdNodeWar extends Command {
 
 		};
 
-		EmbedBuilder embed = EmbedPattern.createSelectDayOfWeekEmbed(user, channel, guild);
+		EmbedBuilder embed = embedPattern.createSelectDayOfWeekEmbed(user, channel, guild);
 
-		MessageController.changeEmbed(channel, currentEmbed, embed, callBack);
+		messageController.changeEmbed(channel, currentEmbed, embed, callBack);
 
 	}
 
@@ -288,9 +290,9 @@ public class CmdNodeWar extends Command {
 
 		};
 
-		EmbedBuilder embed = EmbedPattern.createSelectNodesByTierAndDayEmbed(user, channel, guild, nodes);
+		EmbedBuilder embed = embedPattern.createSelectNodesByTierAndDayEmbed(user, channel, guild, nodes);
 
-		MessageController.changeEmbed(channel, currentEmbed, embed, callBack);
+		messageController.changeEmbed(channel, currentEmbed, embed, callBack);
 
 	}
 
@@ -329,9 +331,9 @@ public class CmdNodeWar extends Command {
 
 		};
 
-		EmbedBuilder embed = EmbedPattern.createSelectDayOfMonthEmbed(user, channel, guild, day);
+		EmbedBuilder embed = embedPattern.createSelectDayOfMonthEmbed(user, channel, guild, day);
 
-		MessageController.changeEmbed(channel, currentEmbed, embed, callBack);
+		messageController.changeEmbed(channel, currentEmbed, embed, callBack);
 
 	}
 
@@ -349,9 +351,9 @@ public class CmdNodeWar extends Command {
 			ReactionHandler.reactions.remove(message.getIdLong());
 		};
 
-		EmbedBuilder embed = EmbedPattern.createSaveNodeWarEmbed(user, channel, guild, nodeWar);
+		EmbedBuilder embed = embedPattern.createSaveNodeWarEmbed(user, channel, guild, nodeWar);
 
-		MessageController.changeEmbed(channel, currentEmbed, embed, callBack);
+		messageController.changeEmbed(channel, currentEmbed, embed, callBack);
 	}
 
 	private ArrayList<Date> nearestNextWeekDay(Date reference, int dayOfWeek) {
@@ -428,12 +430,12 @@ public class CmdNodeWar extends Command {
 
 		};
 
-		MessageController.sendMessage(guild, channel, guild.getJDA().getSelfUser(), "msg_everyone");
+		messageController.sendMessage(guild, channel, guild.getJDA().getSelfUser(), "msg_everyone");
 
-		EmbedBuilder embed = EmbedPattern.createShowScheduledNodeWar(guild.getJDA().getSelfUser(), channel, guild,
+		EmbedBuilder embed = embedPattern.createShowScheduledNodeWar(guild.getJDA().getSelfUser(), channel, guild,
 				node);
 
-		MessageController.sendEmbed(channel, embed, callBack);
+		messageController.sendEmbed(channel, embed, callBack);
 	}
 
 	private TextChannel createChannelNodeWar(Guild guild) {
@@ -452,14 +454,14 @@ public class CmdNodeWar extends Command {
 					event.getGuild().getIdLong());
 			
 			
-			EmbedBuilder embed = EmbedPattern.createEmbedNodeWarPresence(event.getAuthor(), event.getChannel(),
+			EmbedBuilder embed = embedPattern.createEmbedNodeWarPresence(event.getAuthor(), event.getChannel(),
 					event.getGuild(), nodeWar, presences);
 
-			MessageController.sendEmbed(event.getChannel(), embed);
+			messageController.sendEmbed(event.getChannel(), embed);
 
 		} catch (Exception e) {
 
-			MessageController.sendMessage(event.getGuild(), event.getChannel(), event.getAuthor(),
+			messageController.sendMessage(event.getGuild(), event.getChannel(), event.getAuthor(),
 					"msg_nw_presence_error_code");
 			e.printStackTrace();
 		}

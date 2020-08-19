@@ -23,8 +23,10 @@ public class CmdFun extends Command {
 
 	@Autowired
 	private GifBDService gifBd;
-
-	
+	@Autowired
+	private MessageController messageController;
+	@Autowired
+	private EmbedPattern embedPattern;
 
 	@Override
 	public void action(String[] args, MessageReceivedEvent event) {
@@ -207,7 +209,7 @@ public class CmdFun extends Command {
 			msg = msgSolo;
 		}
 
-		MessageController.sendEmbed(channel, EmbedPattern.createEmbedFun(user1, channel, guild, url, msg,
+		messageController.sendEmbed(channel, embedPattern.createEmbedFun(user1, channel, guild, url, msg,
 				user1.getAsMention(), user2.getAsMention()), null);
 	}
 

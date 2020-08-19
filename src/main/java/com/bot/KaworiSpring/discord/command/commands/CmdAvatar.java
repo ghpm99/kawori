@@ -7,6 +7,7 @@ package com.bot.KaworiSpring.discord.command.commands;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.bot.KaworiSpring.discord.command.Command;
@@ -25,7 +26,10 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 @Controller
 public class CmdAvatar extends Command {
 
-	
+	@Autowired
+	private MessageController messageController;
+	@Autowired
+	private EmbedPattern embedPattern;
 
 	@Override
 	public void action(String[] args, MessageReceivedEvent event) {
@@ -38,7 +42,7 @@ public class CmdAvatar extends Command {
 			user = mention.get(0).getUser();
 		}
 
-		MessageController.sendEmbed(event.getChannel(), EmbedPattern.createEmbedImage(user, event.getChannel(),
+		messageController.sendEmbed(event.getChannel(), embedPattern.createEmbedImage(user, event.getChannel(),
 				event.getGuild(), user.getAvatarUrl() + "?size=1024", "msg_avatar_sucess"), null);
 	}
 

@@ -32,6 +32,8 @@ public class BotListener extends ListenerAdapter {
 		membroController.updateAllMembers(event.getGuild());
 		
 		guildaController.updateGuildChannel(event.getGuild());
+		
+		
 	}
 
 	// bot sai do servidor
@@ -41,4 +43,6 @@ public class BotListener extends ListenerAdapter {
 		botController.onGuildLeave(event.getGuild());
 	}
 
+
+	
 }

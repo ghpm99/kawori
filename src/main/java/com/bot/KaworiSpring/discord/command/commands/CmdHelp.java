@@ -1,5 +1,6 @@
 package com.bot.KaworiSpring.discord.command.commands;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.bot.KaworiSpring.discord.command.Command;
@@ -17,13 +18,18 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 @Controller
 public class CmdHelp extends Command {
 
+	@Autowired
+	private MessageController messageController;
+	@Autowired
+	private EmbedPattern embedPattern;
+
 	public void action(String[] args, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
 		if (args.length == 0 || args[0].toLowerCase().equals("all")) {
 			showAll(event.getGuild(), event.getChannel(), event.getAuthor());
 		} else {
-			showHelp(event.getGuild(), event.getChannel(), event.getAuthor(), CommandHandler.commands.get(args[0].toLowerCase()),
-					args[0]);
+			showHelp(event.getGuild(), event.getChannel(), event.getAuthor(),
+					CommandHandler.commands.get(args[0].toLowerCase()), args[0]);
 		}
 
 	}
@@ -45,15 +51,15 @@ public class CmdHelp extends Command {
 	}
 
 	private void showAll(Guild guild, MessageChannel channel, User user) {
-		EmbedBuilder embed = EmbedPattern.createEmbedHelpAll(user, channel, guild, CommandHandler.commands);
-		MessageController.sendEmbed(channel, embed);		
-	}	
+		EmbedBuilder embed = embedPattern.createEmbedHelpAll(user, channel, guild, CommandHandler.commands);
+		messageController.sendEmbed(channel, embed);
+	}
 
 	private void showHelp(Guild guild, MessageChannel channel, User user, Command command, String commandKey) {
 		if (command == null)
 			return;
-		EmbedBuilder embed = EmbedPattern.createEmbedHelp(user, channel, guild, command, commandKey);
-		MessageController.sendEmbed(channel, embed);
+		EmbedBuilder embed = embedPattern.createEmbedHelp(user, channel, guild, command, commandKey);
+		messageController.sendEmbed(channel, embed);
 	}
 
 	@Override

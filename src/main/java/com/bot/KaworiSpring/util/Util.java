@@ -20,6 +20,8 @@ public class Util {
 	
 	public static long idGuildAdm = 622269870788050946l;
 	
+	public static long idLogChannel= 713069346506670180l;
+	
 	public static int calculateGearScore(int ap, int aap, int dp) {
 		int higherAp = Math.max(ap, aap);
 		return higherAp + dp;

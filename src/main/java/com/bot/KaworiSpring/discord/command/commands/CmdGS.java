@@ -42,15 +42,16 @@ public class CmdGS extends Command {
 
 	@Autowired
 	private GearService gearService;
-
 	@Autowired
 	private TagController tagController;
-
 	@Autowired
 	private MembroService membroService;
-
 	@Autowired
 	private PersonagemService personagemService;
+	@Autowired
+	private MessageController messageController;
+	@Autowired
+	private EmbedPattern embedPattern;
 
 	public void action(String[] args, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
@@ -60,7 +61,6 @@ public class CmdGS extends Command {
 		for (String arg : args) {
 			if (arg.startsWith("-")) {
 				cmd = arg.replaceFirst("-", "").toLowerCase();
-				System.out.println(cmd);
 			}
 		}
 
@@ -68,9 +68,9 @@ public class CmdGS extends Command {
 			showGearMember(event.getGuild(), event.getChannel(), event.getMember(),
 					event.getMessage().getMentionedMembers());
 		} else if (cmd.equals("add")) {
-			checkIsNew(event.getGuild(),event.getChannel(),event.getMember());
+			checkIsNew(event.getGuild(), event.getChannel(), event.getMember());
 		} else if (cmd.equals("select")) {
-			selectGear(event.getGuild(),event.getChannel(),event.getMember());
+			selectGear(event.getGuild(), event.getChannel(), event.getMember());
 		} else {
 			setGear(args, event);
 		}
@@ -92,14 +92,13 @@ public class CmdGS extends Command {
 		ArrayList<Gear> members = new ArrayList<>();
 
 		for (Member mencionado : mentioned) {
-			Gear temp = generateGear(mencionado, mencionado.getGuild(),
-					mencionado.getUser().getName());
+			Gear temp = generateGear(mencionado, mencionado.getGuild(), mencionado.getUser().getName());
 			members.add(temp);
 		}
 
-		EmbedBuilder embed = EmbedPattern.createEmbedShowGear(author.getUser(), channel, guild, members);
+		EmbedBuilder embed = embedPattern.createEmbedShowGear(author.getUser(), channel, guild, members);
 
-		MessageController.sendEmbed(channel, embed);
+		messageController.sendEmbed(channel, embed);
 	}
 
 	private Gear generateGear(Member user, Guild guild, String name) {
@@ -119,16 +118,17 @@ public class CmdGS extends Command {
 		return gear;
 	}
 
-	private void createGear(Guild guild,Member user, boolean isNew, Message embed) {
+	private void createGear(Guild guild, Member user, boolean isNew, Message embed) {
 
-		createGear(guild,user, isNew);
+		createGear(guild, user, isNew);
 		embed.delete().queue();
 		showGearMember(guild, embed.getChannel(), user, Arrays.asList(user));
 	}
 
-	private Gear createGear(Guild guild,Member user, boolean isNew) {
+	private Gear createGear(Guild guild, Member user, boolean isNew) {
 		Membro membro = membroService.findByIdAndIdGuild(user.getIdLong(), guild.getIdLong());
-		Personagem personagem = loadPersonagem(user.getIdLong(), membro.getId(), guild.getIdLong(), user.getUser().getName(), isNew);
+		Personagem personagem = loadPersonagem(user.getIdLong(), membro.getId(), guild.getIdLong(),
+				user.getUser().getName(), isNew);
 		Gear gear = gearService.createNewGear(user.getIdLong(), guild.getIdLong(), personagem);
 
 		return gear;
@@ -161,8 +161,8 @@ public class CmdGS extends Command {
 
 		};
 
-		EmbedBuilder embed = EmbedPattern.createEmbedCheckIsNewPersonagem(author.getUser(), channel, guild);
-		MessageController.sendEmbed(channel, embed, callback);
+		EmbedBuilder embed = embedPattern.createEmbedCheckIsNewPersonagem(author.getUser(), channel, guild);
+		messageController.sendEmbed(channel, embed, callback);
 
 	}
 
@@ -353,7 +353,7 @@ public class CmdGS extends Command {
 	}
 
 	private void selectGear(Guild guild, MessageChannel channel, Member author) {
-		showEmbedSelect(guild,channel,author,PageRequest.of(0, 2));
+		showEmbedSelect(guild, channel, author, PageRequest.of(0, 2));
 	}
 
 	private void setGear(String[] args, MessageReceivedEvent event) {
@@ -376,12 +376,12 @@ public class CmdGS extends Command {
 		// updateTag(gear, event);
 	}
 
-	private void showEmbedSelect(Guild guild, MessageChannel channel, Member author,Pageable pageable) {
+	private void showEmbedSelect(Guild guild, MessageChannel channel, Member author, Pageable pageable) {
 		Page<Gear> gears = gearService.findByIdDiscordAndIdGuild(author.getUser().getIdLong(), guild.getIdLong(),
 				pageable);
-		EmbedBuilder embed = EmbedPattern.createEmbedShowGear(author.getUser(), channel, guild,
+		EmbedBuilder embed = embedPattern.createEmbedShowGear(author.getUser(), channel, guild,
 				new ArrayList<Gear>(gears.getContent()));
-		MessageController.sendEmbed(channel, embed, (s) -> {
+		messageController.sendEmbed(channel, embed, (s) -> {
 
 			if (gears.hasPrevious()) {
 				s.addReaction(Emojis.BACK.getEmoji()).queue();
@@ -401,9 +401,9 @@ public class CmdGS extends Command {
 						if (emoji == null)
 							return;
 						else if (emoji.equals(Emojis.NEXT)) {
-							editEmbedSelect(guild,channel,author,s, gears.nextPageable());
+							editEmbedSelect(guild, channel, author, s, gears.nextPageable());
 						} else if (emoji.equals(Emojis.BACK)) {
-							editEmbedSelect(guild,channel,author,s, gears.previousPageable());
+							editEmbedSelect(guild, channel, author, s, gears.previousPageable());
 						} else
 							selectedGear(s, gears.toList().get(emoji.getId()));
 					}
@@ -416,12 +416,13 @@ public class CmdGS extends Command {
 
 	}
 
-	private void editEmbedSelect(Guild guild, MessageChannel channel, Member author,Message message, Pageable pageable) {
+	private void editEmbedSelect(Guild guild, MessageChannel channel, Member author, Message message,
+			Pageable pageable) {
 		Page<Gear> gears = gearService.findByIdDiscordAndIdGuild(author.getUser().getIdLong(), guild.getIdLong(),
 				pageable);
-		EmbedBuilder embed = EmbedPattern.createEmbedShowGear(author.getUser(), channel, guild,
+		EmbedBuilder embed = embedPattern.createEmbedShowGear(author.getUser(), channel, guild,
 				new ArrayList<Gear>(gears.getContent()));
-		MessageController.changeEmbed(channel, message, embed, (s) -> {
+		messageController.changeEmbed(channel, message, embed, (s) -> {
 
 			if (gears.hasPrevious()) {
 				s.addReaction(Emojis.BACK.getEmoji()).queue();
@@ -441,9 +442,9 @@ public class CmdGS extends Command {
 						if (emoji == null) {
 							return;
 						} else if (emoji.equals(Emojis.NEXT)) {
-							editEmbedSelect(guild,channel,author,s, gears.nextPageable());
+							editEmbedSelect(guild, channel, author, s, gears.nextPageable());
 						} else if (emoji.equals(Emojis.BACK)) {
-							editEmbedSelect(guild,channel,author,s, gears.previousPageable());
+							editEmbedSelect(guild, channel, author, s, gears.previousPageable());
 						} else
 							selectedGear(s, gears.toList().get(emoji.getId()));
 					}
@@ -457,7 +458,7 @@ public class CmdGS extends Command {
 		ReactionHandler.reactions.remove(message.getIdLong());
 		personagemService.updateAtivo(gear.getPersonagem());
 		gearService.updateAtivo(gear);
-		MessageController.sendMessage(message.getGuild(), message.getChannel(), message.getAuthor(),
+		messageController.sendMessage(message.getGuild(), message.getChannel(), message.getAuthor(),
 				"msg_gs_select_sucess");
 	}
 

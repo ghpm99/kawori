@@ -34,24 +34,20 @@ public class GuildaController {
 
 	@Autowired
 	private TagService tagService;
-
 	@Autowired
 	private MembroService membroService;
-
 	@Autowired
 	private ColorBDService colorBDService;
-
 	@Autowired
 	private AdventureFameService adventureFameService;
-
 	@Autowired
 	private OperatorController operatorController;
-
 	@Autowired
 	private GuildaService guildaService;
-
 	@Autowired
 	private CanalService canalService;
+	@Autowired
+	private MessageController messageController;
 
 	public void onGuildMemberJoin(Guild guild, Member member) {
 
@@ -67,7 +63,7 @@ public class GuildaController {
 
 		membroService.save(membro);
 
-		sendMessageOnJoin(guild, member);
+		//sendMessageOnJoin(guild, member);
 
 	}
 
@@ -222,7 +218,7 @@ public class GuildaController {
 			return;
 		String message = guilda.getDefaultWelcomeMessage();
 
-		MessageController.sendMessageSingle(guild, channel, member.getUser(), message);
+		messageController.sendMessageSingle(guild, channel, member.getUser(), message);
 
 	}
 

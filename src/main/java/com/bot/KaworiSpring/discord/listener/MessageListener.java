@@ -20,9 +20,9 @@ public class MessageListener extends ListenerAdapter {
 
 	@Autowired
 	private LogService logService;
-
 	@Autowired
 	private EventService eventService;
+		
 
 	@Override
 	public void onMessageReceived(MessageReceivedEvent evento) {
@@ -58,9 +58,10 @@ public class MessageListener extends ListenerAdapter {
 			logService.addEvent(
 					new Log(new Date(), message, evento.getGuild().getIdLong(), evento.getAuthor().getIdLong(), "-"));
 			eventService.cmdReceivedEvent(evento.getAuthor().getIdLong(), evento.getGuild().getIdLong());
+			
 			CommandHandler.handleCommand(CommandHandler.parser.parse(message, evento));
 
 		}
-	}
-
+	}	
+	
 }

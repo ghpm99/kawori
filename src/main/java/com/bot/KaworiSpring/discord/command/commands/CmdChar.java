@@ -28,6 +28,10 @@ public class CmdChar extends Command {
 	private MembroService membroService;
 	@Autowired
 	private PersonagemService personagemService;
+	@Autowired
+	private MessageController messageController;
+	@Autowired
+	private EmbedPattern embedPattern;
 
 	private String cmd;
 
@@ -81,8 +85,8 @@ public class CmdChar extends Command {
 	}
 
 	private void showEmbedPersonagens(User author, MessageChannel channel, Guild guild, List<Personagem> personagens) {
-		EmbedBuilder builder = EmbedPattern.createEmbedChar(author, channel, guild, personagens);
-		MessageController.sendEmbed(channel, builder);
+		EmbedBuilder builder = embedPattern.createEmbedChar(author, channel, guild, personagens);
+		messageController.sendEmbed(channel, builder);
 	}
 
 	private void showPersonagens() {
@@ -252,8 +256,8 @@ public class CmdChar extends Command {
 		}
 	}
 
-	private void savePersonagem(Personagem personagem, MessageReceivedEvent event) {
-		MessageController.sendMessage(event.getGuild(), event.getChannel(), event.getAuthor(), "msg_char_sucess");
+	private void savePersonagem(Personagem personagem, MessageReceivedEvent event) {		
+		messageController.sendMessage(event.getGuild(), event.getChannel(), event.getAuthor(), "msg_char_sucess");
 		personagemService.save(personagem);
 	}
 
@@ -262,7 +266,7 @@ public class CmdChar extends Command {
 				author.getUser().getName());
 
 		if (!atualizarAtributo(personagem, args, event)) {
-			MessageController.sendMessage(guild, channel, author.getUser(), "msg_gs_error");
+			messageController.sendMessage(guild, channel, author.getUser(), "msg_gs_error");
 			return;
 		}
 		savePersonagem(personagem, event);

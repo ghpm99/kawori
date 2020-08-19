@@ -14,6 +14,7 @@ import com.bot.KaworiSpring.discord.command.commands.CmdAdm;
 import com.bot.KaworiSpring.discord.command.commands.CmdAvatar;
 import com.bot.KaworiSpring.discord.command.commands.CmdChar;
 import com.bot.KaworiSpring.discord.command.commands.CmdConfig;
+import com.bot.KaworiSpring.discord.command.commands.CmdExcel;
 import com.bot.KaworiSpring.discord.command.commands.CmdFun;
 import com.bot.KaworiSpring.discord.command.commands.CmdGS;
 import com.bot.KaworiSpring.discord.command.commands.CmdHelp;
@@ -21,6 +22,7 @@ import com.bot.KaworiSpring.discord.command.commands.CmdInfo;
 import com.bot.KaworiSpring.discord.command.commands.CmdNodeWar;
 import com.bot.KaworiSpring.discord.command.commands.CmdPick;
 import com.bot.KaworiSpring.discord.command.commands.CmdRank;
+import com.bot.KaworiSpring.discord.command.commands.CmdRegion;
 import com.bot.KaworiSpring.discord.listener.BotListener;
 import com.bot.KaworiSpring.discord.listener.GuildListener;
 import com.bot.KaworiSpring.discord.listener.MessageListener;
@@ -65,6 +67,10 @@ public class Main {
 	private CmdInfo cmdInfo;
 	@Autowired
 	private CmdConfig cmdConfig;
+	@Autowired
+	private CmdExcel cmdExcel;
+	@Autowired
+	private CmdRegion cmdRegion;
 
 	// Eventos Listeners
 	@Autowired
@@ -129,11 +135,12 @@ public class Main {
 		//util
 		CommandHandler.commands.put("help", cmdHelp);
 		CommandHandler.commands.put("info", cmdInfo);
+		CommandHandler.commands.put("region", cmdRegion);
 		
 		//build
-		CommandHandler.commands.put("gs", cmdGS);
+		CommandHandler.commands.put("gear", cmdGS);
 		CommandHandler.commands.put("rank", cmdRank);
-		CommandHandler.commands.put("char", cmdChar);
+		CommandHandler.commands.put("char", cmdChar);		
 		
 		//node war
 		CommandHandler.commands.put("nw", cmdNodeWar);
@@ -141,6 +148,7 @@ public class Main {
 		//adm
 		CommandHandler.commands.put("adm", cmdAdm);
 		CommandHandler.commands.put("config", cmdConfig);
+		CommandHandler.commands.put("excel", cmdExcel);
 		
 		//fun
 		CommandHandler.commands.put("pick", cmdPick);

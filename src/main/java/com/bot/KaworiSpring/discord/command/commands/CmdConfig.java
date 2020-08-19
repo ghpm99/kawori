@@ -16,8 +16,10 @@ import com.bot.KaworiSpring.discord.reaction.Reaction;
 import com.bot.KaworiSpring.discord.reaction.ReactionHandler;
 import com.bot.KaworiSpring.discord.security.Permissions;
 import com.bot.KaworiSpring.model.Canal;
+import com.bot.KaworiSpring.model.Guilda;
 import com.bot.KaworiSpring.model.Tag;
 import com.bot.KaworiSpring.service.CanalService;
+import com.bot.KaworiSpring.service.GuildaService;
 import com.bot.KaworiSpring.service.TagService;
 import com.bot.KaworiSpring.util.Emojis;
 
@@ -40,6 +42,12 @@ public class CmdConfig extends Command {
 	private TagService tagService;
 	@Autowired
 	private MembroController membroController;
+	@Autowired
+	private GuildaService guildaService;
+	@Autowired
+	private MessageController messageController;
+	@Autowired
+	private EmbedPattern embedPattern;
 
 	@Override
 	public void action(String[] args, MessageReceivedEvent event) {
@@ -47,10 +55,21 @@ public class CmdConfig extends Command {
 
 		if (!event.getMessage().getMentionedChannels().isEmpty() && event.getMessage().getMentionedRoles().isEmpty()) {
 			channelBeheavion(event);
-		}
-		if (event.getMessage().getMentionedChannels().isEmpty() && !event.getMessage().getMentionedRoles().isEmpty()) {
+		}else if (event.getMessage().getMentionedChannels().isEmpty() && !event.getMessage().getMentionedRoles().isEmpty()) {
 			roleBeheavion(event);
+		}else if(args.length != 0) {
+			if(args[0].equals("pt-br")) {
+				changeLanguage(event, "Brazil");
+			}else if(args[0].equals("espanol")) {
+				changeLanguage(event, "Espanol");
+			}else {
+				sendHelp(event);
+			}
+			
+		}else {
+			sendHelp(event);
 		}
+		
 	}
 
 	@Override
@@ -78,7 +97,7 @@ public class CmdConfig extends Command {
 	}
 
 	private void channelBeheavion(MessageReceivedEvent event) {
-		EmbedBuilder embed = EmbedPattern.createEmbedConfigureChannels(event.getAuthor(), event.getChannel(),
+		EmbedBuilder embed = embedPattern.createEmbedConfigureChannels(event.getAuthor(), event.getChannel(),
 				event.getGuild(), event.getMessage().getMentionedChannels());
 		Consumer<Message> callback = (message) -> {
 			message.addReaction(Emojis.CHECK_OK.getEmoji()).queue();
@@ -99,13 +118,13 @@ public class CmdConfig extends Command {
 				ReactionHandler.reactions.remove(message.getIdLong());
 			});
 		};
-		MessageController.sendEmbed(event.getChannel(), embed, callback);
+		messageController.sendEmbed(event.getChannel(), embed, callback);
 
 	}
 
 	private void changeChannel(Message embed, List<TextChannel> channels, boolean isCanSend) {
 		changeSendMessageChannel(channels, isCanSend);
-		MessageController.changeEmbed(embed.getChannel(), embed, EmbedPattern
+		messageController.changeEmbed(embed.getChannel(), embed, embedPattern
 				.createEmbedConfigureChannelsSucess(embed.getAuthor(), embed.getChannel(), embed.getGuild(), channels));
 
 	}
@@ -123,7 +142,7 @@ public class CmdConfig extends Command {
 	}
 
 	private void roleBeheavion(MessageReceivedEvent event) {
-		EmbedBuilder embed = EmbedPattern.createEmbedConfigureRoles(event.getAuthor(), event.getChannel(),
+		EmbedBuilder embed = embedPattern.createEmbedConfigureRoles(event.getAuthor(), event.getChannel(),
 				event.getGuild(), event.getMessage().getMentionedRoles());
 		Consumer<Message> callback = (message) -> {
 			message.addReaction(Emojis.ONE.getEmoji()).queue();
@@ -217,7 +236,7 @@ public class CmdConfig extends Command {
 			});
 		};
 
-		MessageController.sendEmbed(event.getChannel(), embed, callback);
+		messageController.sendEmbed(event.getChannel(), embed, callback);
 	}
 
 	private void changeRoles(List<Role> roles, boolean cmdAdm, boolean cmdNodeWar, boolean cmdRank, boolean cmdBuild,
@@ -246,8 +265,18 @@ public class CmdConfig extends Command {
 
 	private void changeRoleEmbed(Message oldEmbed, User user, MessageChannel channel, Guild guild, List<Role> roles) {
 		ReactionHandler.reactions.remove(oldEmbed.getIdLong());
-		EmbedBuilder newEmbed = EmbedPattern.createEmbedConfigureRolesSucess(user, channel, guild, roles);
-		MessageController.changeEmbed(channel, oldEmbed, newEmbed);
+		EmbedBuilder newEmbed = embedPattern.createEmbedConfigureRolesSucess(user, channel, guild, roles);
+		messageController.changeEmbed(channel, oldEmbed, newEmbed);
 	}
 
+	private void changeLanguage(MessageReceivedEvent event, String language) {
+		Guilda guilda = guildaService.findById(event.getGuild().getIdLong());
+		guilda.setRegion(language);
+		guildaService.save(guilda);
+		messageController.sendMessage(event.getGuild(), event.getChannel(), event.getAuthor(), "msg_region_sucess",language);
+	}
+	
+	private void sendHelp(MessageReceivedEvent event) {
+		messageController.sendMessage(event.getGuild(), event.getChannel(), event.getAuthor(), help());
+	}
 }
