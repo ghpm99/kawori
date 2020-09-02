@@ -66,6 +66,25 @@ public class Guilda {
 	}
 
 	public void setRegion(String region) {
+		switch (region) {
+		case "pt-br":
+		case "portugues":
+		case "português":
+		case "pt":
+		case "brasil":
+		case "brazil":
+		case "br":
+			region = "Brazil";
+			break;
+		case "espanol":
+		case "esp":
+		case "español":
+			region = "Espanol";
+			break;
+		default:
+			region = "USEnglish";
+			break;
+		}
 		this.region = region;
 	}
 

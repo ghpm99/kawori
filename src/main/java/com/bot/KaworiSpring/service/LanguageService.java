@@ -39,7 +39,7 @@ public class LanguageService {
 		}
 		return language;
 	}
-	
+
 	public String loadMessage(Guild guild, User user, String message) {
 		String region = getLanguage(guild, user);
 		String fileName = System.getProperty("user.dir") + File.separator + "language" + File.separator + region
@@ -59,13 +59,13 @@ public class LanguageService {
 			// TODO Auto-generated catch block
 			return " _nameMention , that language is not yet supported!";
 		}
-		if(retorno == null) {
+		if (retorno == null) {
 			retorno = message;
 		}
 		return retorno;
 	}
-	
-	private static void createFile(String path, String fileName) {
+
+	private void createFile(String path, String fileName) {
 		File newDirectory = new File(path);
 		File newFile = new File(path + File.separator + fileName);
 
@@ -88,4 +88,20 @@ public class LanguageService {
 
 	}
 
+	public void setRegion(Guild guild, String region) {
+
+		Guilda guilda = guildaService.findById(guild.getIdLong());
+		guilda.setRegion(region.toLowerCase());
+		guildaService.save(guilda);
+
+	}
+
+	public void setRegion(User user, String region) {
+
+		Operator operator = operatorService.findById(user.getIdLong());
+		operator.setRegion(region.toLowerCase());
+		operatorService.save(operator);
+
+	}	
+	
 }

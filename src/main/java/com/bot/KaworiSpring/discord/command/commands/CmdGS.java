@@ -229,124 +229,23 @@ public class CmdGS extends Command {
 				retorno = true;
 				break;
 			case "CLASS":
-				String classe = verificarClasse(args[1]);
-				if (!classe.equals("1")) {
-					gear.getPersonagem().setClasse(classe);
-					retorno = true;
-				}
+				gear.getPersonagem().setClasse(args[1].toLowerCase());
+				retorno = true;
 				break;
 			case "SKILL":
-				String spec = verificarBattleMode(args[1]);
-				if (!spec.equals("1")) {
-					gear.getPersonagem().setBattleMode(spec);
-					retorno = true;
-				}
+				gear.getPersonagem().setBattleMode(args[1].toLowerCase());
+				retorno = true;
 				break;
-
+			case "TRINA":
+				gear.setTrina(args[1].toLowerCase());
+				retorno = true;
+				break;
 			}
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();
 		}
 		return retorno;
-	}
-
-	/*
-	 * 1 archer 2 berserker 3 dark knight 4 guardian 5 kunoichi 6 lahn 7 maehwa 8
-	 * musah 9 mystic 10 ninja 11 ranger 12 shai 13 sorceress 14 striker 15 tamer 16
-	 * valkyrie 17 warrior 18 witch 19 wizard
-	 */
-	private String verificarClasse(String classe) {
-		switch (classe.toLowerCase()) {
-		case "1":
-		case "archer":
-			return "Archer";
-		case "2":
-		case "berserker":
-		case "zerk":
-			return "Berserker";
-		case "3":
-		case "darkknight":
-		case "dark":
-		case "dk":
-			return "Dark Knight";
-		case "4":
-		case "guardian":
-			return "Guardian";
-		case "5":
-		case "kunoichi":
-		case "kuno":
-			return "Kunoichi";
-		case "6":
-		case "lahn":
-			return "Lahn";
-		case "7":
-		case "maehwa":
-			return "Maehwa";
-		case "8":
-		case "musah":
-			return "Musah";
-		case "9":
-		case "mystic":
-			return "Mystic";
-		case "10":
-		case "ninja":
-			return "Ninja";
-		case "11":
-		case "ranger":
-			return "Ranger";
-		case "12":
-		case "shai":
-			return "Shai";
-		case "13":
-		case "sorceress":
-		case "sorc":
-			return "Sorceress";
-		case "14":
-		case "striker":
-			return "Striker";
-		case "15":
-		case "tamer":
-			return "Tamer";
-		case "16":
-		case "valkyrie":
-		case "valk":
-			return "Valkyrie";
-		case "17":
-		case "warrior":
-		case "wr":
-			return "Warrior";
-		case "18":
-		case "witch":
-			return "Witch";
-		case "19":
-		case "wizard":
-			return "Wizard";
-		case "20":
-		case "hashashin":
-			return "Hashashin";
-		default:
-			return "1";
-
-		}
-	}
-
-	private String verificarBattleMode(String battleMode) {
-		switch (battleMode.toLowerCase()) {
-		case "awak":
-		case "awakening":
-		case "awk":
-		case "1":
-			return "Awakening";
-		case "succ":
-		case "succession":
-		case "suc":
-		case "2":
-			return "Succession";
-		default:
-			return "1";
-
-		}
-	}
+	}	
 
 	private void updateTag(Gear gear, MessageReceivedEvent messageReceived) {
 		tagController.updateTag(gear, messageReceived.getGuild(), messageReceived.getAuthor());

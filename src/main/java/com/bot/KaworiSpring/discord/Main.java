@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.bot.KaworiSpring.discord.command.CommandHandler;
 import com.bot.KaworiSpring.discord.command.commands.CmdAdm;
+import com.bot.KaworiSpring.discord.command.commands.CmdAutoRole;
 import com.bot.KaworiSpring.discord.command.commands.CmdAvatar;
 import com.bot.KaworiSpring.discord.command.commands.CmdChar;
 import com.bot.KaworiSpring.discord.command.commands.CmdConfig;
@@ -35,7 +36,6 @@ import com.bot.KaworiSpring.service.LogService;
 import com.bot.KaworiSpring.service.StatusService;
 import com.bot.KaworiSpring.util.Util;
 
-import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 
@@ -71,6 +71,8 @@ public class Main {
 	private CmdExcel cmdExcel;
 	@Autowired
 	private CmdRegion cmdRegion;
+	@Autowired
+	private CmdAutoRole cmdAutoRole;
 
 	// Eventos Listeners
 	@Autowired
@@ -100,9 +102,9 @@ public class Main {
 		logService.addEvent(new Log(new Date(), "Iniciando Bot", 0, 0, "OK"));
 
 		Util.PREFIX = configService.getByType("prefix").getValue();
+		Util.PREFIXAUTOROLE = configService.getByType("prefixAutoRole").getValue();
 
-		JDABuilder builder = new JDABuilder(AccountType.BOT).setToken(configService.getByType("token").getValue())
-				.setAutoReconnect(true);
+		JDABuilder builder = JDABuilder.createDefault(configService.getByType("token").getValue()).setAutoReconnect(true);		
 
 		setListeners(builder);
 
@@ -149,6 +151,7 @@ public class Main {
 		CommandHandler.commands.put("adm", cmdAdm);
 		CommandHandler.commands.put("config", cmdConfig);
 		CommandHandler.commands.put("excel", cmdExcel);
+		CommandHandler.commands.put("autorole", cmdAutoRole);
 		
 		//fun
 		CommandHandler.commands.put("pick", cmdPick);

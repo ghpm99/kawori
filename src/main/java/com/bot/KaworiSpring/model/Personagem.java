@@ -24,7 +24,7 @@ public class Personagem extends Model {
 
 	@ManyToOne
 	private Membro membro;
-	
+
 	private boolean ativo;
 
 	public String getName() {
@@ -40,6 +40,96 @@ public class Personagem extends Model {
 	}
 
 	public void setClasse(String classe) {
+		switch (classe) {
+		case "1":
+		case "archer":
+			classe = "Archer";
+			break;
+		case "2":
+		case "berserker":
+		case "zerk":
+			classe = "Berserker";
+			break;
+		case "3":
+		case "darkknight":
+		case "dark":
+		case "dk":
+			classe = "Dark Knight";
+			break;
+		case "4":
+		case "guardian":
+			classe = "Guardian";
+			break;
+		case "5":
+		case "kunoichi":
+		case "kuno":
+			classe = "Kunoichi";
+			break;
+		case "6":
+		case "lahn":
+			classe = "Lahn";
+			break;
+		case "7":
+		case "maehwa":
+			classe = "Maehwa";
+			break;
+		case "8":
+		case "musah":
+			classe = "Musah";
+			break;
+		case "9":
+		case "mystic":
+			classe = "Mystic";
+			break;
+		case "10":
+		case "ninja":
+			classe = "Ninja";
+			break;
+		case "11":
+		case "ranger":
+			classe = "Ranger";
+			break;
+		case "12":
+		case "shai":
+			classe = "Shai";
+			break;
+		case "13":
+		case "sorceress":
+		case "sorc":
+			classe = "Sorceress";
+			break;
+		case "14":
+		case "striker":
+			classe = "Striker";
+			break;
+		case "15":
+		case "tamer":
+			classe = "Tamer";
+			break;
+		case "16":
+		case "valkyrie":
+		case "valk":
+			classe = "Valkyrie";
+			break;
+		case "17":
+		case "warrior":
+		case "wr":
+			classe = "Warrior";
+			break;
+		case "18":
+		case "witch":
+			classe = "Witch";
+			break;
+		case "19":
+		case "wizard":
+			classe = "Wizard";
+			break;
+		case "20":
+		case "hashashin":
+			classe = "Hashashin";
+			break;
+
+		}
 		this.classe = classe;
 	}
 
@@ -48,6 +138,20 @@ public class Personagem extends Model {
 	}
 
 	public void setBattleMode(String battleMode) {
+		switch (battleMode) {
+		case "awak":
+		case "awakening":
+		case "awk":
+		case "1":
+			battleMode = "Awakening";
+			break;
+		case "succ":
+		case "succession":
+		case "suc":
+		case "2":
+			battleMode = "Succession";
+			break;
+		}
 		this.battleMode = battleMode;
 	}
 
@@ -67,6 +171,4 @@ public class Personagem extends Model {
 		this.ativo = ativo;
 	}
 
-	
-	
 }

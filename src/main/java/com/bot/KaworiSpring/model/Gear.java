@@ -19,16 +19,18 @@ public class Gear extends Model {
 	private int dp;
 
 	private int level;
-	
+
+	private String trina;
+
 	private int score;
-	
+
 	@ManyToOne
 	private Personagem personagem;
-	
+
 	private boolean ativo;
 
 	private String link;
-	
+
 	private boolean young;
 
 	public Long getIdDiscord() {
@@ -126,7 +128,43 @@ public class Gear extends Model {
 	public void setScore(int score) {
 		this.score = score;
 	}
-	
-	
-	
+
+	public String getTrina() {
+		if(trina == null) {
+			trina = "";
+		}
+		return trina;
+	}
+
+	public void setTrina(String trina) {
+		switch (trina) {
+		case "1":
+		case "i":
+		case "pri":
+			trina = "PRI";
+			break;
+		case "2":
+		case "ii":
+		case "duo":
+			trina = "DUO";
+			break;
+		case "3":
+		case "iii":
+		case "tri":
+			trina = "TRI";
+			break;
+		case "4":
+		case "iv":
+		case "tet":
+			trina = "TET";
+			break;
+		case "5":
+		case "v":
+		case "pen":
+			trina = "PEN";
+			break;
+		}
+		this.trina = trina;
+	}
+
 }

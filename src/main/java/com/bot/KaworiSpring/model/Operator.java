@@ -32,7 +32,7 @@ public class Operator {
 	private int msgCount;
 
 	private int cmdCount;
-	
+
 	private String region;
 
 	public void increaseMsgCount() {
@@ -137,7 +137,7 @@ public class Operator {
 
 	public void setExp(int exp) {
 		if (getExp() >= getExpRequired()) {
-			setLevel(getLevel() + 1);			
+			setLevel(getLevel() + 1);
 			setExpRequired(getExpRequired() + 200);
 			exp = 0;
 		}
@@ -145,7 +145,7 @@ public class Operator {
 	}
 
 	public void increaseExp(int exp) {
-		setExp(exp + getExp());		
+		setExp(exp + getExp());
 	}
 
 	public String getRegion() {
@@ -153,9 +153,26 @@ public class Operator {
 	}
 
 	public void setRegion(String region) {
+		switch (region) {
+		case "pt-br":
+		case "portugues":
+		case "português":
+		case "pt":
+		case "brasil":
+		case "brazil":
+		case "br":
+			region = "Brazil";
+			break;
+		case "espanol":
+		case "esp":
+		case "español":
+			region = "Espanol";
+			break;
+		default:
+			region = "USEnglish";
+			break;
+		}
 		this.region = region;
 	}
-	
-	
 
 }

@@ -6,8 +6,7 @@ import org.springframework.stereotype.Controller;
 import com.bot.KaworiSpring.discord.command.Command;
 import com.bot.KaworiSpring.discord.message.MessageController;
 import com.bot.KaworiSpring.discord.security.Permissions;
-import com.bot.KaworiSpring.model.Operator;
-import com.bot.KaworiSpring.service.OperatorService;
+import com.bot.KaworiSpring.service.LanguageService;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
@@ -15,21 +14,17 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 public class CmdRegion extends Command {
 
 	@Autowired
-	private OperatorService operatorService;
-	@Autowired
 	private MessageController messageController;
+	@Autowired
+	private LanguageService languageService;
 
 	@Override
 	public void action(String[] args, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
 		if (args.length == 0) {
 			notLanguageSet(event);
-		} else if (args[0].toLowerCase().equals("pt-br")) {
-			setLanguage(event, "Brazil");
-		} else if (args[0].toLowerCase().equals("espanol")) {
-			setLanguage(event, "Espanol");
 		} else {
-			notLanguageSet(event);
+			languageSet(event, args[0]);
 		}
 
 	}
@@ -62,10 +57,8 @@ public class CmdRegion extends Command {
 		messageController.sendMessage(event.getGuild(), event.getChannel(), event.getAuthor(), "msg_region_fail");
 	}
 
-	private void setLanguage(MessageReceivedEvent event, String region) {
-		Operator operator = operatorService.findById(event.getAuthor().getIdLong());
-		operator.setRegion(region);
-		operatorService.save(operator);
+	private void languageSet(MessageReceivedEvent event, String region) {
+		languageService.setRegion(event.getAuthor(), region);
 		messageController.sendMessage(event.getGuild(), event.getChannel(), event.getAuthor(), "msg_region_sucess");
 	}
 

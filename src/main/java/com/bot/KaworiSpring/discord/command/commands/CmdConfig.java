@@ -16,10 +16,9 @@ import com.bot.KaworiSpring.discord.reaction.Reaction;
 import com.bot.KaworiSpring.discord.reaction.ReactionHandler;
 import com.bot.KaworiSpring.discord.security.Permissions;
 import com.bot.KaworiSpring.model.Canal;
-import com.bot.KaworiSpring.model.Guilda;
 import com.bot.KaworiSpring.model.Tag;
 import com.bot.KaworiSpring.service.CanalService;
-import com.bot.KaworiSpring.service.GuildaService;
+import com.bot.KaworiSpring.service.LanguageService;
 import com.bot.KaworiSpring.service.TagService;
 import com.bot.KaworiSpring.util.Emojis;
 
@@ -41,13 +40,13 @@ public class CmdConfig extends Command {
 	@Autowired
 	private TagService tagService;
 	@Autowired
-	private MembroController membroController;
-	@Autowired
-	private GuildaService guildaService;
+	private MembroController membroController;	
 	@Autowired
 	private MessageController messageController;
 	@Autowired
 	private EmbedPattern embedPattern;
+	@Autowired
+	private LanguageService languageService;
 
 	@Override
 	public void action(String[] args, MessageReceivedEvent event) {
@@ -55,21 +54,16 @@ public class CmdConfig extends Command {
 
 		if (!event.getMessage().getMentionedChannels().isEmpty() && event.getMessage().getMentionedRoles().isEmpty()) {
 			channelBeheavion(event);
-		}else if (event.getMessage().getMentionedChannels().isEmpty() && !event.getMessage().getMentionedRoles().isEmpty()) {
+		} else if (event.getMessage().getMentionedChannels().isEmpty()
+				&& !event.getMessage().getMentionedRoles().isEmpty()) {
 			roleBeheavion(event);
-		}else if(args.length != 0) {
-			if(args[0].equals("pt-br")) {
-				changeLanguage(event, "Brazil");
-			}else if(args[0].equals("espanol")) {
-				changeLanguage(event, "Espanol");
-			}else {
-				sendHelp(event);
-			}
-			
-		}else {
+		} else if (args.length != 0) {
+
+			languageSet(event, args[0]);
+		} else {
 			sendHelp(event);
 		}
-		
+
 	}
 
 	@Override
@@ -269,13 +263,11 @@ public class CmdConfig extends Command {
 		messageController.changeEmbed(channel, oldEmbed, newEmbed);
 	}
 
-	private void changeLanguage(MessageReceivedEvent event, String language) {
-		Guilda guilda = guildaService.findById(event.getGuild().getIdLong());
-		guilda.setRegion(language);
-		guildaService.save(guilda);
-		messageController.sendMessage(event.getGuild(), event.getChannel(), event.getAuthor(), "msg_region_sucess",language);
+	private void languageSet(MessageReceivedEvent event, String region) {
+		languageService.setRegion(event.getGuild(), region);
+		messageController.sendMessage(event.getGuild(), event.getChannel(), event.getAuthor(), "msg_region_sucess");
 	}
-	
+
 	private void sendHelp(MessageReceivedEvent event) {
 		messageController.sendMessage(event.getGuild(), event.getChannel(), event.getAuthor(), help());
 	}

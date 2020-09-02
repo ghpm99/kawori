@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.bot.KaworiSpring.discord.command.Command;
+import com.bot.KaworiSpring.model.AutoRole;
 import com.bot.KaworiSpring.model.Gear;
 import com.bot.KaworiSpring.model.Node;
 import com.bot.KaworiSpring.model.NodeWar;
@@ -222,6 +223,7 @@ public class EmbedPattern {
 		embed.addField("AAP", String.valueOf(gear.getApAwak()), true);
 		embed.addField("DP", String.valueOf(gear.getDp()), true);
 		embed.addField("LVL", String.valueOf(gear.getLevel()), true);
+		embed.addField("Trina", gear.getTrina(), true);
 		embed.addField("Battle Mode", String.valueOf(gear.getPersonagem().getBattleMode()), true);
 		embed.addBlankField(false);
 
@@ -499,6 +501,68 @@ public class EmbedPattern {
 		embed.setAuthor("Kaori Bot", "https://discord.gg/xtFBD6M", channel.getJDA().getSelfUser().getAvatarUrl());
 		embed.setTitle(commandKey.toUpperCase());
 		messageController.setEmbedDescription(guild, channel, user, embed, command.help());
+
+		return embed;
+	}
+
+	public EmbedBuilder createEmbedAutoRoleApply(User user, MessageChannel channel, Guild guild, List<Role> roles) {
+		EmbedBuilder embed = new EmbedBuilder();
+
+		String rolesName = "";
+		for (Role role : roles) {
+			rolesName = rolesName + " " + role.getName();
+		}
+		messageController.setEmbedTitle(guild, channel, user, embed, "embed_auto_role_title");
+		messageController.setEmbedDescription(guild, channel, user, embed, "embed_auto_role_description", rolesName);
+
+		return embed;
+	}
+
+	public EmbedBuilder createEmbedCancelAutoRole(User user, MessageChannel channel, Guild guild,
+			List<AutoRole> autoRoles) {
+		EmbedBuilder embed = new EmbedBuilder();
+
+		messageController.setEmbedTitle(guild, channel, user, embed, "embed_auto_role_cancel_title");
+		messageController.setEmbedDescription(guild, channel, user, embed, "embed_auto_role_cancel_description");
+
+		for (AutoRole autoRole : autoRoles) {
+			TextChannel textChannel = guild.getTextChannelById(autoRole.getChannel());
+			Role role = guild.getRoleById(autoRole.getRole());
+			embed.addField(messageController.createEmbedField(guild, channel, user, autoRole.getText(),
+					"embed_auto_role_cancel_fiel", textChannel == null ? "null" : textChannel.getAsMention(),
+					role == null ? "null" : role.getName()));
+		}
+
+		return embed;
+	}
+
+	public EmbedBuilder createEmbedCanceledAutoRole(User user, MessageChannel channel, Guild guild, AutoRole autoRole) {
+		EmbedBuilder embed = new EmbedBuilder();
+
+		messageController.setEmbedTitle(guild, channel, user, embed, "embed_auto_role_canceled_title");
+		messageController.setEmbedDescription(guild, channel, user, embed, "embed_auto_role_canceled_description");
+
+		TextChannel textChannel = guild.getTextChannelById(autoRole.getChannel());
+		Role role = guild.getRoleById(autoRole.getRole());
+
+		embed.addField(messageController.createEmbedField(guild, channel, user, autoRole.getText(),
+				"embed_auto_role_canceled_fiel", textChannel == null ? "null" : textChannel.getAsMention(),
+				role == null ? "null" : role.getName()));
+
+		return embed;
+	}
+
+	public EmbedBuilder createEmbedConfiguredAutoRole(User user, MessageChannel channel, Guild guild,
+			AutoRole autoRole) {
+		EmbedBuilder embed = new EmbedBuilder();
+
+		TextChannel textChannel = guild.getTextChannelById(autoRole.getChannel());
+		Role role = guild.getRoleById(autoRole.getRole());
+
+		messageController.setEmbedTitle(guild, channel, user, embed, "embed_auto_role_sucess_title");
+		messageController.setEmbedDescription(guild, channel, user, embed, "embed_auto_role_sucess_description",
+				textChannel == null ? "null" : textChannel.getAsMention(), autoRole.getText(),
+				role == null ? "null" : role.getName());
 
 		return embed;
 	}

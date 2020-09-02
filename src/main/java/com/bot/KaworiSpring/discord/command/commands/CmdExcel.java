@@ -99,17 +99,20 @@ public class CmdExcel extends Command {
 
 		Cell headerScore = header.createCell(9);
 		headerScore.setCellValue("GearScore");
+		
+		Cell headerTrina = header.createCell(10);
+		headerTrina.setCellValue("Trina");
 
-		Cell headerActive = header.createCell(10);
+		Cell headerActive = header.createCell(11);
 		headerActive.setCellValue("Ativo");
 
-		Cell headerLink = header.createCell(11);
+		Cell headerLink = header.createCell(12);
 		headerLink.setCellValue("Link");
 
-		Cell headerNew = header.createCell(12);
+		Cell headerNew = header.createCell(13);
 		headerNew.setCellValue("New");
 		
-		Cell headerCan = header.createCell(13);
+		Cell headerCan = header.createCell(14);
 		headerCan.setCellValue("Can Use");
 
 		for (int i = 0; i < gears.size(); i++) {
@@ -149,16 +152,19 @@ public class CmdExcel extends Command {
 			Cell valueScore = rowValue.createCell(9);
 			valueScore.setCellValue(String.valueOf(gear.getScore()));
 
-			Cell valueActive = rowValue.createCell(10);
+			Cell valueTrina = rowValue.createCell(10);
+			valueTrina.setCellValue(gear.getTrina());
+			
+			Cell valueActive = rowValue.createCell(11);
 			valueActive.setCellValue(String.valueOf(gear.isAtivo()));
 
-			Cell valueLink = rowValue.createCell(11);
+			Cell valueLink = rowValue.createCell(12);
 			valueLink.setCellValue(gear.getLink());
 
-			Cell valueNew = rowValue.createCell(12);
+			Cell valueNew = rowValue.createCell(13);
 			valueNew.setCellValue(String.valueOf(gear.isYoung()));
 			
-			Cell valueCan = rowValue.createCell(13);
+			Cell valueCan = rowValue.createCell(14);
 			valueCan.setCellValue(String.valueOf(gear.getPersonagem().getMembro().isGear()));
 
 		}

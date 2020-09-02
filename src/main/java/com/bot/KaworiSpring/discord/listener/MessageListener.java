@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import com.bot.KaworiSpring.discord.command.CommandHandler;
+import com.bot.KaworiSpring.discord.command.commands.CmdAutoRole;
 import com.bot.KaworiSpring.model.Log;
 import com.bot.KaworiSpring.service.EventService;
 import com.bot.KaworiSpring.service.LogService;
@@ -61,6 +62,9 @@ public class MessageListener extends ListenerAdapter {
 			
 			CommandHandler.handleCommand(CommandHandler.parser.parse(message, evento));
 
+		}else if(message.startsWith(Util.PREFIXAUTOROLE) & !evento.getAuthor().getId().equals(evento.getJDA().getSelfUser().getId())) {
+			CmdAutoRole cmd = (CmdAutoRole) CommandHandler.commands.get("autorole");
+			cmd.applyRole(evento.getGuild(),evento.getChannel(), evento.getMessage().getContentDisplay().replaceFirst(Util.PREFIXAUTOROLE, ""),evento.getAuthor());
 		}
 	}	
 	
