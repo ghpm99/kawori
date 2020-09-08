@@ -39,7 +39,7 @@ public class GuildListener extends ListenerAdapter {
 	public void onGuildMemberRemove(GuildMemberRemoveEvent event) {
 		// TODO Auto-generated method stub
 		super.onGuildMemberRemove(event);
-		guildaController.onGuildMemberLeave(event.getGuild(), event.getMember());
+		guildaController.onGuildMemberLeave(event.getGuild(), event.getUser());
 	}
 
 	@Override

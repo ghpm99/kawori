@@ -29,7 +29,7 @@ public class EventService {
 	private ExperienceController expController;
 
 	public void privateMessageEvent(long idUser) {
-		// EventPrivateMessage event = new EventPrivateMessage(idUser, new Date());
+		 //EventPrivateMessage event = new EventPrivateMessage(idUser, new Date());
 		// privateMessageRepository.save(event);
 
 	}

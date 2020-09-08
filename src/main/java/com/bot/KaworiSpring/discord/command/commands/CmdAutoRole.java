@@ -18,6 +18,7 @@ import com.bot.KaworiSpring.discord.security.Permissions;
 import com.bot.KaworiSpring.model.AutoRole;
 import com.bot.KaworiSpring.service.AutoRoleService;
 import com.bot.KaworiSpring.util.Emojis;
+import com.bot.KaworiSpring.util.Util;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
@@ -41,17 +42,10 @@ public class CmdAutoRole extends Command {
 	@Override
 	public void action(String[] args, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
-		String text = "";
-		for (String arg : args) {
-			if (arg.startsWith("@") || arg.startsWith("#")) {
-				continue;
-			}
-			text = text + " " + arg;
-		}
-		if (!text.equals("") && event.getMessage().getMentionedChannels().size() == 1
+		if (event.getMessage().getMentionedChannels().size() == 1
 				&& event.getMessage().getMentionedRoles().size() == 1) {
 			configureAutoRole(event, event.getMessage().getMentionedChannels().get(0),
-					event.getMessage().getMentionedRoles().get(0), text);
+					event.getMessage().getMentionedRoles().get(0));
 		} else if (args.length == 0) {
 			cancelAutoRole(event.getGuild(), event.getChannel(), event.getAuthor(), null, PageRequest.of(0, 5));
 		} else {
@@ -84,13 +78,26 @@ public class CmdAutoRole extends Command {
 		return Permissions.CMD_ADM;
 	}
 
-	private void configureAutoRole(MessageReceivedEvent event, TextChannel channel, Role role, String text) {
+	private void configureAutoRole(MessageReceivedEvent event, TextChannel channel, Role role) {
+		String text = getText(event);
+		System.out.println(text);
 		AutoRole autoRole = autoRoleService.createAutoRole(event.getGuild().getIdLong(), channel.getIdLong(),
 				role.getIdLong(), text);
 
 		EmbedBuilder embed = embedPattern.createEmbedConfiguredAutoRole(event.getAuthor(), event.getChannel(),
 				event.getGuild(), autoRole);
 		messageController.sendEmbed(event.getChannel(), embed);
+	}
+
+	private String getText(MessageReceivedEvent event) {
+
+		String content = event.getMessage().getContentDisplay();
+		content = content.replaceAll(Util.PREFIX + "autorole", "");
+		content = content.replaceAll("#" + event.getMessage().getMentionedChannels().get(0).getName(), "");
+		content = content.replaceAll("@" + event.getMessage().getMentionedRoles().get(0).getName(), "");
+		content = content.replaceAll("\\s+$", "");
+
+		return content;
 	}
 
 	private void sendHelp(MessageReceivedEvent event) {
@@ -101,7 +108,7 @@ public class CmdAutoRole extends Command {
 		ArrayList<Role> applyRoles = new ArrayList<Role>();
 		List<AutoRole> autoRoles = autoRoleService.getAutoRole(guild.getIdLong(), channel.getIdLong());
 		for (AutoRole autoRole : autoRoles) {
-			if (autoRole.getText().equals(text)) {
+			if (autoRole.getText().equals(text) && !autoRole.isCanceled()) {
 				Role role = guild.getRoleById(autoRole.getRole());
 				if (role != null) {
 					guild.addRoleToMember(author.getIdLong(), role).queue();
@@ -152,7 +159,7 @@ public class CmdAutoRole extends Command {
 		if (currentMessage == null)
 			messageController.sendEmbed(channel, embed, callBack);
 		else {
-			messageController.changeEmbed(channel, currentMessage, embed);
+			messageController.changeEmbed(channel, currentMessage, embed, callBack);
 		}
 	}
 

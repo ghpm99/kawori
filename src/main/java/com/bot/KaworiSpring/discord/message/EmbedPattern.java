@@ -200,7 +200,8 @@ public class EmbedPattern {
 		messageController.setEmbedDescription(guild, channel, user, embed, "msg_gs_show_member_description");
 		for (Gear gear : gears) {
 
-			Member member = guild.getMemberById(gear.getIdDiscord());
+			//Member member = guild.getMemberById(gear.getIdDiscord());
+			Member member = guild.retrieveMemberById(gear.getIdDiscord(), true).complete();
 
 			if (member == null)
 				continue;
@@ -317,7 +318,9 @@ public class EmbedPattern {
 	public EmbedBuilder createEmbedInfoUser(User user, MessageChannel channel, Guild guild, String familyName,
 			String activePersonagem, String activeGear) {
 		EmbedBuilder embed = new EmbedBuilder();
-		String nick = guild.getMember(user).getNickname();
+		Member member = guild.retrieveMember(user).complete();
+		//String nick = guild.getMember(user).getNickname();
+		String nick = member.getNickname();
 		if (nick == null) {
 			nick = "null";
 		}
@@ -326,7 +329,7 @@ public class EmbedPattern {
 		messageController.setEmbedTitle(guild, channel, user, embed, "embed_info_title");
 		messageController.setEmbedDescription(guild, channel, user, embed, "embed_info_description");
 
-		String joined = guild.getMember(user).getTimeJoined().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+		String joined = member.getTimeJoined().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
 		embed.addField(messageController.createEmbedField(guild, channel, user, "Info", "embed_info_field_1",
 				user.getId(), nick, user.getName()));

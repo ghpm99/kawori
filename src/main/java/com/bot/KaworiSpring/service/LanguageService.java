@@ -89,7 +89,6 @@ public class LanguageService {
 	}
 
 	public void setRegion(Guild guild, String region) {
-
 		Guilda guilda = guildaService.findById(guild.getIdLong());
 		guilda.setRegion(region.toLowerCase());
 		guildaService.save(guilda);

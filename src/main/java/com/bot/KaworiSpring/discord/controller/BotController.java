@@ -24,15 +24,15 @@ public class BotController {
 		if (guilda == null) {
 			guilda = new Guilda();
 			guilda.setId(guild.getIdLong());
-			guilda.setDefaultWelcomeMessage("_nameMention  welcome!");			
-			languageService.setRegion(guild, guild.getRegion().getName().toLowerCase());
+			guilda.setDefaultWelcomeMessage("_nameMention  welcome!");
 		}
 
 		guilda.setName(guild.getName());
 		guilda.setActive(true);
-		guilda.setIdOwner(guild.getOwnerIdLong());		
+		guilda.setIdOwner(guild.getOwnerIdLong());
 
 		guildaService.save(guilda);
+		languageService.setRegion(guild, guild.getRegion().getName().toLowerCase());
 		reportGuild(guild.getName() + " adicionou o bot", guild);
 	}
 
@@ -46,5 +46,5 @@ public class BotController {
 	private void reportGuild(String report, Guild guild) {
 		guild.getJDA().getGuildById(Util.idGuildAdm).getTextChannelById(Util.idLogChannel).sendMessage(report).queue();
 	}
-	
+
 }

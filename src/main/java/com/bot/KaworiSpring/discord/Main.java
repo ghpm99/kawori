@@ -38,6 +38,7 @@ import com.bot.KaworiSpring.util.Util;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 
 @Component
 public class Main {
@@ -104,7 +105,9 @@ public class Main {
 		Util.PREFIX = configService.getByType("prefix").getValue();
 		Util.PREFIXAUTOROLE = configService.getByType("prefixAutoRole").getValue();
 
-		JDABuilder builder = JDABuilder.createDefault(configService.getByType("token").getValue()).setAutoReconnect(true);		
+		JDABuilder builder = JDABuilder.createDefault(configService.getByType("token").getValue(),
+				GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MESSAGE_REACTIONS,
+				GatewayIntent.DIRECT_MESSAGES, GatewayIntent.DIRECT_MESSAGE_REACTIONS).setAutoReconnect(true);
 
 		setListeners(builder);
 
@@ -134,26 +137,26 @@ public class Main {
 
 	private void setCommands() {
 		logService.addEvent(new Log(new Date(), "Adicionando Comandos", 0, 0, "-"));
-		//util
+		// util
 		CommandHandler.commands.put("help", cmdHelp);
 		CommandHandler.commands.put("info", cmdInfo);
 		CommandHandler.commands.put("region", cmdRegion);
-		
-		//build
+
+		// build
 		CommandHandler.commands.put("gear", cmdGS);
 		CommandHandler.commands.put("rank", cmdRank);
-		CommandHandler.commands.put("char", cmdChar);		
-		
-		//node war
+		CommandHandler.commands.put("char", cmdChar);
+
+		// node war
 		CommandHandler.commands.put("nw", cmdNodeWar);
-		
-		//adm
+
+		// adm
 		CommandHandler.commands.put("adm", cmdAdm);
 		CommandHandler.commands.put("config", cmdConfig);
 		CommandHandler.commands.put("excel", cmdExcel);
 		CommandHandler.commands.put("autorole", cmdAutoRole);
-		
-		//fun
+
+		// fun
 		CommandHandler.commands.put("pick", cmdPick);
 		CommandHandler.commands.put("avatar", cmdAvatar);
 		CommandHandler.commands.put("hug", cmdFun);
@@ -176,7 +179,6 @@ public class Main {
 		CommandHandler.commands.put("punch", cmdFun);
 		CommandHandler.commands.put("trap", cmdFun);
 		CommandHandler.commands.put("explosion", cmdFun);
-		
 
 		logService.addEvent(new Log(new Date(), "Comandos adicionados", 0, 0, "OK"));
 	}
@@ -188,7 +190,7 @@ public class Main {
 	// @Scheduled(cron = "0 0 12 ? * MON,TUE,WED,THU,FRI,SAT,SUN *")
 	@Scheduled(cron = "0 0/1 * 1/1 * ?")
 	private void scheduledNodeWar() {
-		//System.out.println("Executando node war");
+		// System.out.println("Executando node war");
 		cmdNodeWar.scheduledNodeWar(jda);
 	}
 

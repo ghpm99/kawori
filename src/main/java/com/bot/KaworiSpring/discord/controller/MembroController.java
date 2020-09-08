@@ -25,11 +25,11 @@ public class MembroController {
 	TagService tagService;
 
 	public void updateAllMembers(Guild guild) {
-
-		guild.getMembers().forEach((member) -> {
+		
+		guild.loadMembers((member) -> {
 			System.out.println("update member:" + member.getIdLong() + " from guild:" + member.getGuild().getIdLong());
 			updateMember(member);
-		});
+		});	
 
 	}
 

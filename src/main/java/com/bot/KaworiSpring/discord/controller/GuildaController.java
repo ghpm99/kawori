@@ -25,6 +25,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.role.RoleCreateEvent;
 import net.dv8tion.jda.api.events.role.RoleDeleteEvent;
 import net.dv8tion.jda.api.events.role.update.RoleUpdatePermissionsEvent;
@@ -67,9 +68,9 @@ public class GuildaController {
 
 	}
 
-	public void onGuildMemberLeave(Guild guild, Member member) {
+	public void onGuildMemberLeave(Guild guild, User user) {
 
-		Membro membro = findMember(member.getIdLong(), guild.getIdLong());
+		Membro membro = findMember(user.getIdLong(), guild.getIdLong());
 
 		membro.setVisitor(false);
 		membro.setHero(false);
