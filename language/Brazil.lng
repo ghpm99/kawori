@@ -10,7 +10,7 @@ name_nw_129=Toco da Arvore Rhua
 name_nw_93=Castelo Cron
 name_nw_94=Zona do Castelo Cron
 name_nw_95=Colina Ehwaz
-name_nw_96=Caverna de Goblins
+name_nw_96=Caverna de Globins
 name_nw_90=Planicie Norte de Serendia
 name_nw_91=Esconderijo Biraghi
 name_nw_92=Caverna Costeira
@@ -159,9 +159,9 @@ name_nw_8=Siege Calpheon
 name_nw_132=Crio
 name_nw_9=Siege Mediah
 name_nw_133=Posto de Sentinela da Arvore Folha Longa
-msg_help_01=Digite _prefix gs AP:valor APAWAK:valor DP:valor LVL:valor\nDigite _prefix rank para verificar o rank
-msg_help_gs=Para cadastrar/atualizar seu gs utilize o comando _prefix gs AP:valor APAWAK:valor DP:valor LVL:valor \nE necessario incluir todas as informacoes e apenas numeros inteiros, exemplo: _prefix gs AP:255 APAWAK:253 DP:296 LVL:61
-msg_gs_01= _nameMention gentileza verificar o comando \nPara ajuda utilize o comando _prefix help gs
+msg_help_01=Digite _prefix gear AP=valor APAWAK=valor DP=valor LVL=valor\nDigite _prefix rank para verificar o rank
+msg_help_gs=Para cadastrar/atualizar seu gear utilize o comando _prefix gear AP=valor APAWAK=valor DP=valor LVL=valor NAME=valor CLASS=valor SKILL=valor\nE necessario incluir todas as informacoes e apenas numeros inteiros, exemplo: _prefix gear AP=255 APAWAK=253 DP=296 LVL=61
+msg_gs_01= _nameMention gentileza verificar o comando \nPara ajuda utilize o comando _prefix help gear
 msg_gs_error=_nameMention  falhou em atualizar o Gear Score \nGentileza verificar o comando e tentar novamente! \nPara ajuda utilize o comando _prefix help para acessar a mensagem de ajuda!
 msg_gs_sucess=_nameMention  Gear Score atualizado com sucesso!
 msg_gs_show_member_title=Consulta
@@ -280,13 +280,13 @@ embed_configure_roles_field_7=_arg  Para concluir!
 embed_configure_roles_sucess_title=Sucesso em configurar permissão de cargo!
 embed_configure_roles_sucess_description=Cargos alterados:_arg 
 msg_help_helpshort=Comando para ajuda.Utilize _prefix help <comando> para ter uma ajuda mais especifica.
-msg_help_help=Utilize o comando _prefix help <comando> para ter uma ajuda mais especifica para o comando.\nCaso precise de uma ajuda melhor fique a vontade para entrar no discord: https://discord.gg/xtFBD6M\nLink para invitar o bot:https://discord.com/oauth2/authorize?client_id=622218589243572224&permissions=8&scope=bot
+msg_help_help=Utilize o comando _prefix help <comando> para ter uma ajuda mais especifica para o comando.\nCaso precise de uma ajuda melhor fique a vontade para entrar no discord: https://discord.gg/5rwtq5V\nLink para invitar o bot:https://discord.com/oauth2/authorize?client_id=622218589243572224&permissions=8&scope=bot
 msg_avatar_helpshort=Visualizar avatar _prefix avatar <usuario>
-msg_avatar_help=_prefix avatar <usuario> : Exibe o avatar do usuário
+msg_avatar_help=Exibe o avatar do usuário mencionado\n _prefix avatar <usuario>\n**usuario**=usuario mencionado
 msg_char_helpshort=Mostra ou configura informações sobre o personagem ativo.
-msg_char_help=_prefix char -all : Mostra todos personagens cadastrados.\n_prefix char -set <parametro=valor>: Altera informações sobre personagem ativo no momento.\nInformações alteraveis: NAME, CLASS, SKILL\nNAME = Altera nome do personagem\nCLASS = Altera classe do personagem\nSKILL = Altera entre despertada e sucessão\nExemplo de comando _prefix char -set CLASS=wr : altera a classe do personagem ativo para Guerreiro\nLista de classes disponiveis:archer,berserker,darkknight,guardian,kunoichi,lahn,maehwa,musah,mystic,ninja,ranger,shai,sorceress,striker,tamer,valkyrie,warrior,witch,wizard\nLista de modos de batalha disponiveis:awakening,succession
+msg_char_help=Exibe e altera informações sobre o personagem cadastrado **em desuso**\n_prefix char -all : Mostra todos personagens cadastrados.\n_prefix char -set <parametro=valor>: Altera informações sobre personagem ativo no momento.\nInformações alteraveis: NAME, CLASS, SKILL\nNAME = Altera nome do personagem\nCLASS = Altera classe do personagem\nSKILL = Altera entre despertada e sucessão\nExemplo de comando _prefix char -set CLASS=wr : altera a classe do personagem ativo para Guerreiro\nLista de classes disponiveis:archer,berserker,darkknight,guardian,kunoichi,lahn,maehwa,musah,mystic,ninja,ranger,shai,sorceress,striker,tamer,valkyrie,warrior,witch,wizard\nLista de modos de batalha disponiveis:awakening,succession
 msg_config_helpshort=Configura permissão no Grupo
-msg_config_help=_prefix config <canais> configura se o bot pode aceitar comandos dos canais mencionados.Obs: os canais deverão ser mencionados, exemplo: _prefix config #geral\n_prefix config <cargos> configura quais grupos de comandos poderão ser utilizados.Obs: os cargos deverão ser mencionados, exemplo:_prefix config @officers
+msg_config_help=Configura informações no grupo/servidor\n_prefix config <canais>\n**canais**=canal/canais mencionados que serão configurados\nConfigura se o bot pode aceitar comandos dos canais mencionados.\nObs: os canais deverão ser mencionados, exemplo: _prefix config #geral\n_prefix config <cargos>\n**cargos**=cargo/cargos mencionados que serão configurados\nConfigura quais grupos de comandos poderão ser utilizados.\nObs: os cargos deverão ser mencionados, exemplo:_prefix config @officers
 msg_fun_helpshort=Comando de interação com outro usuario
 msg_fun_help=Comando de interação com outro usuario.Utilize _prefix <comando> <usuario>
 msg_gs_helpshort=Mostra ou configura informações sobre a gear ativa, também possibilita a troca entre builds/personagem. 
