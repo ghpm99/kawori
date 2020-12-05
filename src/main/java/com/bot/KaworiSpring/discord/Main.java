@@ -10,6 +10,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.bot.KaworiSpring.discord.command.CommandHandler;
+import com.bot.KaworiSpring.discord.command.commands.CmdAchievements;
 import com.bot.KaworiSpring.discord.command.commands.CmdAdm;
 import com.bot.KaworiSpring.discord.command.commands.CmdAutoRole;
 import com.bot.KaworiSpring.discord.command.commands.CmdAvatar;
@@ -74,6 +75,8 @@ public class Main {
 	private CmdRegion cmdRegion;
 	@Autowired
 	private CmdAutoRole cmdAutoRole;
+	@Autowired
+	private CmdAchievements cmdAchievements;
 
 	// Eventos Listeners
 	@Autowired
@@ -141,6 +144,7 @@ public class Main {
 		CommandHandler.commands.put("help", cmdHelp);
 		CommandHandler.commands.put("info", cmdInfo);
 		CommandHandler.commands.put("region", cmdRegion);
+		CommandHandler.commands.put("achievements", cmdAchievements);
 
 		// build
 		CommandHandler.commands.put("gear", cmdGS);
