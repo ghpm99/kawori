@@ -20,6 +20,10 @@ public class StatusService {
     private final ZonedDateTime timeOn = ZonedDateTime.now();
 
     private long cmdReceived = 0;
+    
+    private long guildCount = 0;
+    
+    private long userCount = 0;
 
     public String getStatusBot() {
         return statusBot;
@@ -41,4 +45,20 @@ public class StatusService {
         this.cmdReceived++;
     }
 
+    public void increaseGuildCount() {
+    	this.guildCount++;
+    }
+    
+    public void increaseUserCount() {
+    	this.userCount++;
+    }
+    
+    public long getGuildCount() {
+    	return guildCount;
+    }
+    
+    public long getUserCount() {
+    	return userCount;
+    }
+    
 }

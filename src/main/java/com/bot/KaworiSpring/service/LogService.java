@@ -2,10 +2,11 @@ package com.bot.KaworiSpring.service;
 
 import java.util.ArrayList;
 
-import com.bot.KaworiSpring.model.Log;
-import com.bot.KaworiSpring.web.controller.LogController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.bot.KaworiSpring.model.Log;
+import com.bot.KaworiSpring.web.controller.LogController;
 
 @Service
 public class LogService {

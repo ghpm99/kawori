@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import com.bot.KaworiSpring.model.Membro;
 import com.bot.KaworiSpring.model.Tag;
 import com.bot.KaworiSpring.service.MembroService;
+import com.bot.KaworiSpring.service.StatusService;
 import com.bot.KaworiSpring.service.TagService;
 
 import net.dv8tion.jda.api.entities.Guild;
@@ -23,6 +24,8 @@ public class MembroController {
 	OperatorController operatorController;
 	@Autowired
 	TagService tagService;
+	@Autowired
+	private StatusService statusService;
 
 	public void updateAllMembers(Guild guild) {
 		
@@ -40,7 +43,7 @@ public class MembroController {
 			membro.setBanned(false);
 
 			membro.setIdGuild(member.getGuild().getIdLong());
-			membro.setIdUser(member.getIdLong());
+			membro.setIdUser(member.getIdLong());			
 		}
 		if (membro.getFamilyName() == null) {
 			membro.setFamilyName(member.getUser().getName());
@@ -49,6 +52,7 @@ public class MembroController {
 		membro.setNick(member.getNickname());
 		operatorController.updateOperator(member.getUser());
 		membroService.save(membro);
+		statusService.increaseUserCount();
 	}
 
 	private void updateEditGear(Member member, Membro membro) {

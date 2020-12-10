@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import com.bot.KaworiSpring.model.Guilda;
 import com.bot.KaworiSpring.service.GuildaService;
 import com.bot.KaworiSpring.service.LanguageService;
+import com.bot.KaworiSpring.service.StatusService;
 import com.bot.KaworiSpring.util.Util;
 
 import net.dv8tion.jda.api.entities.Guild;
@@ -17,6 +18,8 @@ public class BotController {
 	private GuildaService guildaService;
 	@Autowired
 	private LanguageService languageService;
+	@Autowired
+	private StatusService statusService;
 
 	public void onGuildJoin(Guild guild) {
 		Guilda guilda = guildaService.findById(guild.getIdLong());
@@ -34,6 +37,7 @@ public class BotController {
 		guildaService.save(guilda);
 		languageService.setRegion(guild, guild.getRegion().getName().toLowerCase());
 		reportGuild(guild.getName() + " adicionou o bot", guild);
+		statusService.increaseGuildCount();
 	}
 
 	public void onGuildLeave(Guild guild) {
