@@ -16,6 +16,7 @@ public class StatusController {
 	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping("/status")
 	public DataResponse status() {
+		System.out.println("Chamou");
 		DataResponse data = new DataResponse();
 		data.setStatus(statusService.getStatusBot());
 		data.setCmdReceived(statusService.getCmdReceived());

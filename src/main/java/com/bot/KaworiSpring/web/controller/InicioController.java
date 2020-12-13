@@ -5,13 +5,14 @@
  */
 package com.bot.KaworiSpring.web.controller;
 
-import com.bot.KaworiSpring.service.StatusService;
 import java.time.Duration;
 import java.time.ZonedDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.bot.KaworiSpring.service.StatusService;
 
 /**
  *
@@ -23,7 +24,7 @@ public class InicioController {
     @Autowired
     private StatusService statusService;
 
-    @RequestMapping("/inicio/status")
+    
     public String status(Model model) {
         model.addAttribute("status", statusService.getStatusBot());
         model.addAttribute("cmdReceived", statusService.getCmdReceived());

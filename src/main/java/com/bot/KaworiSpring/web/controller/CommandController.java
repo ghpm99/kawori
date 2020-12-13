@@ -3,7 +3,6 @@ package com.bot.KaworiSpring.web.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bot.KaworiSpring.discord.command.CommandHandler;
@@ -11,7 +10,7 @@ import com.bot.KaworiSpring.discord.command.CommandHandler;
 @RestController
 public class CommandController {
 	
-	@GetMapping("/commands")
+	
 	public DataResponse command() {
 		ArrayList<CommandJSON> commands = new ArrayList<>();
 		CommandHandler.commands.forEach((name,command) -> {
