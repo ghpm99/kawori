@@ -247,9 +247,11 @@ public class CmdGS extends Command {
 		return retorno;
 	}	
 
+	/*
 	private void updateTag(Gear gear, MessageReceivedEvent messageReceived) {
 		tagController.updateTag(gear, messageReceived.getGuild(), messageReceived.getAuthor());
 	}
+	*/
 
 	private void selectGear(Guild guild, MessageChannel channel, Member author) {
 		showEmbedSelect(guild, channel, author, PageRequest.of(0, 2));
