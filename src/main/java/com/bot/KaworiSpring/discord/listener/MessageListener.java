@@ -26,8 +26,8 @@ public class MessageListener extends ListenerAdapter {
 		
 
 	@Override
-	public void onMessageReceived(MessageReceivedEvent evento) {
-
+	public void onMessageReceived(MessageReceivedEvent evento) {	
+		
 		if (evento.getAuthor().isBot()) {
 			return;
 		}

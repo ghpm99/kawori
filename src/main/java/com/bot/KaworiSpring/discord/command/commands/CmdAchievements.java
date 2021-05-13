@@ -13,7 +13,7 @@ public class CmdAchievements extends Command{
 	@Override
 	public void action(String[] args, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
-		
+		System.out.println(event.getAuthor().getName());
 	}
 
 	@Override

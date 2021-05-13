@@ -13,7 +13,7 @@ public class StatusController {
 	@Autowired
 	private StatusService statusService;
 	
-	@CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = "")
 	@GetMapping("/status")
 	public DataResponse status() {
 		System.out.println("Chamou");
