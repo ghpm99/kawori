@@ -40,7 +40,7 @@ public class CmdConfig extends Command {
 	@Autowired
 	private TagService tagService;
 	@Autowired
-	private MembroController membroController;	
+	private MembroController membroController;
 	@Autowired
 	private MessageController messageController;
 	@Autowired
@@ -126,12 +126,10 @@ public class CmdConfig extends Command {
 	private void changeSendMessageChannel(List<TextChannel> channels, boolean isCanSend) {
 		channels.forEach((channel) -> {
 			Optional<Canal> optional = canalService.findById(channel.getIdLong());
+			Canal canal = optional.get();
+			canal.setSendMessage(isCanSend);
+			canalService.save(canal);
 
-			if (!optional.isEmpty()) {
-				Canal canal = optional.get();
-				canal.setSendMessage(isCanSend);
-				canalService.save(canal);
-			}
 		});
 	}
 

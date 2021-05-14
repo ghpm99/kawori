@@ -30,7 +30,7 @@ public class InicioController {
         model.addAttribute("cmdReceived", statusService.getCmdReceived());
 
         Duration duration = Duration.between(statusService.getTimeOn(),ZonedDateTime.now());
-        model.addAttribute("time", "Horas:" + duration.toHours() + " Minutos:" + duration.toMinutesPart() + " Segundos:" + duration.toSecondsPart());
+        model.addAttribute("time", "Horas:" + duration.toHours() + " Minutos:" + duration.toMinutes() + " Segundos:");
         return "inicio-status";
     }
 

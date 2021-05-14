@@ -38,13 +38,9 @@ public class CanalService {
 
 	public Canal UpdateCanal(TextChannel channel) {
 		Optional<Canal> canal = findById(channel.getIdLong());
-		Canal retorno;
-		if (canal.isEmpty()) {
-			retorno = createNew(channel);
-		} else {
-			retorno = canal.get();
-			retorno.setName(channel.getName());
-		}
+		Canal retorno = canal.get();
+		retorno.setName(channel.getName());
+
 		return save(retorno);
 	}
 
