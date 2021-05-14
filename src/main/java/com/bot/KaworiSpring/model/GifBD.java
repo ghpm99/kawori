@@ -1,9 +1,9 @@
 package com.bot.KaworiSpring.model;
 
-import javax.persistence.Entity;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 
-@Entity
+@Document
 public class GifBD extends Model{
 	
 	private String url;

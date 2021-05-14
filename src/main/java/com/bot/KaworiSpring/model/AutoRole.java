@@ -1,17 +1,13 @@
 package com.bot.KaworiSpring.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
-@Entity
-@Table(name = "autoRole")
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection  = "autoRole")
 public class AutoRole {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id	
 	private int id;
 	
 	private long guild;

@@ -1,10 +1,10 @@
 package com.bot.KaworiSpring.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.bot.KaworiSpring.model.AdventureFame;
 
-public interface AdventureFameRepository extends JpaRepository<AdventureFame, Long>{
+public interface AdventureFameRepository extends MongoRepository<AdventureFame, Long>{
 
 	public AdventureFame findByMinLessThanEqualAndMaxGreaterThanEqual(int min,int max);
 	

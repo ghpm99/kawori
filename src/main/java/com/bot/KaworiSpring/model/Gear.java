@@ -1,11 +1,9 @@
 package com.bot.KaworiSpring.model;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
-@Table(name = "gear")
+@Document(collection =  "gear")
 public class Gear extends Model {
 
 	private Long idDiscord;
@@ -24,7 +22,7 @@ public class Gear extends Model {
 
 	private int score;
 
-	@ManyToOne
+	@DBRef
 	private Personagem personagem;
 
 	private boolean ativo;

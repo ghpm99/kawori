@@ -2,19 +2,15 @@ package com.bot.KaworiSpring.model;
 
 import java.util.Date;
 
-import javax.persistence.Basic;
-import javax.persistence.Entity;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
+@Document
 public class NodeWarPresence extends Model{
-
-	@Basic
-	@Temporal(TemporalType.TIMESTAMP)
+	
 	private Date presenceTime;
 		
-	private long idNodeWar;
+	private ObjectId idNodeWar;
 	
 	private long idUser;
 	
@@ -28,11 +24,11 @@ public class NodeWarPresence extends Model{
 		this.presenceTime = presenceTime;
 	}
 
-	public long getIdNodeWar() {
+	public ObjectId getIdNodeWar() {
 		return idNodeWar;
 	}
 
-	public void setIdNodeWar(long idNodeWar) {
+	public void setIdNodeWar(ObjectId idNodeWar) {
 		this.idNodeWar = idNodeWar;
 	}
 

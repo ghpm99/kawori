@@ -1,11 +1,9 @@
 package com.bot.KaworiSpring.model;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
-@Table(name = "personagem")
+@Document(collection =  "personagem")
 public class Personagem extends Model {
 
 	private String name;
@@ -22,7 +20,7 @@ public class Personagem extends Model {
 	 * 1 = awak 2 = succ
 	 */
 
-	@ManyToOne
+	@DBRef
 	private Membro membro;
 
 	private boolean ativo;

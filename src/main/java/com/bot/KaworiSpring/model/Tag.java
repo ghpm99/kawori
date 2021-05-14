@@ -2,11 +2,9 @@ package com.bot.KaworiSpring.model;
 
 import java.awt.Color;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
-@Table(name = "role")
+@Document(collection =  "role")
 public class Tag extends Model{
 
 	private long idGuild;

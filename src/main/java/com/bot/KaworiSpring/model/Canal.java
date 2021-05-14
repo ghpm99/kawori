@@ -1,11 +1,9 @@
 package com.bot.KaworiSpring.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
-@Table(name = "channel")
+@Document(collection =  "channel")
 public class Canal {
 	
 	@Id

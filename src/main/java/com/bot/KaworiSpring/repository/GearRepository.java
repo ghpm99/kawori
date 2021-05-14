@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.bot.KaworiSpring.model.Gear;
 
-public interface GearRepository extends JpaRepository<Gear, Long> {
+public interface GearRepository extends MongoRepository<Gear, Long> {
 
 	public Gear findByIdDiscord(Long id);
 

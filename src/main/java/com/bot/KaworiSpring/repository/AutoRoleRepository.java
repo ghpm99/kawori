@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.bot.KaworiSpring.model.AutoRole;
 
-public interface AutoRoleRepository extends JpaRepository<AutoRole, Long> {
+public interface AutoRoleRepository extends MongoRepository<AutoRole, Long> {
 
 	public List<AutoRole> getByGuildAndChannelAndCanceled(long guild, long channel, boolean canceled);
 	

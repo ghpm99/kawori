@@ -2,26 +2,21 @@ package com.bot.KaworiSpring.model;
 
 import java.util.Date;
 
-import javax.persistence.Basic;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
+@Document
 public class NodeWar extends Model {
 
 	private long idGuild;
-	
+
 	private long idDiscord;
-	
-	@Basic
-	@Temporal(TemporalType.DATE)
+
 	private Date date;
-	
-	@ManyToOne
+
+	@DBRef
 	private Node node;
-	
+
 	private long idMessage;
 
 	public long getIdGuild() {
@@ -63,6 +58,5 @@ public class NodeWar extends Model {
 	public void setIdMessage(long idMessage) {
 		this.idMessage = idMessage;
 	}
-	
-	
+
 }

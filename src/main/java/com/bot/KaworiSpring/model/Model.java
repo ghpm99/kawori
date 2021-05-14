@@ -1,22 +1,18 @@
 package com.bot.KaworiSpring.model;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 
-@MappedSuperclass
 public class Model {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@Id	
+	private ObjectId id;
 	
-	public Long getId() {
+	public ObjectId getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(ObjectId id) {
 		this.id = id;
 	}
 	

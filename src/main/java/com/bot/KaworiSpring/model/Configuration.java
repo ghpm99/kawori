@@ -1,10 +1,8 @@
 package com.bot.KaworiSpring.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
-@Table(name = "config")
+@Document(collection =  "config")
 public class Configuration extends Model {
 
 	private String type;

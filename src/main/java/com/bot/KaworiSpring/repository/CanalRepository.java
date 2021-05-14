@@ -1,10 +1,10 @@
 package com.bot.KaworiSpring.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.bot.KaworiSpring.model.Canal;
 
-public interface CanalRepository extends JpaRepository<Canal, Long> {
+public interface CanalRepository extends MongoRepository<Canal, Long> {
 
 	
 	

@@ -2,11 +2,11 @@ package com.bot.KaworiSpring.repository;
 
 import java.util.List;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.bot.KaworiSpring.model.Tag;
 
-public interface TagRepository extends JpaRepository<Tag, Long> {
+public interface TagRepository extends MongoRepository<Tag, Long> {
 
 	public List<Tag> findByIdGuildAndBotRole(long idGuild, boolean isBotRole);
 	

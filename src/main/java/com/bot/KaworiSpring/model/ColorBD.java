@@ -2,9 +2,9 @@ package com.bot.KaworiSpring.model;
 
 import java.awt.Color;
 
-import javax.persistence.Entity;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
+@Document
 public class ColorBD extends Model{
 
 	private String name;
