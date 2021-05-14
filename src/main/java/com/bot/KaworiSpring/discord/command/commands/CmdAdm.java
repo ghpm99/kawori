@@ -104,7 +104,6 @@ public class CmdAdm extends Command {
 		event.getJDA().openPrivateChannelById(Util.idUserAdm).queue((privateChannel) -> {
 			Canal canal = canalOptional.get();
 			messageController.sendPrivateMessage(privateChannel, "Cadastrado BD: " + canal.getId());
-
 			messageController.sendPrivateMessage(privateChannel, "Id: " + event.getChannel().getId() + "\nNome: "
 					+ event.getChannel().getName() + "\nPode falar: " + canal.isSendMessage());
 
