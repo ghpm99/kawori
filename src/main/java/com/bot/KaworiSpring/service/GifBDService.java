@@ -26,4 +26,8 @@ public class GifBDService {
 		return gifs.get(random.nextInt(gifs.size()));
 	}
 
+	public GifBD save(GifBD gifBD) {
+		return gifBDRespository.save(gifBD);
+	}
+	
 }

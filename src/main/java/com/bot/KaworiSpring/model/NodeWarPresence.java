@@ -2,7 +2,6 @@ package com.bot.KaworiSpring.model;
 
 import java.util.Date;
 
-import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
@@ -10,7 +9,7 @@ public class NodeWarPresence extends Model{
 	
 	private Date presenceTime;
 		
-	private ObjectId idNodeWar;
+	private String idNodeWar;
 	
 	private long idUser;
 	
@@ -24,11 +23,11 @@ public class NodeWarPresence extends Model{
 		this.presenceTime = presenceTime;
 	}
 
-	public ObjectId getIdNodeWar() {
+	public String getIdNodeWar() {
 		return idNodeWar;
 	}
 
-	public void setIdNodeWar(ObjectId idNodeWar) {
+	public void setIdNodeWar(String idNodeWar) {
 		this.idNodeWar = idNodeWar;
 	}
 

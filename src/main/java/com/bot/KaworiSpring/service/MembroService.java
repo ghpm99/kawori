@@ -22,7 +22,7 @@ public class MembroService {
 	}
 	
 	public Membro findById(long id) {
-		return membroRepository.findById(id);
+		return membroRepository.findByIdUser(id);
 	}
 	
 	public Membro findByIdAndIdGuild(long id, long idGuild) {

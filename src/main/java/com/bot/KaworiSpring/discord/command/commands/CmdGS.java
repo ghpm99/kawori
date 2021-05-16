@@ -127,7 +127,7 @@ public class CmdGS extends Command {
 
 	private Gear createGear(Guild guild, Member user, boolean isNew) {
 		Membro membro = membroService.findByIdAndIdGuild(user.getIdLong(), guild.getIdLong());
-		Personagem personagem = loadPersonagem(user.getIdLong(), membro.getId(), guild.getIdLong(),
+		Personagem personagem = loadPersonagem(user.getIdLong(), membro.getIdUser(), guild.getIdLong(),
 				user.getUser().getName(), isNew);
 		Gear gear = gearService.createNewGear(user.getIdLong(), guild.getIdLong(), personagem);
 

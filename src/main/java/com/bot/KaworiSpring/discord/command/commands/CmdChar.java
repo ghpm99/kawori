@@ -91,7 +91,7 @@ public class CmdChar extends Command {
 
 	private void showPersonagens() {
 		Membro membro = membroService.findByIdAndIdGuild(author.getIdLong(), guild.getIdLong());
-		showEmbedPersonagens(author.getUser(), channel, guild, personagemService.findByMembroId(membro.getId()));
+		showEmbedPersonagens(author.getUser(), channel, guild, personagemService.findByMembroId(membro.getIdUser()));
 	}
 
 	private Personagem generatePersonagem(long idUser, long idGuild, String name) {
@@ -107,7 +107,7 @@ public class CmdChar extends Command {
 	private Personagem loadPersonagem(long idUser, long idGuild) {
 		Membro membro = membroService.findByIdAndIdGuild(idUser, idGuild);
 		if (membro != null) {
-			Personagem personagem = personagemService.findByMembroIdAndAtivo(membro.getId(), true);
+			Personagem personagem = personagemService.findByMembroIdAndAtivo(membro.getIdUser(), true);
 			return personagem;
 		}
 		return null;

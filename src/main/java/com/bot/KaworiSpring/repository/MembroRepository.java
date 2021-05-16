@@ -6,7 +6,7 @@ import com.bot.KaworiSpring.model.Membro;
 
 public interface MembroRepository extends MongoRepository<Membro, Long>{
 	
-	public Membro findById(long id);
+	public Membro findByIdUser(long id);
 	
 	public Membro findByIdUserAndIdGuild(long idUser, long idGuild);
 	

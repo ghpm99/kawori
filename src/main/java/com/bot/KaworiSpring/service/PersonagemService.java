@@ -46,7 +46,7 @@ public class PersonagemService {
 		personagem.setBattleMode("");
 		personagem.setClasse("");
 		personagem.setAtivo(true);
-		removeAtivos(membro.getId());
+		removeAtivos(membro.getIdUser());
 		return personagemRepository.save(personagem);
 	}
 
@@ -60,7 +60,7 @@ public class PersonagemService {
 	}
 	
 	public void updateAtivo(Personagem personagem) {
-		removeAtivos(personagem.getMembro().getId());
+		removeAtivos(personagem.getMembro().getIdUser());
 		personagem.setAtivo(true);
 		save(personagem);
 	}
