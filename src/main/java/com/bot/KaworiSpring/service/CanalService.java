@@ -38,7 +38,8 @@ public class CanalService {
 
 	public Canal UpdateCanal(TextChannel channel) {
 		Optional<Canal> canal = findById(channel.getIdLong());
-		Canal retorno = canal.get();
+		
+		Canal retorno = canal.orElseGet(() -> new Canal());
 		retorno.setName(channel.getName());
 
 		return save(retorno);
