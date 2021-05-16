@@ -25,13 +25,18 @@
 			<name>jcenter</name>
 			<url>https://jcenter.bintray.com/</url>
 		</repository>
+		<repository>
+			<id>m2-dv8tion</id>
+			<name>m2-dv8tion</name>
+			<url>https://m2.dv8tion.net/releases</url>
+		</repository>
 	</repositories>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -59,7 +64,7 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>4.2.0_204</version>
+			<version>4.2.1_262</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.poi</groupId>
