@@ -10,7 +10,7 @@ public interface MembroRepository extends MongoRepository<Membro, Long>{
 	
 	public Optional<Membro> findByIdUser(long id);
 	
-	public Membro findByIdUserAndIdGuild(long idUser, long idGuild);
+	public Optional<Membro> findByIdUserAndIdGuild(long idUser, long idGuild);
 	
 
 }

@@ -30,7 +30,12 @@ public class MembroService {
 	}
 	
 	public Membro findByIdAndIdGuild(long id, long idGuild) {
-		return membroRepository.findByIdUserAndIdGuild(id, idGuild);
+		return membroRepository.findByIdUserAndIdGuild(id, idGuild).orElseGet(() -> {
+			Membro membro = new Membro();
+			membro.setIdUser(id);
+			membro.setIdGuild(idGuild);
+			return membro;
+		});
 	}
 	
 }
