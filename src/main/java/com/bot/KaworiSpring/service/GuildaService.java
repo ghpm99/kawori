@@ -11,17 +11,17 @@ import java.util.List;
 public class GuildaService {
 
 	private GuildaRepository guildaRepository;
-	
+
 	@Autowired
 	public GuildaService(GuildaRepository guildaRepository) {
 		// TODO Auto-generated constructor stub
 		this.guildaRepository = guildaRepository;
 	}
-	
+
 	public Guilda save(Guilda guild) {
 		return guildaRepository.save(guild);
 	}
-	
+
 	public Guilda findById(long id) {
 		return guildaRepository.findById(id).orElseGet(() -> {
 			Guilda guild = new Guilda();
@@ -29,9 +29,13 @@ public class GuildaService {
 			return guild;
 		});
 	}
-        
-        public List<Guilda> findAll(){
-            return guildaRepository.findAll();
-        }
+
+	public List<Guilda> findAll() {
+		return guildaRepository.findAll();
+	}
+
+	public long count() {
+		return guildaRepository.count();
+	}
 	
 }

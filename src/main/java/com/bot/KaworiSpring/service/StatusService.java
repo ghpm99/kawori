@@ -6,6 +6,8 @@
 package com.bot.KaworiSpring.service;
 
 import java.time.ZonedDateTime;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,6 +16,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class StatusService {
+	
+	@Autowired
+	private GuildaService guildaService;
+	
+	@Autowired
+	private OperatorService operatorService;
 
     private String statusBot = "-";
 
@@ -54,11 +62,11 @@ public class StatusService {
     }
     
     public long getGuildCount() {
-    	return guildCount;
+    	return guildaService.count();
     }
     
     public long getUserCount() {
-    	return userCount;
+    	return operatorService.count();
     }
     
 }

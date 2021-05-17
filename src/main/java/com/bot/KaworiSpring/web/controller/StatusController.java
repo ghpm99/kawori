@@ -10,7 +10,7 @@ import com.bot.KaworiSpring.service.StatusService;
 public class StatusController {
 
 	@Autowired
-	private StatusService statusService;
+	private StatusService statusService;	
 		
 	@GetMapping("/status")
 	public DataResponse status() {		

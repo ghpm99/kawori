@@ -33,4 +33,8 @@ public class OperatorService {
 		return operatorRepository.findAll();
 	}
 
+	public long count() {
+		return operatorRepository.count();
+	}
+	
 }
