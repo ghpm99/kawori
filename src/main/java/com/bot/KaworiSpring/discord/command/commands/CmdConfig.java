@@ -124,9 +124,8 @@ public class CmdConfig extends Command {
 	}
 
 	private void changeSendMessageChannel(List<TextChannel> channels, boolean isCanSend) {
-		channels.forEach((channel) -> {
-			Optional<Canal> optional = canalService.findById(channel.getIdLong());
-			Canal canal = optional.get();
+		channels.forEach((channel) -> {			
+			Canal canal = canalService.findById(channel.getIdLong());
 			canal.setSendMessage(isCanSend);
 			canalService.save(canal);
 

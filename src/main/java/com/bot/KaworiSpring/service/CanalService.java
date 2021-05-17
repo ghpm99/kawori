@@ -1,7 +1,5 @@
 package com.bot.KaworiSpring.service;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +18,12 @@ public class CanalService {
 		return canalRepository.save(canal);
 	}
 
-	public Optional<Canal> findById(long id) {
-		return canalRepository.findById(id);
+	public Canal findById(long id) {
+		return canalRepository.findById(id).orElseGet(() -> {
+			Canal canal = new Canal();
+			canal.setId(id);
+			return canal;
+		});
 	}
 
 	public Canal createNew(TextChannel channel) {
@@ -37,16 +39,11 @@ public class CanalService {
 	}
 
 	public Canal UpdateCanal(TextChannel channel) {
-		Optional<Canal> canal = findById(channel.getIdLong());
+		Canal canal = findById(channel.getIdLong());
+		
+		canal.setName(channel.getName());
 
-		Canal retorno = canal.orElseGet(() -> {
-			Canal temp = new Canal();
-			temp.setId(channel.getIdLong());
-			return temp;
-		});
-		retorno.setName(channel.getName());
-
-		return save(retorno);
+		return save(canal);
 	}
 
 }

@@ -22,7 +22,11 @@ public class MembroService {
 	}
 	
 	public Membro findById(long id) {
-		return membroRepository.findByIdUser(id);
+		return membroRepository.findByIdUser(id).orElseGet(() -> {
+			Membro membro = new Membro();
+			membro.setIdUser(id);
+			return membro;
+		});
 	}
 	
 	public Membro findByIdAndIdGuild(long id, long idGuild) {

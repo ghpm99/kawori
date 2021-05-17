@@ -1,7 +1,5 @@
 package com.bot.KaworiSpring.discord.security;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -54,8 +52,8 @@ public class SecurityCommand {
 	}
 
 	private boolean verifyCanSpeak(TextChannel channel) {
-		Optional<Canal> canal = canalService.findById(channel.getIdLong());
-		return canal.get().isSendMessage();
+		Canal canal = canalService.findById(channel.getIdLong());
+		return canal.isSendMessage();
 	}
 
 	private boolean verifyRoles(Member author, Permissions permission) {

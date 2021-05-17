@@ -18,7 +18,11 @@ public class ConfigurationService {
 	}
 	
 	public Configuration getByType(String type) {
-		return configRepository.getByType(type);
+		return configRepository.getByType(type).orElseGet(() -> {
+			Configuration config = new Configuration();
+			config.setType(type);
+			return config;
+		});
 	}
 	
 	public Configuration save(Configuration config) {

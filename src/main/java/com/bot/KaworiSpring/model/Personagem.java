@@ -24,6 +24,11 @@ public class Personagem extends Model {
 	private Membro membro;
 
 	private boolean ativo;
+	
+	public Personagem() {
+		// TODO Auto-generated constructor stub
+		membro = new Membro();
+	}
 
 	public String getName() {
 		return name;

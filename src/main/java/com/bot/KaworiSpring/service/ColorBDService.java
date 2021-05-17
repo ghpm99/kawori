@@ -25,15 +25,31 @@ public class ColorBDService {
 	}
 	
 	public ColorBD findByRGB(int red, int green, int blue) {
-		return colorBDRepository.findByRedAndGreenAndBlue(red, green, blue);
+		return colorBDRepository.findByRedAndGreenAndBlue(red, green, blue).orElseGet(() -> {
+			ColorBD color = new ColorBD();
+			color.setRed(red);
+			color.setGreen(green);
+			color.setBlue(blue);
+			return color;
+		});
 	}
 	
 	public ColorBD findByRGB(Color color) {
-		return colorBDRepository.findByRedAndGreenAndBlue(color.getRed(), color.getGreen(), color.getBlue());
+		return colorBDRepository.findByRedAndGreenAndBlue(color.getRed(), color.getGreen(), color.getBlue()).orElseGet(() -> {
+			ColorBD temp = new ColorBD();
+			temp.setRed(color.getRed());
+			temp.setGreen(color.getGreen());
+			temp.setBlue(color.getBlue());
+			return temp;
+		});
 	}
 	
 	public ColorBD findByName(String name) {
-		return colorBDRepository.findByName(name);
+		return colorBDRepository.findByName(name).orElseGet(() -> {
+			ColorBD color = new ColorBD();
+			color.setName(name);
+			return color;
+		});
 	}
         
         public List<ColorBD> findAll(){

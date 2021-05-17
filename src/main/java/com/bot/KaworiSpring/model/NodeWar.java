@@ -19,6 +19,12 @@ public class NodeWar extends Model {
 
 	private long idMessage;
 
+	public NodeWar() {
+		// TODO Auto-generated constructor stub
+		date = new Date();
+		node = new Node();
+	}
+	
 	public long getIdGuild() {
 		return idGuild;
 	}

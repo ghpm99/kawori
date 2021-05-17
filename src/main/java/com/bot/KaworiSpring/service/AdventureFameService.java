@@ -22,15 +22,27 @@ public class AdventureFameService {
 	}
 	
 	public AdventureFame findByValue(int value) {
-		return adventureFameRepository.findByMinLessThanEqualAndMaxGreaterThanEqual(value,value);
+		return adventureFameRepository.findByMinLessThanEqualAndMaxGreaterThanEqual(value,value).orElseGet(() -> {
+			AdventureFame fame = new AdventureFame();
+			return fame;
+		});
 	}
 	
 	public AdventureFame findByValueAndType(int value,String type) {
-		return adventureFameRepository.findByMinLessThanEqualAndMaxGreaterThanEqualAndType(value,value, type);
+		return adventureFameRepository.findByMinLessThanEqualAndMaxGreaterThanEqualAndType(value,value, type).orElseGet(() -> {
+			AdventureFame fame = new AdventureFame();
+			fame.setType(type);
+			return fame;
+		});
 	}
 	
 	public AdventureFame findByTypeAndName(String type,String name) {
-		return adventureFameRepository.findByTypeAndName(type, name);
+		return adventureFameRepository.findByTypeAndName(type, name).orElseGet(() -> {
+			AdventureFame fame = new AdventureFame();
+			fame.setType(type);
+			fame.setName(name);
+			return fame;
+		});
 	}
         
         public List<AdventureFame> findAll(){

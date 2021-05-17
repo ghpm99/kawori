@@ -31,6 +31,12 @@ public class Gear extends Model {
 
 	private boolean young;
 
+	public Gear() {
+		// TODO Auto-generated constructor stub
+		personagem = new Personagem();
+		young = true;
+	}
+	
 	public Long getIdDiscord() {
 		return idDiscord;
 	}

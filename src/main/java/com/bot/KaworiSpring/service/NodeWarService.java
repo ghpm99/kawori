@@ -46,7 +46,11 @@ public class NodeWarService {
 	}
 	
 	public NodeWar findById(long id) {
-		return nodeWarRepository.findById(id);
+		return nodeWarRepository.findById(id).orElseGet(() -> {
+			NodeWar node = new NodeWar();
+			node.setId(String.valueOf(id));
+			return node;
+		});
 	}
         
         public List<NodeWar> findAll(){

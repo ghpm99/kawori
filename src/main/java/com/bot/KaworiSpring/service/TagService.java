@@ -3,12 +3,12 @@ package com.bot.KaworiSpring.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.bot.KaworiSpring.model.Tag;
 import com.bot.KaworiSpring.repository.TagRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 @Service
 public class TagService {
@@ -37,7 +37,11 @@ public class TagService {
 	}
 
 	public Tag findByIdRole(long idRole) {
-		return tagRepository.findByIdRole(idRole);
+		return tagRepository.findByIdRole(idRole).orElseGet(() -> {
+			Tag tag = new Tag();
+			tag.setIdRole(idRole);
+			return tag;
+		});
 	}
 
 	public void delete(Tag tag) {
@@ -53,7 +57,12 @@ public class TagService {
 	}
 	
 	public Tag findByIdGuildAndIdRole(long idGuild, long idRole) {
-		return tagRepository.findByIdGuildAndIdRole(idGuild, idRole);
+		return tagRepository.findByIdGuildAndIdRole(idGuild, idRole).orElseGet(() -> {
+			Tag tag = new Tag();
+			tag.setIdGuild(idGuild);
+			tag.setIdRole(idRole);
+			return tag;
+		});
 	}
 
 }

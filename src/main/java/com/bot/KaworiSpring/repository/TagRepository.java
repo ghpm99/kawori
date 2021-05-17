@@ -1,6 +1,7 @@
 package com.bot.KaworiSpring.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
@@ -14,8 +15,8 @@ public interface TagRepository extends MongoRepository<Tag, Long> {
 	
 	public List<Tag> findByIdGuildAndName(long idGuild, String name);
 	
-	public Tag findByIdRole(long idRole);
+	public Optional<Tag> findByIdRole(long idRole);
 	
-	public Tag findByIdGuildAndIdRole(long idGuild, long idRole);
+	public Optional<Tag> findByIdGuildAndIdRole(long idGuild, long idRole);
 	
 }

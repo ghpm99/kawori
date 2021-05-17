@@ -1,6 +1,7 @@
 package com.bot.KaworiSpring.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,7 +11,7 @@ import com.bot.KaworiSpring.model.Gear;
 
 public interface GearRepository extends MongoRepository<Gear, Long> {
 
-	public Gear findByIdDiscord(Long id);
+	public Optional<Gear> findByIdDiscord(Long id);
 
 	public Page<Gear> findByIdDiscordAndIdGuild(Long idDiscord, Long idGuild, Pageable pageable);
 
@@ -18,8 +19,8 @@ public interface GearRepository extends MongoRepository<Gear, Long> {
 
 	public List<Gear> findByIdGuild(Long idGuild, Pageable pageable);
 
-	public Gear findByIdDiscordAndIdGuildAndAtivo(Long idDiscord, Long idGuild, boolean ativo);
+	public Optional<Gear> findByIdDiscordAndIdGuildAndAtivo(Long idDiscord, Long idGuild, boolean ativo);
 
-	public Gear findByIdDiscordAndIdGuildAndYoung(Long idDiscord, Long idGuild, boolean young);
+	public Optional<Gear> findByIdDiscordAndIdGuildAndYoung(Long idDiscord, Long idGuild, boolean young);
 
 }

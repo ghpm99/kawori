@@ -6,11 +6,11 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "member")
-public class Membro{
+public class Membro {
 
 	@Id
 	private String id;
-	
+
 	private long idDiscord;
 
 	private long idGuild;
@@ -18,7 +18,7 @@ public class Membro{
 	private long idUser;
 
 	private String nick;
-	
+
 	private String familyName;
 
 	private boolean banned;
@@ -31,11 +31,13 @@ public class Membro{
 
 	private boolean visitor;
 
-	private boolean novice;				
-	
+	private boolean novice;
 
-	
-	
+	public Membro() {
+		// TODO Auto-generated constructor stub
+		gearUpdate = new Date();
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -131,6 +133,5 @@ public class Membro{
 	public void setFamilyName(String familyName) {
 		this.familyName = familyName;
 	}
-	
-	
+
 }

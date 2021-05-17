@@ -13,8 +13,7 @@ public class StatusController {
 	private StatusService statusService;
 		
 	@GetMapping("/status")
-	public DataResponse status() {
-		System.out.println("Chamou");
+	public DataResponse status() {		
 		DataResponse data = new DataResponse();
 		data.setStatus(statusService.getStatusBot());
 		data.setCmdReceived(statusService.getCmdReceived());

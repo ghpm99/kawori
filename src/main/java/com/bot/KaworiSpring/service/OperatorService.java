@@ -18,7 +18,11 @@ public class OperatorService {
 	}
 
 	public Operator findById(long id) {
-		return operatorRepository.findById(id);
+		return operatorRepository.findById(id).orElseGet(() -> {
+			Operator user = new Operator();
+			user.setId(id);
+			return user;
+		});
 	}
 
 	public Operator save(Operator operator) {

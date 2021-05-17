@@ -119,9 +119,8 @@ public class CmdAdm extends Command {
 	}
 
 	private void debugChannel(MessageReceivedEvent event) {
-		Optional<Canal> canalOptional = canalService.findById(event.getChannel().getIdLong());
-		event.getJDA().openPrivateChannelById(Util.idUserAdm).queue((privateChannel) -> {
-			Canal canal = canalOptional.get();
+		Canal canal = canalService.findById(event.getChannel().getIdLong());
+		event.getJDA().openPrivateChannelById(Util.idUserAdm).queue((privateChannel) -> {			
 			messageController.sendPrivateMessage(privateChannel, "Cadastrado BD: " + canal.getId());
 			messageController.sendPrivateMessage(privateChannel, "Id: " + event.getChannel().getId() + "\nNome: "
 					+ event.getChannel().getName() + "\nPode falar: " + canal.isSendMessage());

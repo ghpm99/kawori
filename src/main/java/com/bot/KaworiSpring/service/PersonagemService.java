@@ -36,7 +36,12 @@ public class PersonagemService {
 	}
 
 	public Personagem findByMembroIdAndAtivo(Long id, boolean ativo) {
-		return personagemRepository.findByMembroIdAndAtivo(id, ativo);
+		return personagemRepository.findByMembroIdAndAtivo(id, ativo).orElseGet(() -> {
+			Personagem personagem = new Personagem();
+			personagem.getMembro().setIdUser(id);
+			personagem.setAtivo(ativo);
+			return personagem;
+		});
 	}
 
 	public Personagem createNewPersonagem(Membro membro, String name) {

@@ -17,8 +17,7 @@ public class RestServiceSecurity {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				// TODO Auto-generated method stub
-				System.out.println(origin);
+				// TODO Auto-generated method stub				
 				registry.addMapping("/status").allowedOrigins(origin);
 			}
 		};

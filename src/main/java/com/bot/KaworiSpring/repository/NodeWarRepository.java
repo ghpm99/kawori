@@ -2,6 +2,7 @@ package com.bot.KaworiSpring.repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
@@ -19,6 +20,6 @@ public interface NodeWarRepository extends MongoRepository<NodeWar, Long>{
 	
 	public List<NodeWar> findByIdGuildAndDateGreaterThanEqual(long idGuild, Date date);
 	
-	public NodeWar findById(long id);
+	public Optional<NodeWar> findById(long id);
 	
 }

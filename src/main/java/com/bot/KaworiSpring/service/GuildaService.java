@@ -23,7 +23,11 @@ public class GuildaService {
 	}
 	
 	public Guilda findById(long id) {
-		return guildaRepository.findById(id);
+		return guildaRepository.findById(id).orElseGet(() -> {
+			Guilda guild = new Guilda();
+			guild.setId(id);
+			return guild;
+		});
 	}
         
         public List<Guilda> findAll(){
