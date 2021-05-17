@@ -24,9 +24,9 @@ public class OperatorService {
 	public Operator save(Operator operator) {
 		return operatorRepository.save(operator);
 	}
-        
-        public List<Operator> findAll(){
-            return operatorRepository.findAll();
-        }
+
+	public List<Operator> findAll() {
+		return operatorRepository.findAll();
+	}
 
 }

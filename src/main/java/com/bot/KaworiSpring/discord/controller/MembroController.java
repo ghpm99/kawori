@@ -27,7 +27,7 @@ public class MembroController {
 	@Autowired
 	private StatusService statusService;
 
-	public void updateAllMembers(Guild guild) {
+	public void updateAllMembers(Guild guild) {	
 		
 		guild.loadMembers((member) -> {
 			System.out.println("update member:" + member.getIdLong() + " from guild:" + member.getGuild().getIdLong());

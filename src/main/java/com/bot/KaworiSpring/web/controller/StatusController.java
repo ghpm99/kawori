@@ -1,7 +1,6 @@
 package com.bot.KaworiSpring.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,8 +11,7 @@ public class StatusController {
 
 	@Autowired
 	private StatusService statusService;
-	
-	@CrossOrigin(origins = "")
+		
 	@GetMapping("/status")
 	public DataResponse status() {
 		System.out.println("Chamou");
