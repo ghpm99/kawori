@@ -22,12 +22,8 @@ public class GearService {
 		this.gearRepository = gearRepository;
 	}
 
-	public Gear findByIdDiscord(Long id) {
-		return gearRepository.findByIdDiscord(id).orElseGet(() -> {
-			Gear gear = new Gear();
-			gear.setIdDiscord(id);
-			return gear;
-		});
+	public List<Gear> findByIdDiscord(Long id) {
+		return gearRepository.findByIdDiscord(id);
 	}
 
 	public Gear save(Gear gear) {
@@ -82,7 +78,7 @@ public class GearService {
 
 	private void removeAtivo(long idUser, long idGuild) {
 		Gear gear = findByIdUserIdGuildIsAtivo(idUser, idGuild, true);
-		if (gear != null) {
+		if (gear.getId() != null) {
 			gear.setAtivo(false);
 			save(gear);
 		}

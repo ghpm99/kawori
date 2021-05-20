@@ -18,7 +18,8 @@ public class RestServiceSecurity {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				// TODO Auto-generated method stub				
-				registry.addMapping("/status").allowedOrigins(origin);
+				System.out.println("Origin:" + origin);
+				registry.addMapping("/**").allowedOrigins(origin).allowedMethods("*");
 			}
 		};
 	}

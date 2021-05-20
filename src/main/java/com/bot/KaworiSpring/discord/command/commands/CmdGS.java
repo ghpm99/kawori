@@ -104,7 +104,7 @@ public class CmdGS extends Command {
 	private Gear generateGear(Member user, Guild guild, String name) {
 		Gear gear = loadGear(user.getIdLong(), guild.getIdLong());
 
-		if (gear == null) {
+		if (gear.getId() == null) {
 			gear = createGear(guild, user, false);
 
 		}
@@ -113,7 +113,7 @@ public class CmdGS extends Command {
 	}
 
 	private Gear loadGear(long idDiscord, long idGuild) {
-		Gear gear = gearService.findByIdUserIdGuildIsAtivo(idDiscord, idGuild, true);
+		Gear gear = gearService.findByIdUserIdGuildIsAtivo(idDiscord, idGuild, true);		
 
 		return gear;
 	}
@@ -169,7 +169,7 @@ public class CmdGS extends Command {
 	private Personagem loadPersonagem(long idUser, long idMembro, long idGuild, String name, boolean isNew) {
 		Personagem personagem = personagemService.findByMembroIdAndAtivo(idMembro, true);
 
-		if (personagem == null || isNew)
+		if (personagem.getId() == null || isNew)
 			personagem = createPersonagem(idUser, idGuild, name);
 		return personagem;
 	}

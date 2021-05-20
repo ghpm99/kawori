@@ -7,8 +7,7 @@ public class Model {
 	@Id	
 	private String id;
 	
-	public String getId() {
-		
+	public String getId() {		
 		return id;
 	}
 

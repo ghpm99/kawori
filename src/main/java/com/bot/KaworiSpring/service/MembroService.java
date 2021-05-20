@@ -1,5 +1,7 @@
 package com.bot.KaworiSpring.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +23,8 @@ public class MembroService {
 		return membroRepository.save(membro);
 	}
 	
-	public Membro findById(long id) {
-		return membroRepository.findByIdUser(id).orElseGet(() -> {
-			Membro membro = new Membro();
-			membro.setIdUser(id);
-			return membro;
-		});
+	public List<Membro> findById(long id) {
+		return membroRepository.findByIdUser(id);
 	}
 	
 	public Membro findByIdAndIdGuild(long id, long idGuild) {

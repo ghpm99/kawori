@@ -57,7 +57,7 @@ public class PersonagemService {
 
 	private void removeAtivos(Long idMembro) {
 		Personagem perso = findByMembroIdAndAtivo(idMembro, true);
-		if (perso != null) {
+		if (perso.getId() != null) {
 			perso.setAtivo(false);
 			personagemRepository.save(perso);
 		}

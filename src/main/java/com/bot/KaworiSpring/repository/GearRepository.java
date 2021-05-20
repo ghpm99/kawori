@@ -11,7 +11,7 @@ import com.bot.KaworiSpring.model.Gear;
 
 public interface GearRepository extends MongoRepository<Gear, Long> {
 
-	public Optional<Gear> findByIdDiscord(Long id);
+	public List<Gear> findByIdDiscord(Long id);
 
 	public Page<Gear> findByIdDiscordAndIdGuild(Long idDiscord, Long idGuild, Pageable pageable);
 
