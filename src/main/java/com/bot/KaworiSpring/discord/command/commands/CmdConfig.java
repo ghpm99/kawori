@@ -98,7 +98,7 @@ public class CmdConfig extends Command {
 
 			ReactionHandler.reactions.put(message.getId(),
 					(String emote, String idUser, String idGuild, boolean isAdd) -> {
-						if (idUser == event.getAuthor().getId() && idGuild == event.getGuild().getId()) {
+						if (idUser.equals(event.getAuthor().getId()) && idGuild.equals(event.getGuild().getId())) {
 							if (emote.equals(Emojis.CHECK_OK.getEmoji())) {
 								changeChannel(message, event.getMessage().getMentionedChannels(), true);
 							} else if (emote.equals(Emojis.CANCEL.getEmoji())) {
@@ -123,7 +123,7 @@ public class CmdConfig extends Command {
 	}
 
 	private void changeSendMessageChannel(List<TextChannel> channels, boolean isCanSend) {
-		channels.forEach((channel) -> {			
+		channels.forEach((channel) -> {
 			Canal canal = canalService.findById(channel.getId());
 			canal.setSendMessage(isCanSend);
 			canalService.save(canal);
@@ -155,7 +155,7 @@ public class CmdConfig extends Command {
 				@Override
 				public void onGuildMessageReaction(String emote, String idUser, String idGuild, boolean isAdd) {
 
-					if (idUser == event.getAuthor().getId() && idGuild == event.getGuild().getId()) {
+					if (idUser.equals(event.getAuthor().getId()) && idGuild.equals(event.getGuild().getId())) {
 						Emojis emoji = Emojis.getEmojis(emote);
 
 						if (emoji == null)
