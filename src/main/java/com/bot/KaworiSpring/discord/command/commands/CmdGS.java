@@ -102,9 +102,9 @@ public class CmdGS extends Command {
 	}
 
 	private Gear generateGear(Member user, Guild guild, String name) {
-		Gear gear = loadGear(user.getIdLong(), guild.getIdLong());
+		Gear gear = loadGear(user.getId(), guild.getId());
 
-		if (gear.getId() == null) {
+		if (gear.isNewRecord()) {
 			gear = createGear(guild, user, false);
 
 		}
@@ -112,8 +112,8 @@ public class CmdGS extends Command {
 		return gear;
 	}
 
-	private Gear loadGear(long idDiscord, long idGuild) {
-		Gear gear = gearService.findByIdUserIdGuildIsAtivo(idDiscord, idGuild, true);		
+	private Gear loadGear(String idDiscord, String idGuild) {
+		Gear gear = gearService.findByIdUserIdGuildIsAtivo(idDiscord, idGuild, true);
 
 		return gear;
 	}
@@ -126,10 +126,10 @@ public class CmdGS extends Command {
 	}
 
 	private Gear createGear(Guild guild, Member user, boolean isNew) {
-		Membro membro = membroService.findByIdAndIdGuild(user.getIdLong(), guild.getIdLong());
-		Personagem personagem = loadPersonagem(user.getIdLong(), membro.getIdUser(), guild.getIdLong(),
+		Membro membro = membroService.loadMembro(guild, user);
+		Personagem personagem = personagemService.loadPersonagem(user.getId(), membro, guild.getId(),
 				user.getUser().getName(), isNew);
-		Gear gear = gearService.createNewGear(user.getIdLong(), guild.getIdLong(), personagem);
+		Gear gear = gearService.createNewGear(user.getId(), guild.getId(), personagem);
 
 		return gear;
 	}
@@ -140,8 +140,8 @@ public class CmdGS extends Command {
 			message.addReaction("☑️").queue();
 			message.addReaction("🆕").queue();
 
-			ReactionHandler.reactions.put(message.getIdLong(), (emote, idUser, idGuild, isAdd) -> {
-				if (idUser == author.getIdLong() && idGuild == guild.getIdLong()) {
+			ReactionHandler.reactions.put(message.getId(), (emote, idUser, idGuild, isAdd) -> {
+				if (idUser == author.getId() && idGuild == guild.getId()) {
 					switch (emote) {
 					case "☑️":
 						createGear(guild, author, false, message);
@@ -156,7 +156,7 @@ public class CmdGS extends Command {
 			});
 
 			message.delete().queueAfter(2, TimeUnit.MINUTES, (s) -> {
-				ReactionHandler.reactions.remove(message.getIdLong());
+				ReactionHandler.reactions.remove(message.getId());
 			}, new ErrorHandler().ignore(ErrorResponse.UNKNOWN_MESSAGE));
 
 		};
@@ -166,30 +166,15 @@ public class CmdGS extends Command {
 
 	}
 
-	private Personagem loadPersonagem(long idUser, long idMembro, long idGuild, String name, boolean isNew) {
-		Personagem personagem = personagemService.findByMembroIdAndAtivo(idMembro, true);
-
-		if (personagem.getId() == null || isNew)
-			personagem = createPersonagem(idUser, idGuild, name);
-		return personagem;
-	}
-
-	private Personagem createPersonagem(long idUser, long idGuild, String name) {
-
-		return personagemService.createNewPersonagem(membroService.findByIdAndIdGuild(idUser, idGuild), name);
-
-	}
-
-	private boolean atualizarAtributo(Gear gear, String[] args) {
+	private void atualizarAtributo(Gear gear, String[] args) {
 		for (String arg : args) {
 			if (arg.equals("-set"))
 				continue;
-			if (!verificarAtributo(gear, arg)) {
-				return false;
-			}
+
+			verificarAtributo(gear, arg);
+
 		}
 
-		return true;
 	}
 
 	private void saveGear(Gear gear, MessageReceivedEvent event) {
@@ -200,58 +185,56 @@ public class CmdGS extends Command {
 		showGearMember(event.getGuild(), event.getChannel(), event.getMember(), Arrays.asList(event.getMember()));
 	}
 
-	private boolean verificarAtributo(Gear gear, String arg) {
-		boolean retorno = false;
+	private void verificarAtributo(Gear gear, String arg) throws IllegalArgumentException, NumberFormatException {
+
 		String[] args = arg.split("=");
 
-		if (args.length == 1)
-			return retorno;
-		try {
-			switch (args[0].toUpperCase()) {
-			case "AP":
-				gear.setAp(Integer.valueOf(args[1]));
-				retorno = true;
-				break;
-			case "AAP":
-				gear.setApAwak(Integer.valueOf(args[1]));
-				retorno = true;
-				break;
-			case "DP":
-				gear.setDp(Integer.valueOf(args[1]));
-				retorno = true;
-				break;
-			case "LVL":
-				gear.setLevel(Integer.valueOf(args[1]));
-				retorno = true;
-				break;
-			case "NAME":
-				gear.getPersonagem().setName(args[1]);
-				retorno = true;
-				break;
-			case "CLASS":
-				gear.getPersonagem().setClasse(args[1].toLowerCase());
-				retorno = true;
-				break;
-			case "SKILL":
-				gear.getPersonagem().setBattleMode(args[1].toLowerCase());
-				retorno = true;
-				break;
-			case "TRINA":
-				gear.setTrina(args[1].toLowerCase());
-				retorno = true;
-				break;
-			}
-		} catch (NumberFormatException ex) {
-			ex.printStackTrace();
+		if (args.length == 1) {
+			throw new IllegalArgumentException(args[0]);
 		}
-		return retorno;
-	}	
+
+		switch (args[0].toUpperCase()) {
+		case "AP":
+			gear.setAp(Integer.valueOf(args[1]));
+
+			break;
+		case "AAP":
+			gear.setApAwak(Integer.valueOf(args[1]));
+
+			break;
+		case "DP":
+			gear.setDp(Integer.valueOf(args[1]));
+
+			break;
+		case "LVL":
+			gear.setLevel(Integer.valueOf(args[1]));
+
+			break;
+		case "NAME":
+			gear.getPersonagem().setName(args[1]);
+
+			break;
+		case "CLASS":
+			gear.getPersonagem().setClasse(args[1].toLowerCase());
+
+			break;
+		case "SKILL":
+			gear.getPersonagem().setBattleMode(args[1].toLowerCase());
+
+			break;
+		case "TRINA":
+			gear.setTrina(args[1].toLowerCase());
+
+			break;
+		}
+
+	}
 
 	/*
-	private void updateTag(Gear gear, MessageReceivedEvent messageReceived) {
-		tagController.updateTag(gear, messageReceived.getGuild(), messageReceived.getAuthor());
-	}
-	*/
+	 * private void updateTag(Gear gear, MessageReceivedEvent messageReceived) {
+	 * tagController.updateTag(gear, messageReceived.getGuild(),
+	 * messageReceived.getAuthor()); }
+	 */
 
 	private void selectGear(Guild guild, MessageChannel channel, Member author) {
 		showEmbedSelect(guild, channel, author, PageRequest.of(0, 2));
@@ -260,8 +243,11 @@ public class CmdGS extends Command {
 	private void setGear(String[] args, MessageReceivedEvent event) {
 
 		Gear gear = generateGear(event.getMember(), event.getGuild(), event.getAuthor().getName());
-		if (!atualizarAtributo(gear, args)) {
-			System.out.println("falhou em atualizar");
+
+		try {
+			atualizarAtributo(gear, args);
+		} catch (IllegalArgumentException  exc) {
+			messageController.sendMessage(event.getGuild(), event.getChannel(), event.getAuthor(), "msg_gear_exception", exc.getMessage());
 			return;
 		}
 
@@ -278,8 +264,7 @@ public class CmdGS extends Command {
 	}
 
 	private void showEmbedSelect(Guild guild, MessageChannel channel, Member author, Pageable pageable) {
-		Page<Gear> gears = gearService.findByIdDiscordAndIdGuild(author.getUser().getIdLong(), guild.getIdLong(),
-				pageable);
+		Page<Gear> gears = gearService.findByIdDiscordAndIdGuild(author.getUser().getId(), guild.getId(), pageable);
 		EmbedBuilder embed = embedPattern.createEmbedShowGear(author.getUser(), channel, guild,
 				new ArrayList<Gear>(gears.getContent()));
 		messageController.sendEmbed(channel, embed, (s) -> {
@@ -293,11 +278,11 @@ public class CmdGS extends Command {
 			for (int i = 0; i < gears.getNumberOfElements(); i++) {
 				s.addReaction(Emojis.getEmoji(i).getEmoji()).queue();
 			}
-			ReactionHandler.reactions.put(s.getIdLong(), new Reaction() {
+			ReactionHandler.reactions.put(s.getId(), new Reaction() {
 
 				@Override
-				public void onGuildMessageReaction(String emote, long idUser, long idGuild, boolean isAdd) {
-					if (idUser == author.getUser().getIdLong() && idGuild == guild.getIdLong()) {
+				public void onGuildMessageReaction(String emote, String idUser, String idGuild, boolean isAdd) {
+					if (idUser == author.getUser().getId() && idGuild == guild.getId()) {
 						Emojis emoji = Emojis.getEmojis(emote);
 						if (emoji == null)
 							return;
@@ -311,7 +296,7 @@ public class CmdGS extends Command {
 				}
 			});
 			s.delete().queueAfter(15, TimeUnit.MINUTES, (a) -> {
-				ReactionHandler.reactions.remove(s.getIdLong());
+				ReactionHandler.reactions.remove(s.getId());
 			}, new ErrorHandler().ignore(ErrorResponse.UNKNOWN_MESSAGE));
 		});
 
@@ -319,8 +304,7 @@ public class CmdGS extends Command {
 
 	private void editEmbedSelect(Guild guild, MessageChannel channel, Member author, Message message,
 			Pageable pageable) {
-		Page<Gear> gears = gearService.findByIdDiscordAndIdGuild(author.getUser().getIdLong(), guild.getIdLong(),
-				pageable);
+		Page<Gear> gears = gearService.findByIdDiscordAndIdGuild(author.getUser().getId(), guild.getId(), pageable);
 		EmbedBuilder embed = embedPattern.createEmbedShowGear(author.getUser(), channel, guild,
 				new ArrayList<Gear>(gears.getContent()));
 		messageController.changeEmbed(channel, message, embed, (s) -> {
@@ -334,11 +318,11 @@ public class CmdGS extends Command {
 			for (int i = 0; i < gears.getNumberOfElements(); i++) {
 				s.addReaction(Emojis.getEmoji(i).getEmoji()).queue();
 			}
-			ReactionHandler.reactions.put(s.getIdLong(), new Reaction() {
+			ReactionHandler.reactions.put(s.getId(), new Reaction() {
 
 				@Override
-				public void onGuildMessageReaction(String emote, long idUser, long idGuild, boolean isAdd) {
-					if (idUser == author.getUser().getIdLong() && idGuild == guild.getIdLong()) {
+				public void onGuildMessageReaction(String emote, String idUser, String idGuild, boolean isAdd) {
+					if (idUser == author.getUser().getId() && idGuild == guild.getId()) {
 						Emojis emoji = Emojis.getEmojis(emote);
 						if (emoji == null) {
 							return;
@@ -356,7 +340,7 @@ public class CmdGS extends Command {
 
 	private void selectedGear(Message message, Gear gear) {
 		message.delete().queue();
-		ReactionHandler.reactions.remove(message.getIdLong());
+		ReactionHandler.reactions.remove(message.getId());
 		personagemService.updateAtivo(gear.getPersonagem());
 		gearService.updateAtivo(gear);
 		messageController.sendMessage(message.getGuild(), message.getChannel(), message.getAuthor(),

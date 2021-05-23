@@ -20,12 +20,12 @@ public class NodeWarService {
 		this.nodeWarRepository = nodeWarRepository;
 	}
 
-	public List<NodeWar> findByIdGuild(long idGuild) {
+	public List<NodeWar> findByIdGuild(String idGuild) {
             
 		return nodeWarRepository.findByIdGuild(idGuild);
 	}
 
-	public List<NodeWar> findByIdDiscord(long idDiscord) {
+	public List<NodeWar> findByIdDiscord(String idDiscord) {
 		return nodeWarRepository.findByIdDiscord(idDiscord);
 	}
 	
@@ -37,15 +37,15 @@ public class NodeWarService {
 		return nodeWarRepository.findByDate(date);
 	}
 	
-	public List<NodeWar> findByDateAndIdMessage(Date date,long idMessage){
+	public List<NodeWar> findByDateAndIdMessage(Date date,String idMessage){
 		return nodeWarRepository.findByDateAndIdMessage(date,idMessage);
 	}
 	
-	public List<NodeWar> findByIdGuildAndDate(long idGuild, Date date){
+	public List<NodeWar> findByIdGuildAndDate(String idGuild, Date date){
 		return nodeWarRepository.findByIdGuildAndDateGreaterThanEqual(idGuild, date);
 	}
 	
-	public NodeWar findById(long id) {
+	public NodeWar findById(String id) {
 		return nodeWarRepository.findById(id).orElseGet(() -> {
 			NodeWar node = new NodeWar();
 			node.setId(String.valueOf(id));

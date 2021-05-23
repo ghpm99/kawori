@@ -74,7 +74,7 @@ public class CmdNodeWar extends Command {
 	}
 
 	private void showNodeWar(MessageReceivedEvent event) {
-		List<NodeWar> nodes = nodeWarService.findByIdGuildAndDate(event.getGuild().getIdLong(), new Date());
+		List<NodeWar> nodes = nodeWarService.findByIdGuildAndDate(event.getGuild().getId(), new Date());
 
 		EmbedBuilder embed = embedPattern.createEmbedNodeWar(event.getAuthor(), event.getChannel(), event.getGuild(),
 				nodes);
@@ -87,7 +87,7 @@ public class CmdNodeWar extends Command {
 	}
 
 	private void cancelEmbed(Message currentEmbed) {
-		ReactionHandler.reactions.remove(currentEmbed.getIdLong());
+		ReactionHandler.reactions.remove(currentEmbed.getId());
 		currentEmbed.delete().queue();
 	}
 
@@ -106,8 +106,8 @@ public class CmdNodeWar extends Command {
 			message.addReaction(Emojis.FIVE.getEmoji()).queue();
 			message.addReaction(Emojis.CANCEL.getEmoji()).queue();
 
-			ReactionHandler.reactions.put(message.getIdLong(), (emote, idUser, idGuild, isAdd) -> {
-				if (idUser == user.getIdLong() && idGuild == guild.getIdLong()) {
+			ReactionHandler.reactions.put(message.getId(), (emote, idUser, idGuild, isAdd) -> {
+				if (idUser == user.getId() && idGuild == guild.getId()) {
 
 					Emojis emoji = Emojis.getEmojis(emote);
 
@@ -140,7 +140,7 @@ public class CmdNodeWar extends Command {
 			});
 
 			message.delete().queueAfter(5, TimeUnit.MINUTES, (s) -> {
-				ReactionHandler.reactions.remove(message.getIdLong());
+				ReactionHandler.reactions.remove(message.getId());
 			}, new ErrorHandler().ignore(ErrorResponse.UNKNOWN_MESSAGE));
 		};
 
@@ -159,8 +159,8 @@ public class CmdNodeWar extends Command {
 			message.addReaction(Emojis.THREE.getEmoji()).queue();
 			message.addReaction(Emojis.CANCEL.getEmoji()).queue();
 
-			ReactionHandler.reactions.put(message.getIdLong(), (emote, idUser, idGuild, isAdd) -> {
-				if (idUser == user.getIdLong() && idGuild == guild.getIdLong()) {
+			ReactionHandler.reactions.put(message.getId(), (emote, idUser, idGuild, isAdd) -> {
+				if (idUser == user.getId() && idGuild == guild.getId()) {
 
 					Emojis emoji = Emojis.getEmojis(emote);
 
@@ -206,8 +206,8 @@ public class CmdNodeWar extends Command {
 			message.addReaction(Emojis.SIX.getEmoji()).queue();
 			message.addReaction(Emojis.CANCEL.getEmoji()).queue();
 
-			ReactionHandler.reactions.put(message.getIdLong(), (emote, idUser, idGuild, isAdd) -> {
-				if (idUser == user.getIdLong() && idGuild == guild.getIdLong()) {
+			ReactionHandler.reactions.put(message.getId(), (emote, idUser, idGuild, isAdd) -> {
+				if (idUser == user.getId() && idGuild == guild.getId()) {
 
 					Emojis emoji = Emojis.getEmojis(emote);
 
@@ -271,8 +271,8 @@ public class CmdNodeWar extends Command {
 
 			message.addReaction(Emojis.CANCEL.getEmoji()).queue();
 
-			ReactionHandler.reactions.put(message.getIdLong(), (emote, idUser, idGuild, isAdd) -> {
-				if (idUser == user.getIdLong() && idGuild == guild.getIdLong()) {
+			ReactionHandler.reactions.put(message.getId(), (emote, idUser, idGuild, isAdd) -> {
+				if (idUser == user.getId() && idGuild == guild.getId()) {
 
 					Emojis emoji = Emojis.getEmojis(emote);
 
@@ -314,8 +314,8 @@ public class CmdNodeWar extends Command {
 
 			message.addReaction(Emojis.CANCEL.getEmoji()).queue();
 
-			ReactionHandler.reactions.put(message.getIdLong(), (emote, idUser, idGuild, isAdd) -> {
-				if (idUser == user.getIdLong() && idGuild == guild.getIdLong()) {
+			ReactionHandler.reactions.put(message.getId(), (emote, idUser, idGuild, isAdd) -> {
+				if (idUser == user.getId() && idGuild == guild.getId()) {
 					Emojis emoji = Emojis.getEmojis(emote);
 
 					if (emoji != null) {
@@ -341,14 +341,14 @@ public class CmdNodeWar extends Command {
 			Date day) {
 
 		NodeWar nodeWar = new NodeWar();
-		nodeWar.setIdDiscord(user.getIdLong());
-		nodeWar.setIdGuild(guild.getIdLong());
+		nodeWar.setIdDiscord(user.getId());
+		nodeWar.setIdGuild(guild.getId());
 		nodeWar.setDate(day);
 		nodeWar.setNode(node);
 		nodeWarService.save(nodeWar);
 
 		Consumer<Message> callBack = (message) -> {
-			ReactionHandler.reactions.remove(message.getIdLong());
+			ReactionHandler.reactions.remove(message.getId());
 		};
 
 		EmbedBuilder embed = embedPattern.createSaveNodeWarEmbed(user, channel, guild, nodeWar);
@@ -379,7 +379,7 @@ public class CmdNodeWar extends Command {
 
 	// tarefa agendada
 	public void scheduledNodeWar(JDA jda) {
-		List<NodeWar> nodes = nodeWarService.findByDateAndIdMessage(new Date(), 0);
+		List<NodeWar> nodes = nodeWarService.findByDateAndIdMessage(new Date(), "");
 		for (NodeWar node : nodes) {
 			Guild guild = jda.getGuildById(node.getIdGuild());
 			TextChannel channel = verifyNodeWarChannel(guild);
@@ -400,16 +400,16 @@ public class CmdNodeWar extends Command {
 
 		Consumer<Message> callBack = (message) -> {
 
-			node.setIdMessage(message.getIdLong());
+			node.setIdMessage(message.getId());
 
 			nodeWarService.save(node);
 
 			message.addReaction(Emojis.CHECK_OK.getEmoji()).queue();
 			message.addReaction(Emojis.CANCEL.getEmoji()).queue();
 
-			ReactionHandler.reactions.put(message.getIdLong(), (emote, idUser, idGuild, isAdd) -> {
+			ReactionHandler.reactions.put(message.getId(), (emote, idUser, idGuild, isAdd) -> {
 
-				if (user.getIdLong() == idUser) {
+				if (user.getId() == idUser) {
 					return;
 				}
 
@@ -421,7 +421,7 @@ public class CmdNodeWar extends Command {
 						presence.setPresenceTime(new Date());
 						presence.setIdNodeWar(node.getId());
 						presence.setIdUser(idUser);
-						presence.setIdGuild(guild.getIdLong());
+						presence.setIdGuild(guild.getId());
 						nodeWarPresenceService.save(presence);
 					}
 
@@ -444,14 +444,14 @@ public class CmdNodeWar extends Command {
 
 	private void showPresenceNodeWar(String[] args, MessageReceivedEvent event) {
 		try {
-			long idNodeWar = Long.valueOf(args[1]);
+			String idNodeWar = args[1];
 			NodeWar nodeWar = nodeWarService.findById(idNodeWar);
 			
-			if (nodeWar.getIdGuild() != event.getGuild().getIdLong())
+			if (nodeWar.getIdGuild() != event.getGuild().getId())
 				return;
 			
 			List<NodeWarPresence> presences = nodeWarPresenceService.findByIdNodeWarAndIdGuild(idNodeWar,
-					event.getGuild().getIdLong());
+					event.getGuild().getId());
 			
 			
 			EmbedBuilder embed = embedPattern.createEmbedNodeWarPresence(event.getAuthor(), event.getChannel(),

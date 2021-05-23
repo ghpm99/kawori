@@ -8,16 +8,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class NodeWar extends Model {
 
-	private long idGuild;
+	private String idGuild;
 
-	private long idDiscord;
+	private String idDiscord;
 
 	private Date date;
 
 	@DBRef
 	private Node node;
 
-	private long idMessage;
+	private String idMessage;
 
 	public NodeWar() {
 		// TODO Auto-generated constructor stub
@@ -25,19 +25,19 @@ public class NodeWar extends Model {
 		node = new Node();
 	}
 	
-	public long getIdGuild() {
+	public String getIdGuild() {
 		return idGuild;
 	}
 
-	public void setIdGuild(long idGuild) {
+	public void setIdGuild(String idGuild) {
 		this.idGuild = idGuild;
 	}
 
-	public long getIdDiscord() {
+	public String getIdDiscord() {
 		return idDiscord;
 	}
 
-	public void setIdDiscord(long idDiscord) {
+	public void setIdDiscord(String idDiscord) {
 		this.idDiscord = idDiscord;
 	}
 
@@ -57,11 +57,11 @@ public class NodeWar extends Model {
 		this.node = node;
 	}
 
-	public long getIdMessage() {
+	public String getIdMessage() {
 		return idMessage;
 	}
 
-	public void setIdMessage(long idMessage) {
+	public void setIdMessage(String idMessage) {
 		this.idMessage = idMessage;
 	}
 

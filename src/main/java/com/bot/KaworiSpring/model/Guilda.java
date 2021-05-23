@@ -1,16 +1,10 @@
 package com.bot.KaworiSpring.model;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection =  "guild")
-public class Guilda {
-
-	@Id
-	private long id;
-
-	private long idDiscord;
-
+public class Guilda extends Model{	
+	
 	private String name;
 
 	private boolean active;
@@ -21,9 +15,9 @@ public class Guilda {
 
 	private boolean site;
 
-	private long idOwner;
+	private String idOwner;
 
-	private long defaultTextChannel;
+	private String defaultTextChannel;
 
 	private String defaultWelcomeMessage;
 
@@ -35,13 +29,6 @@ public class Guilda {
 
 	private int expRequired;
 
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;
@@ -102,27 +89,20 @@ public class Guilda {
 		this.site = site;
 	}
 
-	public long getIdOwner() {
+	public String getIdOwner() {
 		return idOwner;
 	}
 
-	public void setIdOwner(long idOwner) {
+	public void setIdOwner(String idOwner) {
 		this.idOwner = idOwner;
 	}
 
-	public long getIdDiscord() {
-		return idDiscord;
-	}
 
-	public void setIdDiscord(long idDiscord) {
-		this.idDiscord = idDiscord;
-	}
-
-	public long getDefaultTextChannel() {
+	public String getDefaultTextChannel() {
 		return defaultTextChannel;
 	}
 
-	public void setDefaultTextChannel(long defaultTextChannel) {
+	public void setDefaultTextChannel(String defaultTextChannel) {
 		this.defaultTextChannel = defaultTextChannel;
 	}
 

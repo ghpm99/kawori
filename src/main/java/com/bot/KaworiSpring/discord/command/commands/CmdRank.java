@@ -42,7 +42,7 @@ public class CmdRank extends Command {
 		
 		sortBy = checkSort(sortBy);
 		
-		List<Gear> gears = gearService.findByIdGuild(event.getGuild().getIdLong(), PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC,sortBy)));
+		List<Gear> gears = gearService.findByIdGuild(event.getGuild().getId(), PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC,sortBy)));
 
 		EmbedBuilder embed = embedPattern.createEmbedRankGear(event.getAuthor(), event.getChannel(), event.getGuild(), gears, sortBy);
 		

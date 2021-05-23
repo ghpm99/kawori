@@ -19,23 +19,24 @@ public class PersonagemService {
 		this.personagemRepository = personagemRepository;
 	}
 
-	public Personagem findById(Long id) {
+	public Personagem findById(String id) {
 		return personagemRepository.findById(id).get();
 	}
 
-	public List<Personagem> findByMembroId(Long id) {
+	public List<Personagem> findByMembroId(String id) {
 		return personagemRepository.findByMembroId(id);
 	}
 
-	public List<Personagem> findByMembroIdAndClasse(Long id, String classe) {
+	public List<Personagem> findByMembroIdAndClasse(String id, String classe) {
 		return personagemRepository.findByMembroIdAndClasse(id, classe);
 	}
 
 	public Personagem save(Personagem personagem) {
+		personagem.setNewRecord(false);
 		return personagemRepository.save(personagem);
 	}
 
-	public Personagem findByMembroIdAndAtivo(Long id, boolean ativo) {
+	public Personagem findByMembroIdAndAtivo(String id, boolean ativo) {
 		return personagemRepository.findByMembroIdAndAtivo(id, ativo).orElseGet(() -> {
 			Personagem personagem = new Personagem();
 			personagem.getMembro().setIdUser(id);
@@ -55,9 +56,9 @@ public class PersonagemService {
 		return personagemRepository.save(personagem);
 	}
 
-	private void removeAtivos(Long idMembro) {
+	private void removeAtivos(String idMembro) {
 		Personagem perso = findByMembroIdAndAtivo(idMembro, true);
-		if (perso.getId() != null) {
+		if (!perso.isNewRecord()) {
 			perso.setAtivo(false);
 			personagemRepository.save(perso);
 		}
@@ -68,6 +69,14 @@ public class PersonagemService {
 		removeAtivos(personagem.getMembro().getIdUser());
 		personagem.setAtivo(true);
 		save(personagem);
+	}
+	
+	public Personagem loadPersonagem(String idUser, Membro membro, String idGuild, String name, boolean isNew) {
+		Personagem personagem = findByMembroIdAndAtivo(membro.getId(), true);
+
+		if (personagem.isNewRecord() || isNew)
+			personagem = createNewPersonagem(membro, name);
+		return personagem;
 	}
 	
 }

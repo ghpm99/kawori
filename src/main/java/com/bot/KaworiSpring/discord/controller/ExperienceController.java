@@ -17,18 +17,18 @@ public class ExperienceController {
 	@Autowired
 	private OperatorService operatorService;
 	
-	public void messageEvent(long idUser, long idGuild) {
+	public void messageEvent(String idUser, String idGuild) {
 		increaseExpGuild(idGuild);
 		increaseExpUser(idUser);
 	}
 	
-	private void increaseExpGuild(long idGuild) {
+	private void increaseExpGuild(String idGuild) {
 		Guilda guilda = guildaService.findById(idGuild);
 		guilda.increaseExp(1);
 		guildaService.save(guilda);
 	}
 	
-	private void increaseExpUser(long idUser) {
+	private void increaseExpUser(String idUser) {
 		Operator user = operatorService.findById(idUser);
 		user.increaseExp(1);
 		user.increaseMsgCount();

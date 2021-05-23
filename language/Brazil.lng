@@ -323,3 +323,4 @@ embed_auto_role_sucess_title=Configuração de auto role
 embed_auto_role_sucess_description=Auto role configurado com sucesso para o canal: _arg  mensagem: _arg  role: _arg 
 msg_achievements_help=
 msg_achievements_helpshort=
+msg_gear_exception=Ocorreu um erro ao atualizar: _arg 

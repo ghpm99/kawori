@@ -1,15 +1,10 @@
 package com.bot.KaworiSpring.model;
 
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-public class Node {
-
-	@Id
-	private ObjectId id;
-
+public class Node extends Model{
+	
 	private String tier;
 
 	private String name;
@@ -80,12 +75,5 @@ public class Node {
 		this.server = server;
 	}
 
-	public ObjectId getId() {
-		return id;
-	}
-
-	public void setId(ObjectId id) {
-		this.id = id;
-	}
 
 }

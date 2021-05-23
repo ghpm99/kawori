@@ -29,9 +29,6 @@ public class StatusService {
 
     private long cmdReceived = 0;
     
-    private long guildCount = 0;
-    
-    private long userCount = 0;
 
     public String getStatusBot() {
         return statusBot;
@@ -51,15 +48,7 @@ public class StatusService {
 
     public void increaseCmdReceived() {
         this.cmdReceived++;
-    }
-
-    public void increaseGuildCount() {
-    	this.guildCount++;
-    }
-    
-    public void increaseUserCount() {
-    	this.userCount++;
-    }
+    }    
     
     public long getGuildCount() {
     	return guildaService.count();

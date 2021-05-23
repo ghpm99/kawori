@@ -58,7 +58,7 @@ public class GuildListener extends ListenerAdapter {
 	public void onRoleUpdateName(RoleUpdateNameEvent event) {
 		// TODO Auto-generated method stub
 		super.onRoleUpdateName(event);
-		guildaController.onRoleUpdateName(event.getRole().getIdLong(), event.getNewName());
+		guildaController.onRoleUpdateName(event.getRole().getId(), event.getNewName());
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class GuildListener extends ListenerAdapter {
 	public void onGuildUpdateName(GuildUpdateNameEvent event) {
 		// TODO Auto-generated method stub
 		super.onGuildUpdateName(event);
-		guildaController.onGuildUpdateName(event.getGuild().getIdLong(), event.getNewName());
+		guildaController.onGuildUpdateName(event.getGuild().getId(), event.getNewName());
 
 	}
 
@@ -79,7 +79,7 @@ public class GuildListener extends ListenerAdapter {
 	public void onGuildUpdateOwner(GuildUpdateOwnerEvent event) {
 		// TODO Auto-generated method stub
 		super.onGuildUpdateOwner(event);
-		guildaController.onGuildUpdateOwner(event.getGuild().getIdLong(), event.getNewOwnerIdLong());
+		guildaController.onGuildUpdateOwner(event.getGuild().getId(), event.getNewOwnerId());
 	}
 
 	@Override

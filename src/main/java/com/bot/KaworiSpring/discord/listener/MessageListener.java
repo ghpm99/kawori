@@ -26,7 +26,7 @@ public class MessageListener extends ListenerAdapter {
 		
 
 	@Override
-	public void onMessageReceived(MessageReceivedEvent evento) {	
+	public void onMessageReceived(MessageReceivedEvent evento) {
 		
 		if (evento.getAuthor().isBot()) {
 			return;
@@ -42,23 +42,24 @@ public class MessageListener extends ListenerAdapter {
 
 	private void onPrivateMessage(MessageReceivedEvent evento) {
 
-		eventService.privateMessageEvent(evento.getAuthor().getIdLong());
+		eventService.privateMessageEvent(evento.getAuthor().getId());
 
 		evento.getAuthor().openPrivateChannel().complete()
 				.sendMessage(evento.getAuthor().getName() + "Nao aceito mensagens privadas!").queue();
+		logService.addEvent(new Log(new Date(), "Private Message Received", "", evento.getAuthor().getId(), ""));
 
 	}
 
 	private void onGuildMessage(MessageReceivedEvent evento) {
-		eventService.guildMessageEvent(evento.getAuthor().getIdLong(), evento.getGuild().getIdLong());
+		eventService.guildMessageEvent(evento.getAuthor().getId(), evento.getGuild().getId());
 
 		String message = evento.getMessage().getContentDisplay();
 
 		if (message.startsWith(Util.PREFIX)
 				& !evento.getAuthor().getId().equals(evento.getJDA().getSelfUser().getId())) {
 			logService.addEvent(
-					new Log(new Date(), message, evento.getGuild().getIdLong(), evento.getAuthor().getIdLong(), "-"));
-			eventService.cmdReceivedEvent(evento.getAuthor().getIdLong(), evento.getGuild().getIdLong());
+					new Log(new Date(), message, evento.getGuild().getId(), evento.getAuthor().getId(), "-"));
+			eventService.cmdReceivedEvent(evento.getAuthor().getId(), evento.getGuild().getId());
 			
 			CommandHandler.handleCommand(CommandHandler.parser.parse(message, evento));
 

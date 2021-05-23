@@ -25,8 +25,8 @@ public class LanguageService {
 	private OperatorService operatorService;
 
 	public String getLanguage(Guild guild, User user) {
-		Guilda guilda = guildaService.findById(guild.getIdLong());
-		Operator operator = operatorService.findById(user.getIdLong());
+		Guilda guilda = guildaService.findById(guild.getId());
+		Operator operator = operatorService.findById(user.getId());
 		return getLanguage(guilda, operator);
 	}
 
@@ -89,7 +89,7 @@ public class LanguageService {
 	}
 
 	public void setRegion(Guild guild, String region) {
-		Guilda guilda = guildaService.findById(guild.getIdLong());
+		Guilda guilda = guildaService.findById(guild.getId());
 		guilda.setRegion(region.toLowerCase());
 		guildaService.save(guilda);
 
@@ -97,7 +97,7 @@ public class LanguageService {
 
 	public void setRegion(User user, String region) {
 
-		Operator operator = operatorService.findById(user.getIdLong());
+		Operator operator = operatorService.findById(user.getId());
 		operator.setRegion(region.toLowerCase());
 		operatorService.save(operator);
 

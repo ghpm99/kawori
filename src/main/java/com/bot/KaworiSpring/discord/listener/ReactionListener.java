@@ -19,11 +19,11 @@ public class ReactionListener extends ListenerAdapter {
 	@Override
 	public void onGuildMessageReactionAdd(GuildMessageReactionAddEvent event) {
 
-		eventService.guildReactionEvent(event.getUserIdLong(), event.getGuild().getIdLong());
+		eventService.guildReactionEvent(event.getUserId(), event.getGuild().getId());
 
-		if (ReactionHandler.reactions.containsKey(event.getMessageIdLong())) {
-			ReactionHandler.reactions.get(event.getMessageIdLong()).onGuildMessageReaction(
-					event.getReactionEmote().getName(), event.getUserIdLong(), event.getGuild().getIdLong(), true);
+		if (ReactionHandler.reactions.containsKey(event.getMessageId())) {
+			ReactionHandler.reactions.get(event.getMessageId()).onGuildMessageReaction(
+					event.getReactionEmote().getName(), event.getUserId(), event.getGuild().getId(), true);
 		}
 
 	}
@@ -32,9 +32,9 @@ public class ReactionListener extends ListenerAdapter {
 	public void onGuildMessageReactionRemove(GuildMessageReactionRemoveEvent event) {
 		// TODO Auto-generated method stub
 		super.onGuildMessageReactionRemove(event);
-		if (ReactionHandler.reactions.containsKey(event.getMessageIdLong())) {
-			ReactionHandler.reactions.get(event.getMessageIdLong()).onGuildMessageReaction(
-					event.getReactionEmote().getName(), event.getUserIdLong(), event.getGuild().getIdLong(), false);
+		if (ReactionHandler.reactions.containsKey(event.getMessageId())) {
+			ReactionHandler.reactions.get(event.getMessageId()).onGuildMessageReaction(
+					event.getReactionEmote().getName(), event.getUserId(), event.getGuild().getId(), false);
 		}
 	}
 

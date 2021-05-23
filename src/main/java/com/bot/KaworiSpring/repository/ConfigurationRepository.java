@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.bot.KaworiSpring.model.Configuration;
 
-public interface ConfigurationRepository extends MongoRepository<Configuration, Integer> {
+public interface ConfigurationRepository extends MongoRepository<Configuration, String> {
 
 	public Optional<Configuration> getByType(String type);
 	

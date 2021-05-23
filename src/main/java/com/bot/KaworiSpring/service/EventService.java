@@ -28,37 +28,37 @@ public class EventService {
 	@Autowired
 	private ExperienceController expController;
 
-	public void privateMessageEvent(long idUser) {
+	public void privateMessageEvent(String idUser) {
 		 //EventPrivateMessage event = new EventPrivateMessage(idUser, new Date());
 		// privateMessageRepository.save(event);
 
 	}
 
-	public void guildMessageEvent(long idUser, long idGuild) {
+	public void guildMessageEvent(String idUser, String idGuild) {
 		// EventGuildMessage event = new EventGuildMessage(idUser, idGuild, new Date());
 		// guildMessageRepository.save(event);
 		expController.messageEvent(idUser, idGuild);
 	}
 
-	public void guildReactionEvent(long idUser, long idGuild) {
+	public void guildReactionEvent(String idUser, String idGuild) {
 		// EventGuildReaction event = new EventGuildReaction(idUser, idGuild, new
 		// Date());
 		// guildReactionRepository.save(event);
 	}
 
-	public void cmdReceivedEvent(long idUser, long idGuild) {
+	public void cmdReceivedEvent(String idUser, String idGuild) {
 		statusService.increaseCmdReceived();
 		increaseCmdCountGuild(idGuild);
 		increaseCmdCountUser(idUser);
 	}
 
-	private void increaseCmdCountGuild(long idGuild) {
+	private void increaseCmdCountGuild(String idGuild) {
 		Guilda guilda = guildaService.findById(idGuild);
 		guilda.increaseCmdCount();
 		guildaService.save(guilda);
 	}
 
-	private void increaseCmdCountUser(long idUser) {
+	private void increaseCmdCountUser(String idUser) {
 		Operator user = operatorService.findById(idUser);
 		user.increaseCmdCount();
 		operatorService.save(user);

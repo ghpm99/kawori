@@ -1,7 +1,6 @@
 package com.bot.KaworiSpring.discord.command.commands;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
@@ -97,9 +96,9 @@ public class CmdConfig extends Command {
 			message.addReaction(Emojis.CHECK_OK.getEmoji()).queue();
 			message.addReaction(Emojis.CANCEL.getEmoji()).queue();
 
-			ReactionHandler.reactions.put(message.getIdLong(),
-					(String emote, long idUser, long idGuild, boolean isAdd) -> {
-						if (idUser == event.getAuthor().getIdLong() && idGuild == event.getGuild().getIdLong()) {
+			ReactionHandler.reactions.put(message.getId(),
+					(String emote, String idUser, String idGuild, boolean isAdd) -> {
+						if (idUser == event.getAuthor().getId() && idGuild == event.getGuild().getId()) {
 							if (emote.equals(Emojis.CHECK_OK.getEmoji())) {
 								changeChannel(message, event.getMessage().getMentionedChannels(), true);
 							} else if (emote.equals(Emojis.CANCEL.getEmoji())) {
@@ -109,7 +108,7 @@ public class CmdConfig extends Command {
 					});
 
 			message.delete().queueAfter(2, TimeUnit.MINUTES, (a) -> {
-				ReactionHandler.reactions.remove(message.getIdLong());
+				ReactionHandler.reactions.remove(message.getId());
 			});
 		};
 		messageController.sendEmbed(event.getChannel(), embed, callback);
@@ -125,7 +124,7 @@ public class CmdConfig extends Command {
 
 	private void changeSendMessageChannel(List<TextChannel> channels, boolean isCanSend) {
 		channels.forEach((channel) -> {			
-			Canal canal = canalService.findById(channel.getIdLong());
+			Canal canal = canalService.findById(channel.getId());
 			canal.setSendMessage(isCanSend);
 			canalService.save(canal);
 
@@ -154,9 +153,9 @@ public class CmdConfig extends Command {
 				boolean cmdUtil = false;
 
 				@Override
-				public void onGuildMessageReaction(String emote, long idUser, long idGuild, boolean isAdd) {
+				public void onGuildMessageReaction(String emote, String idUser, String idGuild, boolean isAdd) {
 
-					if (idUser == event.getAuthor().getIdLong() && idGuild == event.getGuild().getIdLong()) {
+					if (idUser == event.getAuthor().getId() && idGuild == event.getGuild().getId()) {
 						Emojis emoji = Emojis.getEmojis(emote);
 
 						if (emoji == null)
@@ -220,10 +219,10 @@ public class CmdConfig extends Command {
 				}
 			};
 
-			ReactionHandler.reactions.put(message.getIdLong(), reaction);
+			ReactionHandler.reactions.put(message.getId(), reaction);
 
 			message.delete().queueAfter(2, TimeUnit.MINUTES, (a) -> {
-				ReactionHandler.reactions.remove(message.getIdLong());
+				ReactionHandler.reactions.remove(message.getId());
 			});
 		};
 
@@ -233,7 +232,7 @@ public class CmdConfig extends Command {
 	private void changeRoles(List<Role> roles, boolean cmdAdm, boolean cmdNodeWar, boolean cmdRank, boolean cmdBuild,
 			boolean cmdFun, boolean cmdUtil) {
 		roles.forEach((role) -> {
-			Tag tag = tagService.findByIdGuildAndIdRole(role.getGuild().getIdLong(), role.getIdLong());
+			Tag tag = tagService.findByIdGuildAndIdRole(role.getGuild().getId(), role.getId());
 			tag.setCmdAdm(cmdAdm);
 			tag.setCmdNodeWar(cmdNodeWar);
 			tag.setCmdRank(cmdRank);
@@ -255,7 +254,7 @@ public class CmdConfig extends Command {
 	}
 
 	private void changeRoleEmbed(Message oldEmbed, User user, MessageChannel channel, Guild guild, List<Role> roles) {
-		ReactionHandler.reactions.remove(oldEmbed.getIdLong());
+		ReactionHandler.reactions.remove(oldEmbed.getId());
 		EmbedBuilder newEmbed = embedPattern.createEmbedConfigureRolesSucess(user, channel, guild, roles);
 		messageController.changeEmbed(channel, oldEmbed, newEmbed);
 	}

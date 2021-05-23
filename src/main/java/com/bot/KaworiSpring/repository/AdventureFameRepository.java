@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.bot.KaworiSpring.model.AdventureFame;
 
-public interface AdventureFameRepository extends MongoRepository<AdventureFame, Long>{
+public interface AdventureFameRepository extends MongoRepository<AdventureFame, String>{
 
 	public Optional<AdventureFame> findByMinLessThanEqualAndMaxGreaterThanEqual(int min,int max);
 	

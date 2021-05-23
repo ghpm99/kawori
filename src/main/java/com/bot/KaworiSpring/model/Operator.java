@@ -1,13 +1,9 @@
 package com.bot.KaworiSpring.model;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection =  "user")
-public class Operator {
-
-	@Id
-	private long id;
+public class Operator extends Model{
 
 	private long idDiscord;
 
@@ -71,14 +67,6 @@ public class Operator {
 
 	public void setCmdCount(int cmdCount) {
 		this.cmdCount = cmdCount;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	public String getName() {

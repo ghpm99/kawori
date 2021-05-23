@@ -9,18 +9,18 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.bot.KaworiSpring.model.Gear;
 
-public interface GearRepository extends MongoRepository<Gear, Long> {
+public interface GearRepository extends MongoRepository<Gear, String> {
 
-	public List<Gear> findByIdDiscord(Long id);
+	public List<Gear> findByIdDiscord(String id);
 
-	public Page<Gear> findByIdDiscordAndIdGuild(Long idDiscord, Long idGuild, Pageable pageable);
+	public Page<Gear> findByIdDiscordAndIdGuild(String idDiscord, String idGuild, Pageable pageable);
 
-	public List<Gear> findByIdGuild(Long idGuild);
+	public List<Gear> findByIdGuild(String idGuild);
 
-	public List<Gear> findByIdGuild(Long idGuild, Pageable pageable);
+	public List<Gear> findByIdGuild(String idGuild, Pageable pageable);
 
-	public Optional<Gear> findByIdDiscordAndIdGuildAndAtivo(Long idDiscord, Long idGuild, boolean ativo);
+	public Optional<Gear> findByIdDiscordAndIdGuildAndAtivo(String idDiscord, String idGuild, boolean ativo);
 
-	public Optional<Gear> findByIdDiscordAndIdGuildAndYoung(Long idDiscord, Long idGuild, boolean young);
+	public Optional<Gear> findByIdDiscordAndIdGuildAndYoung(String idDiscord, String idGuild, boolean young);
 
 }

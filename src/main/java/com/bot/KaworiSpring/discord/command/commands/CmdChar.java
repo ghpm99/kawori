@@ -90,11 +90,11 @@ public class CmdChar extends Command {
 	}
 
 	private void showPersonagens() {
-		Membro membro = membroService.findByIdAndIdGuild(author.getIdLong(), guild.getIdLong());
+		Membro membro = membroService.findByIdAndIdGuild(author.getId(), guild.getId());
 		showEmbedPersonagens(author.getUser(), channel, guild, personagemService.findByMembroId(membro.getIdUser()));
 	}
 
-	private Personagem generatePersonagem(long idUser, long idGuild, String name) {
+	private Personagem generatePersonagem(String idUser, String idGuild, String name) {
 
 		Personagem personagem = loadPersonagem(idUser, idGuild);
 		if (personagem == null) {
@@ -104,7 +104,7 @@ public class CmdChar extends Command {
 		return personagem;
 	}
 
-	private Personagem loadPersonagem(long idUser, long idGuild) {
+	private Personagem loadPersonagem(String idUser, String idGuild) {
 		Membro membro = membroService.findByIdAndIdGuild(idUser, idGuild);
 		if (membro != null) {
 			Personagem personagem = personagemService.findByMembroIdAndAtivo(membro.getIdUser(), true);
@@ -113,7 +113,7 @@ public class CmdChar extends Command {
 		return null;
 	}
 
-	private Personagem createPersonagem(long idUser, long idGuild, String name) {
+	private Personagem createPersonagem(String idUser, String idGuild, String name) {
 		return personagemService.createNewPersonagem(membroService.findByIdAndIdGuild(idUser, idGuild), name);
 
 	}
@@ -262,7 +262,7 @@ public class CmdChar extends Command {
 	}
 
 	private void setPersonagem(String[] args, MessageReceivedEvent event) {
-		Personagem personagem = generatePersonagem(author.getUser().getIdLong(), guild.getIdLong(),
+		Personagem personagem = generatePersonagem(author.getUser().getId(), guild.getId(),
 				author.getUser().getName());
 
 		if (!atualizarAtributo(personagem, args, event)) {

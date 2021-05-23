@@ -17,7 +17,7 @@ public class OperatorService {
 		this.operatorRepository = operatorRepository;
 	}
 
-	public Operator findById(long id) {
+	public Operator findById(String id) {
 		return operatorRepository.findById(id).orElseGet(() -> {
 			Operator user = new Operator();
 			user.setId(id);

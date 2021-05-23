@@ -7,13 +7,13 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.bot.KaworiSpring.model.Guilda;
 
-public interface GuildaRepository extends MongoRepository<Guilda, Long> {
+public interface GuildaRepository extends MongoRepository<Guilda, String> {
 
-	public Optional<Guilda> findById(long id);
+	public Optional<Guilda> findById(String id);
 	
 	public List<Guilda> findByName(String name);
 	
-	public List<Guilda> findByIdOwner(long id);
+	public List<Guilda> findByIdOwner(String id);
 	
 	
 	

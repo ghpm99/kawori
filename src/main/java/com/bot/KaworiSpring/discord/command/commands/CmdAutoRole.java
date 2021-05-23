@@ -79,10 +79,9 @@ public class CmdAutoRole extends Command {
 	}
 
 	private void configureAutoRole(MessageReceivedEvent event, TextChannel channel, Role role) {
-		String text = getText(event);
-		System.out.println(text);
-		AutoRole autoRole = autoRoleService.createAutoRole(event.getGuild().getIdLong(), channel.getIdLong(),
-				role.getIdLong(), text);
+		String text = getText(event);		
+		AutoRole autoRole = autoRoleService.createAutoRole(event.getGuild().getId(), channel.getId(),
+				role.getId(), text);
 
 		EmbedBuilder embed = embedPattern.createEmbedConfiguredAutoRole(event.getAuthor(), event.getChannel(),
 				event.getGuild(), autoRole);
@@ -106,7 +105,7 @@ public class CmdAutoRole extends Command {
 
 	public void applyRole(Guild guild, MessageChannel channel, String text, User author) {
 		ArrayList<Role> applyRoles = new ArrayList<Role>();
-		List<AutoRole> autoRoles = autoRoleService.getAutoRole(guild.getIdLong(), channel.getIdLong());
+		List<AutoRole> autoRoles = autoRoleService.getAutoRole(guild.getId(), channel.getId());
 		for (AutoRole autoRole : autoRoles) {
 			if (autoRole.getText().equals(text) && !autoRole.isCanceled()) {
 				Role role = guild.getRoleById(autoRole.getRole());
@@ -124,7 +123,7 @@ public class CmdAutoRole extends Command {
 
 	private void cancelAutoRole(Guild guild, MessageChannel channel, User author, Message currentMessage,
 			Pageable pageable) {
-		Page<AutoRole> autoRoles = autoRoleService.getAutoRole(guild.getIdLong(), pageable);
+		Page<AutoRole> autoRoles = autoRoleService.getAutoRole(guild.getId(), pageable);
 		Consumer<Message> callBack = (message -> {
 			if (autoRoles.hasNext()) {
 				message.addReaction(Emojis.NEXT.getEmoji()).queue();
@@ -136,9 +135,9 @@ public class CmdAutoRole extends Command {
 				message.addReaction(Emojis.getEmoji(i).getEmoji()).queue();
 			}
 
-			ReactionHandler.reactions.put(message.getIdLong(),
-					(String emote, long idUser, long idGuild, boolean isAdd) -> {
-						if (idUser == author.getIdLong() && idGuild == guild.getIdLong()) {
+			ReactionHandler.reactions.put(message.getId(),
+					(String emote, String idUser, String idGuild, boolean isAdd) -> {
+						if (idUser == author.getId() && idGuild == guild.getId()) {
 							Emojis emoji = Emojis.getEmojis(emote);
 							if (emoji == null) {
 								return;

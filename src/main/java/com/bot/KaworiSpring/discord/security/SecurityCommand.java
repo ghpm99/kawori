@@ -52,7 +52,7 @@ public class SecurityCommand {
 	}
 
 	private boolean verifyCanSpeak(TextChannel channel) {
-		Canal canal = canalService.findById(channel.getIdLong());
+		Canal canal = canalService.findById(channel.getId());
 		return canal.isSendMessage();
 	}
 
@@ -66,7 +66,7 @@ public class SecurityCommand {
 	}
 
 	private boolean verifyRole(Role role, Permissions permission) {
-		Tag tag = tagService.findByIdRole(role.getIdLong());
+		Tag tag = tagService.findByIdRole(role.getId());
 		switch (permission) {
 		case CMD_ADM: {
 			return tag.isCmdAdm();
@@ -96,13 +96,13 @@ public class SecurityCommand {
 	}
 
 	private boolean verifyIsUserBanned(User user) {
-		Operator operator = operatorService.findById(user.getIdLong());
+		Operator operator = operatorService.findById(user.getId());
 
 		return operator.isBanned();
 	}
 
 	private boolean verifyIsGuildBanned(Guild guild) {
-		Guilda guilda = guildaService.findById(guild.getIdLong());
+		Guilda guilda = guildaService.findById(guild.getId());
 
 		return guilda.isBlock();
 	}

@@ -24,10 +24,10 @@ public class WebGearController {
 
 	@Secured("USER")
 	@GetMapping(path = "/gear/{id}")
-	public DataResponse getGear(@PathVariable long id) {
+	public DataResponse getGear(@PathVariable String id) {
 		ArrayList<GearResponse> gears = new ArrayList<>();
 		gearService.findByIdDiscord(id).forEach((gear) -> {
-			Guilda guilda = guildaService.findById(gear.getIdGuild());
+			Guilda guilda = guildaService.findById(gear.getId());
 			gears.add(new GearResponse(gear, guilda));
 		});
 

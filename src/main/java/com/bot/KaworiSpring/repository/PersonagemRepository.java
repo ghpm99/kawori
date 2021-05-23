@@ -7,13 +7,13 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.bot.KaworiSpring.model.Personagem;
 
-public interface PersonagemRepository extends MongoRepository<Personagem, Long> {
+public interface PersonagemRepository extends MongoRepository<Personagem, String> {
 
-	public List<Personagem> findByMembroId(Long id);
+	public List<Personagem> findByMembroId(String id);
 
-	public List<Personagem> findByMembroIdAndClasse(Long id, String classe);
+	public List<Personagem> findByMembroIdAndClasse(String id, String classe);
 
-	public Optional<Personagem> findByMembroIdAndAtivo(Long membroId, boolean ativo);
+	public Optional<Personagem> findByMembroIdAndAtivo(String membroId, boolean ativo);
 	
 	
 

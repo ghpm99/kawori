@@ -26,7 +26,7 @@ public class WebGuildaController {
 
 	@Secured("USER")
 	@GetMapping(path = "/guilds/{id}")
-	public DataResponse getGuilds(@PathVariable long id) {
+	public DataResponse getGuilds(@PathVariable String id) {
 		
 		ArrayList<MembroResponse> membros = new ArrayList<>();
 				

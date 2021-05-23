@@ -17,7 +17,7 @@ public class WebOperatorController {
 	
 	@Secured("USER")
 	@GetMapping(path = "/user/{id}")
-	public Operator getUser(@PathVariable long id) {
+	public Operator getUser(@PathVariable String id) {
 		return operatorService.findById(id);
 	}
 	

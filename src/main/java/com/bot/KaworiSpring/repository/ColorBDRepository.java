@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.bot.KaworiSpring.model.ColorBD;
 
-public interface ColorBDRepository extends MongoRepository<ColorBD, Long>{
+public interface ColorBDRepository extends MongoRepository<ColorBD, String>{
 
 	public Optional<ColorBD> findByRedAndGreenAndBlue(int red, int green, int blue);
 	

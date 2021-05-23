@@ -53,7 +53,7 @@ public class TagController {
 		List<Role> roles = guild.getMember(user).getRoles();
 		HashMap<String, Role> rolesGear = new HashMap<String, Role>();
 		for (Role role : roles) {
-			Tag tag = tagService.findByIdRole(role.getIdLong());
+			Tag tag = tagService.findByIdRole(role.getId());
 			if (tag.isBotRole()) {
 				ColorBD color = colorBDService.findByRGB(role.getColor());
 				rolesGear.put(color.getName(), role);

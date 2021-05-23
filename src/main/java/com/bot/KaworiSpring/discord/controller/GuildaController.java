@@ -52,7 +52,7 @@ public class GuildaController {
 
 	public void onGuildMemberJoin(Guild guild, Member member) {
 
-		Membro membro = findMember(member.getIdLong(), guild.getIdLong());
+		Membro membro = findMember(member.getId(), guild.getId());
 
 		membro.setVisitor(true);
 
@@ -70,7 +70,7 @@ public class GuildaController {
 
 	public void onGuildMemberLeave(Guild guild, User user) {
 
-		Membro membro = findMember(user.getIdLong(), guild.getIdLong());
+		Membro membro = findMember(user.getId(), guild.getId());
 
 		membro.setVisitor(false);
 		membro.setHero(false);
@@ -80,9 +80,9 @@ public class GuildaController {
 
 	}
 
-	public Membro findMember(long id, long idGuild) {
+	public Membro findMember(String id, String idGuild) {
 		Membro membro = membroService.findByIdAndIdGuild(id, idGuild);
-		if (membro == null) {
+		if (membro.isNewRecord()) {
 			membro = new Membro();
 			membro.setIdGuild(idGuild);
 			membro.setIdUser(id);
@@ -100,8 +100,8 @@ public class GuildaController {
 
 	public void onRoleUpdatePermissions(RoleUpdatePermissionsEvent event) {
 		// TODO Auto-generated method stub
-		Tag tag = tagService.findByIdRole(event.getRole().getIdLong());
-		if (tag == null) {
+		Tag tag = tagService.findByIdRole(event.getRole().getId());
+		if (tag.isNewRecord()) {
 			tag = createNewTag(event.getGuild(), event.getRole());
 
 			tagService.save(tag);
@@ -113,7 +113,7 @@ public class GuildaController {
 
 	}
 
-	public void onRoleUpdateName(long id, String newName) {
+	public void onRoleUpdateName(String id, String newName) {
 		Tag tag = tagService.findByIdRole(id);
 		tag.setName(newName);
 
@@ -122,20 +122,20 @@ public class GuildaController {
 
 	public void onRoleDelete(RoleDeleteEvent event) {
 		// TODO Auto-generated method stub
-		Tag tag = tagService.findByIdRole(event.getRole().getIdLong());
-		if (tag != null) {
+		Tag tag = tagService.findByIdRole(event.getRole().getId());
+		if (!tag.isNewRecord()) {
 			tagService.delete(tag);
 		}
 	}
 
-	public void onGuildUpdateName(long id, String newName) {
+	public void onGuildUpdateName(String id, String newName) {
 		Guilda guilda = guildaService.findById(id);
 		guilda.setName(newName);
 
 		guildaService.save(guilda);
 	}
 
-	public void onGuildUpdateOwner(long id, long idNewOwner) {
+	public void onGuildUpdateOwner(String id, String idNewOwner) {
 		Guilda guilda = guildaService.findById(id);
 		guilda.setIdOwner(idNewOwner);
 
@@ -158,8 +158,8 @@ public class GuildaController {
 
 	private Tag createNewTag(Guild guild, Role role) {
 		Tag tag = new Tag();
-		tag.setIdGuild(guild.getIdLong());
-		tag.setIdRole(role.getIdLong());
+		tag.setIdGuild(guild.getId());
+		tag.setIdRole(role.getId());
 		tag.setName(role.getName());
 		tag.setPosition(role.getPosition());
 		tag.setColor(role.getColor());
@@ -188,8 +188,8 @@ public class GuildaController {
 	public void updateGuildTag(Guild guild) {
 		for (Role role : guild.getRoles()) {
 
-			Tag tag = tagService.findByIdRole(role.getIdLong());
-			if (tag == null) {
+			Tag tag = tagService.findByIdRole(role.getId());
+			if (tag.isNewRecord()) {
 				tagService.save(createNewTag(guild, role));
 			}
 		}
@@ -198,7 +198,7 @@ public class GuildaController {
 	public boolean isTag(String name, Color color) {
 		ColorBD colorbd = colorBDService.findByRGB(color);
 
-		if (colorbd != null) {
+		if (!colorbd.isNewRecord()) {
 			return verifyIsTag(name, colorbd.getName());
 		}
 
@@ -207,13 +207,13 @@ public class GuildaController {
 
 	private boolean verifyIsTag(String roleName, String type) {
 		AdventureFame temp = adventureFameService.findByTypeAndName(type, roleName);
-		if (temp != null)
+		if (!temp.isNewRecord())
 			return true;
 		return false;
 	}
 
 	private void sendMessageOnJoin(Guild guild, Member member) {
-		Guilda guilda = guildaService.findById(guild.getIdLong());
+		Guilda guilda = guildaService.findById(guild.getId());
 		MessageChannel channel = guild.getDefaultChannel();
 		if (channel == null)
 			return;
@@ -224,7 +224,7 @@ public class GuildaController {
 	}
 
 	public void onGuildMemberUpdateNickname(Member member, String newNick) {
-		Membro membro = findMember(member.getIdLong(), member.getGuild().getIdLong());
+		Membro membro = findMember(member.getId(), member.getGuild().getId());
 		membro.setNick(newNick);
 		membroService.save(membro);
 	}
@@ -245,11 +245,11 @@ public class GuildaController {
 	}
 
 	public void onGuildMemberRoleAdd(Guild guild, List<Role> roles, Member member) {
-		Membro membro = membroService.findByIdAndIdGuild(member.getIdLong(), guild.getIdLong());
+		Membro membro = membroService.findByIdAndIdGuild(member.getId(), guild.getId());
 		boolean canGear = membro.isGear();
 
 		for (Role role : roles) {
-			Tag tag = tagService.findByIdGuildAndIdRole(role.getGuild().getIdLong(), role.getIdLong());
+			Tag tag = tagService.findByIdGuildAndIdRole(role.getGuild().getId(), role.getId());
 			canGear = canGear || tag.isCmdBuild();
 		}
 
@@ -259,10 +259,10 @@ public class GuildaController {
 	}
 
 	public void onGuildMemberRoleRemove(Guild guild, List<Role> roles, Member member) {
-		Membro membro = membroService.findByIdAndIdGuild(member.getIdLong(), guild.getIdLong());
+		Membro membro = membroService.findByIdAndIdGuild(member.getId(), guild.getId());
 		boolean canGear = false;
 		for (Role role : member.getRoles()) {
-			Tag tag = tagService.findByIdGuildAndIdRole(guild.getIdLong(), role.getIdLong());
+			Tag tag = tagService.findByIdGuildAndIdRole(guild.getId(), role.getId());
 			canGear = canGear || tag.isCmdBuild();
 		}
 		membro.setGear(canGear);

@@ -24,19 +24,19 @@ public class TagService {
 		return tagRepository.save(role);
 	}
 
-	public List<Tag> findByIdGuildAndBotRole(long idGuild, boolean botRole) {
+	public List<Tag> findByIdGuildAndBotRole(String idGuild, boolean botRole) {
 		return tagRepository.findByIdGuildAndBotRole(idGuild, botRole);
 	}
 
-	public List<Tag> findByIdGuild(long idGuild) {
+	public List<Tag> findByIdGuild(String idGuild) {
 		return tagRepository.findByIdGuild(idGuild);
 	}
 
-	public List<Tag> findByIdGuildAndName(long idGuild, String name) {
+	public List<Tag> findByIdGuildAndName(String idGuild, String name) {
 		return tagRepository.findByIdGuildAndName(idGuild, name);
 	}
 
-	public Tag findByIdRole(long idRole) {
+	public Tag findByIdRole(String idRole) {
 		return tagRepository.findByIdRole(idRole).orElseGet(() -> {
 			Tag tag = new Tag();
 			tag.setIdRole(idRole);
@@ -56,7 +56,7 @@ public class TagService {
 		return tagRepository.findAll(pgbl);
 	}
 	
-	public Tag findByIdGuildAndIdRole(long idGuild, long idRole) {
+	public Tag findByIdGuildAndIdRole(String idGuild, String idRole) {
 		return tagRepository.findByIdGuildAndIdRole(idGuild, idRole).orElseGet(() -> {
 			Tag tag = new Tag();
 			tag.setIdGuild(idGuild);

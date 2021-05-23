@@ -22,7 +22,7 @@ public class GuildaService {
 		return guildaRepository.save(guild);
 	}
 
-	public Guilda findById(long id) {
+	public Guilda findById(String id) {
 		return guildaRepository.findById(id).orElseGet(() -> {
 			Guilda guild = new Guilda();
 			guild.setId(id);

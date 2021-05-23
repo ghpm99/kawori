@@ -1,48 +1,19 @@
 package com.bot.KaworiSpring.model;
 
-
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection  = "autoRole")
-public class AutoRole {
+@Document(collection = "autoRole")
+public class AutoRole extends Model {
 
-	@Id	
-	private int id;
-	
-	private long guild;
-	
-	private long channel;
-	
+	private String guild;
+
+	private String channel;
+
 	private String text;
-	
-	private long role;
-	
-	 private boolean canceled;
 
-	public int getId() {
-		return id;
-	}
+	private String role;
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public long getGuild() {
-		return guild;
-	}
-
-	public void setGuild(long guild) {
-		this.guild = guild;
-	}
-
-	public long getChannel() {
-		return channel;
-	}
-
-	public void setChannel(long channel) {
-		this.channel = channel;
-	}
+	private boolean canceled;
 
 	public String getText() {
 		return text;
@@ -52,14 +23,6 @@ public class AutoRole {
 		this.text = text;
 	}
 
-	public long getRole() {
-		return role;
-	}
-
-	public void setRole(long role) {
-		this.role = role;
-	}
-
 	public boolean isCanceled() {
 		return canceled;
 	}
@@ -67,7 +30,29 @@ public class AutoRole {
 	public void setCanceled(boolean canceled) {
 		this.canceled = canceled;
 	}
-	
-	
-	
+
+	public String getGuild() {
+		return guild;
+	}
+
+	public void setGuild(String guild) {
+		this.guild = guild;
+	}
+
+	public String getChannel() {
+		return channel;
+	}
+
+	public void setChannel(String channel) {
+		this.channel = channel;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
 }

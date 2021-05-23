@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.bot.KaworiSpring.model.GifBD;
 
-public interface GifBDRepository extends MongoRepository<GifBD, Long> {
+public interface GifBDRepository extends MongoRepository<GifBD, String> {
 	
 	public List<GifBD> findByType(String type);
 

@@ -8,10 +8,10 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.bot.KaworiSpring.model.AutoRole;
 
-public interface AutoRoleRepository extends MongoRepository<AutoRole, Long> {
+public interface AutoRoleRepository extends MongoRepository<AutoRole, String> {
 
-	public List<AutoRole> getByGuildAndChannelAndCanceled(long guild, long channel, boolean canceled);
+	public List<AutoRole> getByGuildAndChannelAndCanceled(String guild, String channel, boolean canceled);
 	
-	public Page<AutoRole> getByGuildAndCanceled(long guild, boolean canceled, Pageable pageable);
+	public Page<AutoRole> getByGuildAndCanceled(String guild, boolean canceled, Pageable pageable);
 	
 }

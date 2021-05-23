@@ -15,10 +15,11 @@ public class CanalService {
 	private CanalRepository canalRepository;
 
 	public Canal save(Canal canal) {
+		canal.setNewRecord(false);
 		return canalRepository.save(canal);
 	}
 
-	public Canal findById(long id) {
+	public Canal findById(String id) {
 		return canalRepository.findById(id).orElseGet(() -> {
 			Canal canal = new Canal();
 			canal.setId(id);
@@ -29,7 +30,7 @@ public class CanalService {
 	public Canal createNew(TextChannel channel) {
 		Canal canal = new Canal();
 
-		canal.setId(channel.getIdLong());
+		canal.setId(channel.getId());
 		canal.setName(channel.getName());
 		canal.setIdGuild(channel.getGuild().getIdLong());
 		canal.setSendMessage(true);
@@ -39,7 +40,7 @@ public class CanalService {
 	}
 
 	public Canal UpdateCanal(TextChannel channel) {
-		Canal canal = findById(channel.getIdLong());
+		Canal canal = findById(channel.getId());
 		
 		canal.setName(channel.getName());
 

@@ -31,7 +31,7 @@ public class NodeService {
 		return nodeRepository.findAll();
 	}
 
-	public Node findById(Long id) {
+	public Node findById(String id) {
 		return nodeRepository.findById(id).get();
 	}
 	

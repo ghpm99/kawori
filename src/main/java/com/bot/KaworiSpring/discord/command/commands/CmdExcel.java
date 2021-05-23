@@ -62,7 +62,7 @@ public class CmdExcel extends Command {
 	}
 
 	private Workbook createExcel(MessageReceivedEvent event) {
-		List<Gear> gears = gearService.findByIdGuild(event.getGuild().getIdLong());
+		List<Gear> gears = gearService.findByIdGuild(event.getGuild().getId());
 
 		Workbook workbook = new XSSFWorkbook();
 

@@ -8,18 +8,18 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.bot.KaworiSpring.model.NodeWar;
 
-public interface NodeWarRepository extends MongoRepository<NodeWar, Long>{
+public interface NodeWarRepository extends MongoRepository<NodeWar, String>{
 
-	public List<NodeWar> findByIdGuild(long idGuild);
+	public List<NodeWar> findByIdGuild(String idGuild);
 	
-	public List<NodeWar> findByIdDiscord(long idDiscord);
+	public List<NodeWar> findByIdDiscord(String idDiscord);
 	
 	public List<NodeWar> findByDate(Date date);
 	
-	public List<NodeWar> findByDateAndIdMessage(Date date,long idMessage);
+	public List<NodeWar> findByDateAndIdMessage(Date date,String idMessage);
 	
-	public List<NodeWar> findByIdGuildAndDateGreaterThanEqual(long idGuild, Date date);
+	public List<NodeWar> findByIdGuildAndDateGreaterThanEqual(String idGuild, Date date);
 	
-	public Optional<NodeWar> findById(long id);
+	public Optional<NodeWar> findById(String id);
 	
 }

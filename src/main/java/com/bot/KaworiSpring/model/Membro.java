@@ -2,20 +2,16 @@ package com.bot.KaworiSpring.model;
 
 import java.util.Date;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "member")
-public class Membro {
+public class Membro extends Model{
 
-	@Id
-	private String id;
+	private String idDiscord;
 
-	private long idDiscord;
+	private String idGuild;
 
-	private long idGuild;
-
-	private long idUser;
+	private String idUser;
 
 	private String nick;
 
@@ -38,27 +34,19 @@ public class Membro {
 		gearUpdate = new Date();
 	}
 
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public long getIdGuild() {
+	public String getIdGuild() {
 		return idGuild;
 	}
 
-	public void setIdGuild(long idGuild) {
+	public void setIdGuild(String idGuild) {
 		this.idGuild = idGuild;
 	}
 
-	public long getIdUser() {
+	public String getIdUser() {
 		return idUser;
 	}
 
-	public void setIdUser(long idUser) {
+	public void setIdUser(String idUser) {
 		this.idUser = idUser;
 	}
 
@@ -118,11 +106,11 @@ public class Membro {
 		this.novice = novice;
 	}
 
-	public long getIdDiscord() {
+	public String getIdDiscord() {
 		return idDiscord;
 	}
 
-	public void setIdDiscord(long idDiscord) {
+	public void setIdDiscord(String idDiscord) {
 		this.idDiscord = idDiscord;
 	}
 

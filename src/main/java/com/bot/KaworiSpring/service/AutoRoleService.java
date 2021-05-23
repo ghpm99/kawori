@@ -16,15 +16,15 @@ public class AutoRoleService {
 	@Autowired
 	private AutoRoleRepository autoRoleRepository;
 
-	public List<AutoRole> getAutoRole(long idGuild, long idChannel) {
+	public List<AutoRole> getAutoRole(String idGuild, String idChannel) {
 		return autoRoleRepository.getByGuildAndChannelAndCanceled(idGuild, idChannel, false);
 	}
 
-	public Page<AutoRole> getAutoRole(long idGuild, Pageable pageable) {
+	public Page<AutoRole> getAutoRole(String idGuild, Pageable pageable) {
 		return autoRoleRepository.getByGuildAndCanceled(idGuild, false, pageable);
 	}
 
-	public AutoRole createAutoRole(long idGuild, long idChannel, long idRole, String text) {
+	public AutoRole createAutoRole(String idGuild, String idChannel, String idRole, String text) {
 		AutoRole newAutoRole = new AutoRole();
 		newAutoRole.setGuild(idGuild);
 		newAutoRole.setChannel(idChannel);

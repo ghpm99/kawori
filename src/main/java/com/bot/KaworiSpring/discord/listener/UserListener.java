@@ -19,7 +19,7 @@ public class UserListener extends ListenerAdapter {
 	public void onUserUpdateName(UserUpdateNameEvent event) {
 		// TODO Auto-generated method stub
 		super.onUserUpdateName(event);
-		operatorController.onUserUpdateName(event.getUser().getIdLong(), event.getNewName());
+		operatorController.onUserUpdateName(event.getUser().getId(), event.getNewName());
 		
 	}
 	
@@ -27,7 +27,7 @@ public class UserListener extends ListenerAdapter {
 	public void onUserUpdateDiscriminator(UserUpdateDiscriminatorEvent event) {
 		// TODO Auto-generated method stub
 		super.onUserUpdateDiscriminator(event);
-		operatorController.onUserUpdateDiscriminator(event.getUser().getIdLong(), event.getNewDiscriminator());
+		operatorController.onUserUpdateDiscriminator(event.getUser().getId(), event.getNewDiscriminator());
 	}
 	
 

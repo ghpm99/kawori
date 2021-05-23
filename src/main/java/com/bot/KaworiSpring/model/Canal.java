@@ -1,14 +1,10 @@
 package com.bot.KaworiSpring.model;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection =  "channel")
-public class Canal {
-	
-	@Id
-	private long id;
-	
+public class Canal extends Model{	
+		
 	private long idGuild;
 	
 	private String name;
@@ -16,14 +12,6 @@ public class Canal {
 	private String tipo;
 	
 	private boolean sendMessage;
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;

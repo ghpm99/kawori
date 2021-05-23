@@ -14,7 +14,7 @@ public class NodeWarPresenceService {
 	@Autowired
 	private NodeWarPresenceRepository nodeWarRepository;
 
-	public List<NodeWarPresence> findByIdNodeWar(long id) {
+	public List<NodeWarPresence> findByIdNodeWar(String id) {
 		return nodeWarRepository.findByIdNodeWar(id);
 	}
 
@@ -22,7 +22,7 @@ public class NodeWarPresenceService {
 		return nodeWarRepository.save(node);
 	}
 
-	public List<NodeWarPresence> findByIdNodeWarAndIdGuild(long idNodeWar, long idGuild) {
+	public List<NodeWarPresence> findByIdNodeWarAndIdGuild(String idNodeWar, String idGuild) {
 		return nodeWarRepository.findByIdNodeWarAndIdGuild(idNodeWar, idGuild);
 	}
 

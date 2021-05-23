@@ -2,10 +2,11 @@ package com.bot.KaworiSpring.discord;
 
 import java.util.Date;
 
-import javax.annotation.PostConstruct;
 import javax.security.auth.login.LoginException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -40,6 +41,7 @@ import com.bot.KaworiSpring.util.Util;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 @Component
 public class Main {
@@ -100,10 +102,10 @@ public class Main {
 	@Autowired
 	ConfigurationService configService;
 
-	@PostConstruct
+	@EventListener(ContextRefreshedEvent.class)
 	public void init() {
 		statusService.setStatusBot("Iniciando...");
-		logService.addEvent(new Log(new Date(), "Iniciando Bot", 0, 0, "OK"));
+		logService.addEvent(new Log(new Date(), "Iniciando Bot", "", "", "OK"));
 
 		Util.PREFIX = configService.getByType("prefix").getValue();
 		Util.PREFIXAUTOROLE = configService.getByType("prefixAutoRole").getValue();
@@ -111,6 +113,8 @@ public class Main {
 		JDABuilder builder = JDABuilder.createDefault(configService.getByType("token").getValue(),
 				GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MESSAGE_REACTIONS,
 				GatewayIntent.DIRECT_MESSAGES, GatewayIntent.DIRECT_MESSAGE_REACTIONS).setAutoReconnect(true);
+		
+		builder.disableCache(CacheFlag.VOICE_STATE, CacheFlag.EMOTE);
 
 		setListeners(builder);
 
@@ -128,18 +132,18 @@ public class Main {
 	}
 
 	private void setListeners(JDABuilder builder) {
-		logService.addEvent(new Log(new Date(), "Adicionando Listeners", 0, 0, "-"));
+		logService.addEvent(new Log(new Date(), "Adicionando Listeners", "", "", "-"));
 		builder.addEventListeners(readyListener);
 		builder.addEventListeners(messageListener);
 		builder.addEventListeners(reactionListener);
 		builder.addEventListeners(guildListener);
 		builder.addEventListeners(botListener);
 		builder.addEventListeners(userListener);
-		logService.addEvent(new Log(new Date(), "Listeners adicionados", 0, 0, "OK"));
+		logService.addEvent(new Log(new Date(), "Listeners adicionados", "", "", "OK"));
 	}
 
 	private void setCommands() {
-		logService.addEvent(new Log(new Date(), "Adicionando Comandos", 0, 0, "-"));
+		logService.addEvent(new Log(new Date(), "Adicionando Comandos", "", "", "-"));
 		// util
 		CommandHandler.commands.put("help", cmdHelp);
 		CommandHandler.commands.put("info", cmdInfo);
@@ -184,7 +188,7 @@ public class Main {
 		CommandHandler.commands.put("trap", cmdFun);
 		CommandHandler.commands.put("explosion", cmdFun);
 
-		logService.addEvent(new Log(new Date(), "Comandos adicionados", 0, 0, "OK"));
+		logService.addEvent(new Log(new Date(), "Comandos adicionados", "", "", "OK"));
 	}
 
 	public JDA getJDA() {

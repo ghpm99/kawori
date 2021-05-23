@@ -4,59 +4,59 @@ import java.awt.Color;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection =  "role")
-public class Tag extends Model{
+@Document(collection = "role")
+public class Tag extends Model {
 
-	private long idGuild;
-	
-	private long idRole;
-	
+	private String idGuild;
+
+	private String idRole;
+
 	private String name;
-	
+
 	private int red;
-	
+
 	private int green;
-	
+
 	private int blue;
-	
+
 	private int position;
-	
+
 	private boolean administrator;
-	
+
 	private boolean manageChannels;
-	
+
 	private boolean managePermissions;
-	
+
 	private boolean manageRoles;
-	
+
 	private boolean manageServer;
-	
+
 	private boolean messageManage;
-	
+
 	private boolean messageMentionEveryone;
-	
+
 	private boolean messageRead;
-	
+
 	private boolean messageWrite;
-	
+
 	private boolean nicknameChange;
-	
+
 	private boolean nicknameManage;
-	
+
 	private boolean botRole;
-	
+
 	private boolean active;
-	
+
 	private boolean cmdFun;
-	
+
 	private boolean cmdUtil;
-	
+
 	private boolean cmdBuild;
-	
+
 	private boolean cmdNodeWar;
-	
+
 	private boolean cmdAdm;
-	
+
 	private boolean cmdRank;
 
 	public int getPosition() {
@@ -67,19 +67,19 @@ public class Tag extends Model{
 		this.position = position;
 	}
 
-	public long getIdGuild() {
+	public String getIdGuild() {
 		return idGuild;
 	}
 
-	public void setIdGuild(long idGuild) {
+	public void setIdGuild(String idGuild) {
 		this.idGuild = idGuild;
 	}
 
-	public long getIdRole() {
+	public String getIdRole() {
 		return idRole;
 	}
 
-	public void setIdRole(long idRole) {
+	public void setIdRole(String idRole) {
 		this.idRole = idRole;
 	}
 
@@ -218,9 +218,10 @@ public class Tag extends Model{
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-	
+
 	public void setColor(Color color) {
-		if(color == null) color = new Color(0,0,0);
+		if (color == null)
+			color = new Color(0, 0, 0);
 		this.red = color.getRed();
 		this.green = color.getGreen();
 		this.blue = color.getBlue();
@@ -274,6 +275,4 @@ public class Tag extends Model{
 		this.cmdRank = cmdRank;
 	}
 
-	
-	
 }

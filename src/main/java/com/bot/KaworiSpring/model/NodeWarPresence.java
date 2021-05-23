@@ -11,9 +11,9 @@ public class NodeWarPresence extends Model{
 		
 	private String idNodeWar;
 	
-	private long idUser;
+	private String idUser;
 	
-	private long idGuild;
+	private String idGuild;
 
 	public Date getPresenceTime() {
 		return presenceTime;
@@ -31,23 +31,22 @@ public class NodeWarPresence extends Model{
 		this.idNodeWar = idNodeWar;
 	}
 
-	public long getIdUser() {
+	public String getIdUser() {
 		return idUser;
 	}
 
-	public void setIdUser(long idUser) {
+	public void setIdUser(String idUser) {
 		this.idUser = idUser;
 	}
 
-	public long getIdGuild() {
+	public String getIdGuild() {
 		return idGuild;
 	}
 
-	public void setIdGuild(long idGuild) {
+	public void setIdGuild(String idGuild) {
 		this.idGuild = idGuild;
 	}
-	
-	
-	
+
+		
 	
 }

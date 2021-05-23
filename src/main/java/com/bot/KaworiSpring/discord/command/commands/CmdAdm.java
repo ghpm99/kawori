@@ -1,7 +1,6 @@
 package com.bot.KaworiSpring.discord.command.commands;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -108,7 +107,7 @@ public class CmdAdm extends Command {
 	}
 
 	private void debugGuild(MessageReceivedEvent event) {
-		Guilda guilda = guildaService.findById(event.getGuild().getIdLong());
+		Guilda guilda = guildaService.findById(event.getGuild().getId());
 		event.getJDA().openPrivateChannelById(Util.idUserAdm).queue((privateChannel) -> {
 			messageController.sendPrivateMessage(privateChannel,
 					"ID: " + event.getGuild().getId() + "\nNome: " + event.getGuild().getName() + "\nBlock: "
@@ -119,7 +118,7 @@ public class CmdAdm extends Command {
 	}
 
 	private void debugChannel(MessageReceivedEvent event) {
-		Canal canal = canalService.findById(event.getChannel().getIdLong());
+		Canal canal = canalService.findById(event.getChannel().getId());
 		event.getJDA().openPrivateChannelById(Util.idUserAdm).queue((privateChannel) -> {			
 			messageController.sendPrivateMessage(privateChannel, "Cadastrado BD: " + canal.getId());
 			messageController.sendPrivateMessage(privateChannel, "Id: " + event.getChannel().getId() + "\nNome: "
@@ -145,7 +144,7 @@ public class CmdAdm extends Command {
 	}
 
 	private void msgRole(PrivateChannel privateChannel, Guild guild, Role role) {
-		Tag tag = tagService.findByIdGuildAndIdRole(guild.getIdLong(), role.getIdLong());
+		Tag tag = tagService.findByIdGuildAndIdRole(guild.getId(), role.getId());
 		messageController.sendPrivateMessage(privateChannel,
 				"Role: " + role.getId() + "-" + role.getName() + "\nPermissao: " + role.getPermissionsRaw()
 						+ " Posicao: " + role.getPosition() + "\nPermissoes: " + role.getPermissions().toString()

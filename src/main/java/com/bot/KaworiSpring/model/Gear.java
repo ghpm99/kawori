@@ -6,9 +6,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection =  "gear")
 public class Gear extends Model {
 
-	private Long idDiscord;
+	private String idDiscord;
 
-	private Long idGuild;
+	private String idGuild;
 
 	private int ap;
 
@@ -37,19 +37,19 @@ public class Gear extends Model {
 		young = true;
 	}
 	
-	public Long getIdDiscord() {
+	public String getIdDiscord() {
 		return idDiscord;
 	}
 
-	public void setIdDiscord(Long idDiscord) {
+	public void setIdDiscord(String idDiscord) {
 		this.idDiscord = idDiscord;
 	}
 
-	public Long getIdGuild() {
+	public String getIdGuild() {
 		return idGuild;
 	}
 
-	public void setIdGuild(Long idGuild) {
+	public void setIdGuild(String idGuild) {
 		this.idGuild = idGuild;
 	}
 

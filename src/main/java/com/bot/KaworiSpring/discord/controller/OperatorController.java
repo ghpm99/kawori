@@ -15,14 +15,14 @@ public class OperatorController {
 	private OperatorService operatorService;
 
 	public Operator updateOperator(User user) {
-		Operator operator = findOperator(user.getIdLong());
+		Operator operator = findOperator(user.getId());
 		operator.setName(user.getName());
 		operator.setDiscriminator(user.getDiscriminator());
 
 		return operatorService.save(operator);
 	}
 
-	private Operator findOperator(long id) {
+	private Operator findOperator(String id) {
 		Operator operator = operatorService.findById(id);
 		if (operator == null) {
 			operator = new Operator();
@@ -32,13 +32,13 @@ public class OperatorController {
 		return operator;
 	}
 
-	public void onUserUpdateName(long id, String newName) {
+	public void onUserUpdateName(String id, String newName) {
 		Operator operator = findOperator(id);
 		operator.setName(newName);
 		operatorService.save(operator);
 	}
 	
-	public void onUserUpdateDiscriminator(long id, String discriminator) {
+	public void onUserUpdateDiscriminator(String id, String discriminator) {
 		Operator operator = findOperator(id);
 		operator.setDiscriminator(discriminator);
 		operatorService.save(operator);

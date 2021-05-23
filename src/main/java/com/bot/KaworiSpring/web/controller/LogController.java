@@ -1,6 +1,6 @@
 package com.bot.KaworiSpring.web.controller;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,31 +11,20 @@ import com.bot.KaworiSpring.service.LogService;
 
 @Controller
 public class LogController {
-    
-    
-    
-    @Autowired
-    private LogService logService;
-    
-    
-    public ArrayList<Log> log() {               
-        return logService.getEvents();
-    }
 
-    
-    public String handleException(Throwable exception) {
-        return exception.getMessage();
-    }
-    
-    
-    public void sendLog(Log log){
-        System.out.println(log.getEvent());
-       
-    }
-    
-    
-    public String page(Model model){       
-        return "events-log";
-    }
+	@Autowired
+	private LogService logService;
+
+	public List<Log> log() {
+		return logService.getEvents();
+	}
+
+	public String handleException(Throwable exception) {
+		return exception.getMessage();
+	}
+
+	public String page(Model model) {
+		return "events-log";
+	}
 
 }

@@ -33,9 +33,9 @@ public class CmdInfo extends Command {
 	@Override
 	public void action(String[] args, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
-		Membro membro = membroService.findByIdAndIdGuild(event.getAuthor().getIdLong(), event.getGuild().getIdLong());
+		Membro membro = membroService.findByIdAndIdGuild(event.getAuthor().getId(), event.getGuild().getId());
 		Personagem personagem = personagemService.findByMembroIdAndAtivo(membro.getIdUser(), true);
-		Gear gear = gearService.findByIdUserIdGuildIsAtivo(event.getMember().getIdLong(), event.getGuild().getIdLong(),
+		Gear gear = gearService.findByIdUserIdGuildIsAtivo(event.getMember().getId(), event.getGuild().getId(),
 				true);
 		String familyName = "null";
 		String personagemName = "null";

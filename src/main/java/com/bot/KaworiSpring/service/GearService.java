@@ -22,7 +22,7 @@ public class GearService {
 		this.gearRepository = gearRepository;
 	}
 
-	public List<Gear> findByIdDiscord(Long id) {
+	public List<Gear> findByIdDiscord(String id) {
 		return gearRepository.findByIdDiscord(id);
 	}
 
@@ -30,23 +30,23 @@ public class GearService {
 		return gearRepository.save(gear);
 	}
 
-	public Page<Gear> findByIdDiscordAndIdGuild(Long idDiscord, Long idGuild, Pageable pageable) {
+	public Page<Gear> findByIdDiscordAndIdGuild(String idDiscord, String idGuild, Pageable pageable) {
 		return gearRepository.findByIdDiscordAndIdGuild(idDiscord, idGuild, pageable);
 	}
 
-	public List<Gear> findByIdGuild(Long idGuild) {
+	public List<Gear> findByIdGuild(String idGuild) {
 		return gearRepository.findByIdGuild(idGuild);
 	}
 
-	public List<Gear> findByIdGuild(long idGuild, Pageable pageable) {
+	public List<Gear> findByIdGuild(String idGuild, Pageable pageable) {
 		return gearRepository.findByIdGuild(idGuild, pageable);
 	}
 
-	public Gear findById(Long id) {
+	public Gear findById(String id) {
 		return gearRepository.findById(id).get();
 	}
 
-	public Gear findByIdUserIdGuildIsAtivo(Long idDiscord, Long idGuild, boolean ativo) {
+	public Gear findByIdUserIdGuildIsAtivo(String idDiscord, String idGuild, boolean ativo) {
 		return gearRepository.findByIdDiscordAndIdGuildAndAtivo(idDiscord, idGuild, ativo).orElseGet(() -> {
 			Gear gear = new Gear();
 			gear.setIdDiscord(idDiscord);
@@ -56,7 +56,7 @@ public class GearService {
 		});
 	}
 
-	public Gear createNewGear(long idUser, long idGuild, Personagem personagem) {
+	public Gear createNewGear(String idUser, String idGuild, Personagem personagem) {
 		Gear gear = checkYoung(idUser, idGuild, personagem);
 		gear.setAtivo(true);
 
@@ -64,7 +64,7 @@ public class GearService {
 		return save(gear);
 	}
 
-	private Gear checkYoung(long idUser, long idGuild, Personagem personagem) {
+	private Gear checkYoung(String idUser, String idGuild, Personagem personagem) {
 		return gearRepository.findByIdDiscordAndIdGuildAndYoung(idUser, idGuild, true).orElseGet(() -> {
 			Gear temp = new Gear();
 			temp.setIdDiscord(idUser);
@@ -76,7 +76,7 @@ public class GearService {
 
 	}
 
-	private void removeAtivo(long idUser, long idGuild) {
+	private void removeAtivo(String idUser, String idGuild) {
 		Gear gear = findByIdUserIdGuildIsAtivo(idUser, idGuild, true);
 		if (gear.getId() != null) {
 			gear.setAtivo(false);

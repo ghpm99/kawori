@@ -6,8 +6,8 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.bot.KaworiSpring.model.Operator;
 
-public interface OperatorRepository extends MongoRepository<Operator, Long> {
+public interface OperatorRepository extends MongoRepository<Operator, String> {
 
-	public Optional<Operator> findById(long id);
+	public Optional<Operator> findById(String id);
 	
 }
