@@ -27,6 +27,7 @@ public class GearService {
 	}
 
 	public Gear save(Gear gear) {
+		gear.setNewRecord(false);
 		return gearRepository.save(gear);
 	}
 

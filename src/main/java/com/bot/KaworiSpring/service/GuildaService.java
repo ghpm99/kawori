@@ -19,6 +19,7 @@ public class GuildaService {
 	}
 
 	public Guilda save(Guilda guild) {
+		guild.setNewRecord(false);
 		return guildaRepository.save(guild);
 	}
 

@@ -27,6 +27,7 @@ public class GifBDService {
 	}
 
 	public GifBD save(GifBD gifBD) {
+		gifBD.setNewRecord(false);
 		return gifBDRespository.save(gifBD);
 	}
 	

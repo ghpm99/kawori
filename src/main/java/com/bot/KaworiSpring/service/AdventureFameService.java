@@ -17,7 +17,8 @@ public class AdventureFameService {
 		this.adventureFameRepository = adventureFameRepository;
 	}
 	
-	public AdventureFame save(AdventureFame adventureFame) {		
+	public AdventureFame save(AdventureFame adventureFame) {
+		adventureFame.setNewRecord(false);
 		return adventureFameRepository.save(adventureFame);
 	}
 	

@@ -21,6 +21,7 @@ public class TagService {
 	}
 
 	public Tag save(Tag role) {
+		role.setNewRecord(false);
 		return tagRepository.save(role);
 	}
 

@@ -24,6 +24,7 @@ public class NodeService {
 	}
 
 	public Node save(Node node) {
+		node.setNewRecord(false);
 		return nodeRepository.save(node);
 	}
 

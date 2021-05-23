@@ -19,6 +19,7 @@ public class NodeWarPresenceService {
 	}
 
 	public NodeWarPresence save(NodeWarPresence node) {
+		node.setNewRecord(false);
 		return nodeWarRepository.save(node);
 	}
 

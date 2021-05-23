@@ -21,6 +21,7 @@ public class ColorBDService {
 	}
 	
 	public ColorBD save(ColorBD color) {
+		color.setNewRecord(false);
 		return colorBDRepository.save(color);
 	}
 	

@@ -26,6 +26,7 @@ public class OperatorService {
 	}
 
 	public Operator save(Operator operator) {
+		operator.setNewRecord(false);
 		return operatorRepository.save(operator);
 	}
 

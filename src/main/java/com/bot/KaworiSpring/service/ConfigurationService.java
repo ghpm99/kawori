@@ -26,6 +26,7 @@ public class ConfigurationService {
 	}
 	
 	public Configuration save(Configuration config) {
+		config.setNewRecord(false);
 		return configRepository.save(config);
 	}
 	

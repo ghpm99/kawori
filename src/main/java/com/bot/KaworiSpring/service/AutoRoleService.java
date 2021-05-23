@@ -31,6 +31,7 @@ public class AutoRoleService {
 		newAutoRole.setRole(idRole);
 		newAutoRole.setText(text);
 		newAutoRole.setCanceled(false);
+		newAutoRole.setNewRecord(false);
 		return autoRoleRepository.save(newAutoRole);
 	}
 	

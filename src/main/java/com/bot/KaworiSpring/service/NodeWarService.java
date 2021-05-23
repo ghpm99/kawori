@@ -30,6 +30,7 @@ public class NodeWarService {
 	}
 	
 	public NodeWar save(NodeWar node) {
+		node.setNewRecord(false);
 		return nodeWarRepository.save(node);
 	}
 

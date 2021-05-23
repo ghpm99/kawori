@@ -141,7 +141,7 @@ public class CmdGS extends Command {
 			message.addReaction("🆕").queue();
 
 			ReactionHandler.reactions.put(message.getId(), (emote, idUser, idGuild, isAdd) -> {
-				if (idUser == author.getId() && idGuild == guild.getId()) {
+				if (idUser.equals(author.getId()) && idGuild.equals(guild.getId())) {
 					switch (emote) {
 					case "☑️":
 						createGear(guild, author, false, message);
@@ -282,7 +282,7 @@ public class CmdGS extends Command {
 
 				@Override
 				public void onGuildMessageReaction(String emote, String idUser, String idGuild, boolean isAdd) {
-					if (idUser == author.getUser().getId() && idGuild == guild.getId()) {
+					if (idUser.equals(author.getUser().getId()) && idGuild.equals(guild.getId())) {
 						Emojis emoji = Emojis.getEmojis(emote);
 						if (emoji == null)
 							return;
@@ -322,7 +322,7 @@ public class CmdGS extends Command {
 
 				@Override
 				public void onGuildMessageReaction(String emote, String idUser, String idGuild, boolean isAdd) {
-					if (idUser == author.getUser().getId() && idGuild == guild.getId()) {
+					if (idUser.equals(author.getUser().getId()) && idGuild.equals(guild.getId())) {
 						Emojis emoji = Emojis.getEmojis(emote);
 						if (emoji == null) {
 							return;
