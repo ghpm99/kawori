@@ -18,11 +18,11 @@ public class Util {
 	}
 	
 	
-	public static long idUserAdm = 402432288362856448l;
+	public static String idUserAdm = "402432288362856448";
 	
-	public static long idGuildAdm = 622269870788050946l;
+	public static String idGuildAdm = "622269870788050946";
 	
-	public static long idLogChannel= 713069346506670180l;
+	public static String idLogChannel= "713069346506670180";
 	
 	public static int calculateGearScore(int ap, int aap, int dp) {
 		int higherAp = Math.max(ap, aap);

@@ -34,7 +34,7 @@ public class SecurityCommand {
 
 	public boolean authenticateCommand(MessageReceivedEvent event, Permissions permission) {
 
-		if (event.getAuthor().getIdLong() == Util.idUserAdm) {
+		if (event.getAuthor().getId().equals(Util.idUserAdm)) {
 			return true;
 		}
 		boolean retorno = false;

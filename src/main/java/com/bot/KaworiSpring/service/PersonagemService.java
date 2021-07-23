@@ -3,6 +3,8 @@ package com.bot.KaworiSpring.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.bot.KaworiSpring.model.Membro;
@@ -79,4 +81,11 @@ public class PersonagemService {
 		return personagem;
 	}
 	
+	public List<Personagem> findAll(){
+		return personagemRepository.findAll();
+	}
+	
+	public Page<Personagem> findAll(Pageable pageable){
+		return personagemRepository.findAll(pageable);
+	}
 }

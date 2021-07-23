@@ -1,6 +1,8 @@
 package com.bot.KaworiSpring.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.bot.KaworiSpring.model.Guilda;
@@ -37,6 +39,10 @@ public class GuildaService {
 
 	public long count() {
 		return guildaRepository.count();
+	}
+	
+	public Page<Guilda> findAll(Pageable pageable){
+		return guildaRepository.findAll(pageable);
 	}
 	
 }

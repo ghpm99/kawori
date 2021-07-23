@@ -3,6 +3,8 @@ package com.bot.KaworiSpring.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.bot.KaworiSpring.model.Node;
@@ -34,6 +36,10 @@ public class NodeService {
 
 	public Node findById(String id) {
 		return nodeRepository.findById(id).get();
+	}
+	
+	public Page<Node> findAll(Pageable pageable){
+		return nodeRepository.findAll(pageable);
 	}
 	
 }

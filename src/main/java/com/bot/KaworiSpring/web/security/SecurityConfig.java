@@ -10,23 +10,28 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class SecurityConfig extends WebSecurityConfigurerAdapter{
-	
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
 	@Value("${api.user}")
 	private String user;
-	
+
 	@Value("${api.password}")
 	private String password;
-	
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		// TODO Auto-generated method stub		
-		http.cors().and().authorizeRequests().anyRequest().authenticated().and().httpBasic();
+		// TODO Auto-generated method stub
+
+		http.cors().and().csrf()
+				.disable().authorizeRequests()
+				.anyRequest().authenticated().and().httpBasic();
+
 	}
 
 	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {		
-		auth.inMemoryAuthentication().withUser(user).password("{noop}"+password).roles("USER");
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		System.out.println(user + "-" + password);
+		auth.inMemoryAuthentication().withUser(user).password("{noop}" + password).roles("USER", "ADMIN");
 	}
-	
+
 }

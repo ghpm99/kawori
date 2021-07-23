@@ -40,4 +40,12 @@ public class AutoRoleService {
 		return autoRoleRepository.save(autorole);
 	}
 
+	public List<AutoRole> findAll(){
+		return autoRoleRepository.findAll();
+	}
+	
+	public Page<AutoRole> findAll(Pageable pageable){
+		return autoRoleRepository.findAll(pageable);
+	}
+	
 }

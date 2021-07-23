@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.bot.KaworiSpring.model.NodeWar;
@@ -16,36 +18,36 @@ public class NodeWarService {
 
 	@Autowired
 	public NodeWarService(NodeWarRepository nodeWarRepository) {
-		super();                
+		super();
 		this.nodeWarRepository = nodeWarRepository;
 	}
 
 	public List<NodeWar> findByIdGuild(String idGuild) {
-            
+
 		return nodeWarRepository.findByIdGuild(idGuild);
 	}
 
 	public List<NodeWar> findByIdDiscord(String idDiscord) {
 		return nodeWarRepository.findByIdDiscord(idDiscord);
 	}
-	
+
 	public NodeWar save(NodeWar node) {
 		node.setNewRecord(false);
 		return nodeWarRepository.save(node);
 	}
 
-	public List<NodeWar> findByDate(Date date){
+	public List<NodeWar> findByDate(Date date) {
 		return nodeWarRepository.findByDate(date);
 	}
-	
-	public List<NodeWar> findByDateAndIdMessage(Date date,String idMessage){
-		return nodeWarRepository.findByDateAndIdMessage(date,idMessage);
+
+	public List<NodeWar> findByDateAndIdMessage(Date date, String idMessage) {
+		return nodeWarRepository.findByDateAndIdMessage(date, idMessage);
 	}
-	
-	public List<NodeWar> findByIdGuildAndDate(String idGuild, Date date){
+
+	public List<NodeWar> findByIdGuildAndDate(String idGuild, Date date) {
 		return nodeWarRepository.findByIdGuildAndDateGreaterThanEqual(idGuild, date);
 	}
-	
+
 	public NodeWar findById(String id) {
 		return nodeWarRepository.findById(id).orElseGet(() -> {
 			NodeWar node = new NodeWar();
@@ -53,8 +55,12 @@ public class NodeWarService {
 			return node;
 		});
 	}
-        
-        public List<NodeWar> findAll(){
-            return nodeWarRepository.findAll();
-        }
+
+	public List<NodeWar> findAll() {
+		return nodeWarRepository.findAll();
+	}
+	
+	public Page<NodeWar> findAll(Pageable pageable){
+		return nodeWarRepository.findAll(pageable);
+	}
 }

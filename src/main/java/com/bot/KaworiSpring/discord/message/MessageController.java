@@ -155,8 +155,9 @@ public class MessageController {
 		return createEmbedField(guild, channel, user, name, value, false, args);
 	}
 
-	public void sendPrivateMessage(PrivateChannel channel, String msg) {
+	public void sendPrivateMessage(PrivateChannel channel, String msg) {		
 		channel.sendMessage(msg).queue();
 	}
+
 
 }

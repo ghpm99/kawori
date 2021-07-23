@@ -7,6 +7,8 @@ import com.bot.KaworiSpring.service.EventService;
 
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionRemoveEvent;
+import net.dv8tion.jda.api.events.message.priv.react.PrivateMessageReactionAddEvent;
+import net.dv8tion.jda.api.events.message.priv.react.PrivateMessageReactionRemoveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -38,4 +40,21 @@ public class ReactionListener extends ListenerAdapter {
 		}
 	}
 
+	@Override
+	public void onPrivateMessageReactionAdd(PrivateMessageReactionAddEvent event) {
+		// TODO Auto-generated method stub
+		super.onPrivateMessageReactionAdd(event);
+		if(ReactionHandler.reactionsPrivate.containsKey(event.getMessageId())) {
+			ReactionHandler.reactionsPrivate.get(event.getMessageId()).onPrivateMessageReaction(event.getReactionEmote().getName(), event.getUserId(), true);
+		}
+	}
+	
+	@Override
+	public void onPrivateMessageReactionRemove(PrivateMessageReactionRemoveEvent event) {
+		// TODO Auto-generated method stub
+		super.onPrivateMessageReactionRemove(event);
+		if(ReactionHandler.reactionsPrivate.containsKey(event.getMessageId())) {
+			ReactionHandler.reactionsPrivate.get(event.getMessageId()).onPrivateMessageReaction(event.getReactionEmote().getName(), event.getUserId(), false);
+		}
+	}
 }

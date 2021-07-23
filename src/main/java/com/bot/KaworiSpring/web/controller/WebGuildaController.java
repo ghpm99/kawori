@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,37 +16,42 @@ import com.bot.KaworiSpring.model.Guilda;
 import com.bot.KaworiSpring.model.Membro;
 import com.bot.KaworiSpring.service.GuildaService;
 import com.bot.KaworiSpring.service.MembroService;
+import com.bot.KaworiSpring.web.security.AuthorizationSecurity;
 
 @RestController
 public class WebGuildaController {
 
 	@Autowired
 	private MembroService membroService;
-
 	@Autowired
 	private GuildaService guildaService;
+	@Autowired
+	private AuthorizationSecurity authorization;
 
 	@Secured("USER")
 	@GetMapping(path = "/guilds/{id}")
-	public DataResponse getGuilds(@PathVariable String id) {
-		
-		ArrayList<MembroResponse> membros = new ArrayList<>();
-				
-		membroService.findById(id).forEach((membro) -> {
-			Guilda guild = guildaService.findById(membro.getIdGuild());
-			MembroResponse respoMembro = new MembroResponse(membro, guild);
-			membros.add(respoMembro);
-		});	
+	public ResponseEntity<DataResponse> getGuilds(@PathVariable String id) {
+		if (authorization.getAuthorizationFromId(id)) {
+			ArrayList<MembroResponse> membros = new ArrayList<>();
 
-		DataResponse response = new DataResponse(membros);
+			membroService.findById(id).forEach((membro) -> {
+				Guilda guild = guildaService.findById(membro.getIdGuild());
+				MembroResponse respoMembro = new MembroResponse(membro, guild);
+				membros.add(respoMembro);
+			});
 
-		return response;
+			DataResponse response = new DataResponse(membros);
+
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+		}
 	}
 
 	class DataResponse {
 
 		List<MembroResponse> membros;
-		
+
 		public DataResponse(List<MembroResponse> membros) {
 			this.membros = membros;
 		}
@@ -56,8 +63,6 @@ public class WebGuildaController {
 		public void setMembros(List<MembroResponse> membros) {
 			this.membros = membros;
 		}
-		
-		
 
 	}
 

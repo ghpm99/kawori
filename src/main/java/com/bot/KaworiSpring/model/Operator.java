@@ -2,8 +2,8 @@ package com.bot.KaworiSpring.model;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection =  "user")
-public class Operator extends Model{
+@Document(collection = "user")
+public class Operator extends Model {
 
 	private long idDiscord;
 
@@ -28,6 +28,10 @@ public class Operator extends Model{
 	private int cmdCount;
 
 	private String region;
+
+	private boolean webAuthorized;
+
+	private String role;
 
 	public void increaseMsgCount() {
 		setMsgCount(getMsgCount() + 1);
@@ -159,6 +163,25 @@ public class Operator extends Model{
 			break;
 		}
 		this.region = region;
+	}
+
+	public boolean isWebAuthorized() {
+		return webAuthorized;
+	}
+
+	public void setWebAuthorized(boolean webAuthorized) {
+		this.webAuthorized = webAuthorized;
+	}
+
+	public String getRole() {
+		if (role != null)
+			return role;
+		else
+			return "USER";
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 }

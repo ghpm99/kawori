@@ -1,6 +1,10 @@
 package com.bot.KaworiSpring.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.bot.KaworiSpring.model.Canal;
@@ -45,6 +49,14 @@ public class CanalService {
 		canal.setName(channel.getName());
 
 		return save(canal);
+	}
+	
+	public List<Canal> findAll(){
+		return canalRepository.findAll();
+	}
+	
+	public Page<Canal> findAll(Pageable pageable){
+		return canalRepository.findAll(pageable);
 	}
 
 }

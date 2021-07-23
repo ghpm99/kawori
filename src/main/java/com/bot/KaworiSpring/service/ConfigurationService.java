@@ -2,6 +2,8 @@ package com.bot.KaworiSpring.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.bot.KaworiSpring.model.Configuration;
@@ -32,6 +34,10 @@ public class ConfigurationService {
 	
 	public List<Configuration> findAll(){
 		return configRepository.findAll();
+	}
+	
+	public Page<Configuration> findAll(Pageable pageable){
+		return configRepository.findAll(pageable);
 	}
 	
 }

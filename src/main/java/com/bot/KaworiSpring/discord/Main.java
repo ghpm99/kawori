@@ -104,6 +104,7 @@ public class Main {
 
 	@EventListener(ContextRefreshedEvent.class)
 	public void init() {
+		
 		statusService.setStatusBot("Iniciando...");
 		logService.addEvent(new Log(new Date(), "Iniciando Bot", "", "", "OK"));
 
