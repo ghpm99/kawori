@@ -31,22 +31,43 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CmdConfig.
+ */
 @Controller
 public class CmdConfig extends Command {
 
+	/** The canal service. */
 	@Autowired
 	private CanalService canalService;
+	
+	/** The tag service. */
 	@Autowired
 	private TagService tagService;
+	
+	/** The membro controller. */
 	@Autowired
 	private MembroController membroController;
+	
+	/** The message controller. */
 	@Autowired
 	private MessageController messageController;
+	
+	/** The embed pattern. */
 	@Autowired
 	private EmbedPattern embedPattern;
+	
+	/** The language service. */
 	@Autowired
 	private LanguageService languageService;
 
+	/**
+	 * Action.
+	 *
+	 * @param args the args
+	 * @param event the event
+	 */
 	@Override
 	public void action(String[] args, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
@@ -65,30 +86,56 @@ public class CmdConfig extends Command {
 
 	}
 
+	/**
+	 * Executed.
+	 *
+	 * @param success the success
+	 * @param event the event
+	 */
 	@Override
 	public void executed(boolean success, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * Help.
+	 *
+	 * @return the string
+	 */
 	@Override
 	public String help() {
 		// TODO Auto-generated method stub
 		return "msg_config_help";
 	}
 
+	/**
+	 * Help short.
+	 *
+	 * @return the string
+	 */
 	@Override
 	public String helpShort() {
 		// TODO Auto-generated method stub
 		return "msg_config_helpshort";
 	}
 
+	/**
+	 * Gets the permissions.
+	 *
+	 * @return the permissions
+	 */
 	@Override
 	public Permissions getPermissions() {
 		// TODO Auto-generated method stub
 		return Permissions.CMD_ADM;
 	}
 
+	/**
+	 * Channel beheavion.
+	 *
+	 * @param event the event
+	 */
 	private void channelBeheavion(MessageReceivedEvent event) {
 		EmbedBuilder embed = embedPattern.createEmbedConfigureChannels(event.getAuthor(), event.getChannel(),
 				event.getGuild(), event.getMessage().getMentionedChannels());
@@ -115,6 +162,13 @@ public class CmdConfig extends Command {
 
 	}
 
+	/**
+	 * Change channel.
+	 *
+	 * @param embed the embed
+	 * @param channels the channels
+	 * @param isCanSend the is can send
+	 */
 	private void changeChannel(Message embed, List<TextChannel> channels, boolean isCanSend) {
 		changeSendMessageChannel(channels, isCanSend);
 		messageController.changeEmbed(embed.getChannel(), embed, embedPattern
@@ -122,6 +176,12 @@ public class CmdConfig extends Command {
 
 	}
 
+	/**
+	 * Change send message channel.
+	 *
+	 * @param channels the channels
+	 * @param isCanSend the is can send
+	 */
 	private void changeSendMessageChannel(List<TextChannel> channels, boolean isCanSend) {
 		channels.forEach((channel) -> {
 			Canal canal = canalService.findById(channel.getId());
@@ -131,6 +191,11 @@ public class CmdConfig extends Command {
 		});
 	}
 
+	/**
+	 * Role beheavion.
+	 *
+	 * @param event the event
+	 */
 	private void roleBeheavion(MessageReceivedEvent event) {
 		EmbedBuilder embed = embedPattern.createEmbedConfigureRoles(event.getAuthor(), event.getChannel(),
 				event.getGuild(), event.getMessage().getMentionedRoles());
@@ -229,6 +294,17 @@ public class CmdConfig extends Command {
 		messageController.sendEmbed(event.getChannel(), embed, callback);
 	}
 
+	/**
+	 * Change roles.
+	 *
+	 * @param roles the roles
+	 * @param cmdAdm the cmd adm
+	 * @param cmdNodeWar the cmd node war
+	 * @param cmdRank the cmd rank
+	 * @param cmdBuild the cmd build
+	 * @param cmdFun the cmd fun
+	 * @param cmdUtil the cmd util
+	 */
 	private void changeRoles(List<Role> roles, boolean cmdAdm, boolean cmdNodeWar, boolean cmdRank, boolean cmdBuild,
 			boolean cmdFun, boolean cmdUtil) {
 		roles.forEach((role) -> {
@@ -244,6 +320,12 @@ public class CmdConfig extends Command {
 		});
 	}
 
+	/**
+	 * Update members.
+	 *
+	 * @param guild the guild
+	 * @param roles the roles
+	 */
 	private void updateMembers(Guild guild, List<Role> roles) {
 		for (Role role : roles) {
 			List<Member> members = guild.getMembersWithRoles(role);
@@ -253,17 +335,37 @@ public class CmdConfig extends Command {
 		}
 	}
 
+	/**
+	 * Change role embed.
+	 *
+	 * @param oldEmbed the old embed
+	 * @param user the user
+	 * @param channel the channel
+	 * @param guild the guild
+	 * @param roles the roles
+	 */
 	private void changeRoleEmbed(Message oldEmbed, User user, MessageChannel channel, Guild guild, List<Role> roles) {
 		ReactionHandler.reactions.remove(oldEmbed.getId());
 		EmbedBuilder newEmbed = embedPattern.createEmbedConfigureRolesSucess(user, channel, guild, roles);
 		messageController.changeEmbed(channel, oldEmbed, newEmbed);
 	}
 
+	/**
+	 * Language set.
+	 *
+	 * @param event the event
+	 * @param region the region
+	 */
 	private void languageSet(MessageReceivedEvent event, String region) {
 		languageService.setRegion(event.getGuild(), region);
 		messageController.sendMessage(event.getGuild(), event.getChannel(), event.getAuthor(), "msg_region_sucess");
 	}
 
+	/**
+	 * Send help.
+	 *
+	 * @param event the event
+	 */
 	private void sendHelp(MessageReceivedEvent event) {
 		messageController.sendMessage(event.getGuild(), event.getChannel(), event.getAuthor(), help());
 	}

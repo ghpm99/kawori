@@ -21,28 +21,49 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CmdChar.
+ */
 @Controller
 public class CmdChar extends Command {
 
+	/** The membro service. */
 	@Autowired
 	private MembroService membroService;
+	
+	/** The personagem service. */
 	@Autowired
 	private PersonagemService personagemService;
+	
+	/** The message controller. */
 	@Autowired
 	private MessageController messageController;
+	
+	/** The embed pattern. */
 	@Autowired
 	private EmbedPattern embedPattern;
 
+	/** The cmd. */
 	private String cmd;
 
+	/** The guild. */
 	private Guild guild;
 
+	/** The author. */
 	private Member author;
 
+	/** The channel. */
 	private MessageChannel channel;
 
 	
 
+	/**
+	 * Action.
+	 *
+	 * @param args the args
+	 * @param event the event
+	 */
 	@Override
 	public void action(String[] args, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
@@ -72,28 +93,58 @@ public class CmdChar extends Command {
 
 	}
 
+	/**
+	 * Executed.
+	 *
+	 * @param success the success
+	 * @param event the event
+	 */
 	@Override
 	public void executed(boolean success, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * Help.
+	 *
+	 * @return the string
+	 */
 	@Override
 	public String help() {
 		// TODO Auto-generated method stub
 		return "msg_char_help";
 	}
 
+	/**
+	 * Show embed personagens.
+	 *
+	 * @param author the author
+	 * @param channel the channel
+	 * @param guild the guild
+	 * @param personagens the personagens
+	 */
 	private void showEmbedPersonagens(User author, MessageChannel channel, Guild guild, List<Personagem> personagens) {
 		EmbedBuilder builder = embedPattern.createEmbedChar(author, channel, guild, personagens);
 		messageController.sendEmbed(channel, builder);
 	}
 
+	/**
+	 * Show personagens.
+	 */
 	private void showPersonagens() {
 		Membro membro = membroService.findByIdAndIdGuild(author.getId(), guild.getId());
 		showEmbedPersonagens(author.getUser(), channel, guild, personagemService.findByMembroId(membro.getIdUser()));
 	}
 
+	/**
+	 * Generate personagem.
+	 *
+	 * @param idUser the id user
+	 * @param idGuild the id guild
+	 * @param name the name
+	 * @return the personagem
+	 */
 	private Personagem generatePersonagem(String idUser, String idGuild, String name) {
 
 		Personagem personagem = loadPersonagem(idUser, idGuild);
@@ -104,6 +155,13 @@ public class CmdChar extends Command {
 		return personagem;
 	}
 
+	/**
+	 * Load personagem.
+	 *
+	 * @param idUser the id user
+	 * @param idGuild the id guild
+	 * @return the personagem
+	 */
 	private Personagem loadPersonagem(String idUser, String idGuild) {
 		Membro membro = membroService.findByIdAndIdGuild(idUser, idGuild);
 		if (membro != null) {
@@ -113,11 +171,27 @@ public class CmdChar extends Command {
 		return null;
 	}
 
+	/**
+	 * Creates the personagem.
+	 *
+	 * @param idUser the id user
+	 * @param idGuild the id guild
+	 * @param name the name
+	 * @return the personagem
+	 */
 	private Personagem createPersonagem(String idUser, String idGuild, String name) {
 		return personagemService.createNewPersonagem(membroService.findByIdAndIdGuild(idUser, idGuild), name);
 
 	}
 
+	/**
+	 * Atualizar atributo.
+	 *
+	 * @param personagem the personagem
+	 * @param args the args
+	 * @param event the event
+	 * @return true, if successful
+	 */
 	private boolean atualizarAtributo(Personagem personagem, String[] args, MessageReceivedEvent event) {
 		for (String arg : args) {
 			if (arg.equals("-set")) {
@@ -130,6 +204,13 @@ public class CmdChar extends Command {
 		return true;
 	}
 
+	/**
+	 * Verificar atributo.
+	 *
+	 * @param personagem the personagem
+	 * @param arg the arg
+	 * @return true, if successful
+	 */
 	private boolean verificarAtributo(Personagem personagem, String arg) {
 		boolean retorno = false;
 		String[] args = arg.split("=");
@@ -161,6 +242,12 @@ public class CmdChar extends Command {
 		return retorno;
 	}
 
+	/**
+	 * Verificar classe.
+	 *
+	 * @param classe the classe
+	 * @return the string
+	 */
 	/*
 	 * 1 archer 2 berserker 3 dark knight 4 guardian 5 kunoichi 6 lahn 7 maehwa 8
 	 * musah 9 mystic 10 ninja 11 ranger 12 shai 13 sorceress 14 striker 15 tamer 16
@@ -238,6 +325,12 @@ public class CmdChar extends Command {
 		}
 	}
 
+	/**
+	 * Verificar battle mode.
+	 *
+	 * @param battleMode the battle mode
+	 * @return the string
+	 */
 	private String verificarBattleMode(String battleMode) {
 		switch (battleMode.toLowerCase()) {
 		case "awak":
@@ -256,11 +349,23 @@ public class CmdChar extends Command {
 		}
 	}
 
+	/**
+	 * Save personagem.
+	 *
+	 * @param personagem the personagem
+	 * @param event the event
+	 */
 	private void savePersonagem(Personagem personagem, MessageReceivedEvent event) {		
 		messageController.sendMessage(event.getGuild(), event.getChannel(), event.getAuthor(), "msg_char_sucess");
 		personagemService.save(personagem);
 	}
 
+	/**
+	 * Sets the personagem.
+	 *
+	 * @param args the args
+	 * @param event the event
+	 */
 	private void setPersonagem(String[] args, MessageReceivedEvent event) {
 		Personagem personagem = generatePersonagem(author.getUser().getId(), guild.getId(),
 				author.getUser().getName());
@@ -272,16 +377,29 @@ public class CmdChar extends Command {
 		savePersonagem(personagem, event);
 	}
 
+	/**
+	 * Select personagem.
+	 */
 	private void selectPersonagem() {
 		
 	}
 
+	/**
+	 * Help short.
+	 *
+	 * @return the string
+	 */
 	@Override
 	public String helpShort() {
 		// TODO Auto-generated method stub
 		return "msg_char_helpshort";
 	}
 
+	/**
+	 * Gets the permissions.
+	 *
+	 * @return the permissions
+	 */
 	@Override
 	public Permissions getPermissions() {
 		// TODO Auto-generated method stub

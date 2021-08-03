@@ -3,12 +3,20 @@ package com.bot.KaworiSpring.model;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Personagem.
+ */
 @Document(collection =  "personagem")
 public class Personagem extends Model {
 
+	/** The name. */
 	private String name;
 
+	/** The classe. */
 	private String classe;
+	
+	/** The battle mode. */
 	/*
 	 * 1 = warrior 2 = witch 3 = kunoichi 4 = dark knight 5 = lahn 6 = shai 7 =
 	 * wizard 8 = archer 9 = mystic 10 = maehwa 11 = sorceress 12 = tamer 13 =
@@ -20,28 +28,53 @@ public class Personagem extends Model {
 	 * 1 = awak 2 = succ
 	 */
 
+	/** The membro. */
 	@DBRef
 	private Membro membro;
 
+	/** The ativo. */
 	private boolean ativo;
 	
+	/**
+	 * Instantiates a new personagem.
+	 */
 	public Personagem() {
 		// TODO Auto-generated constructor stub
 		membro = new Membro();
 	}
 
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Sets the name.
+	 *
+	 * @param name the new name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * Gets the classe.
+	 *
+	 * @return the classe
+	 */
 	public String getClasse() {
 		return classe;
 	}
 
+	/**
+	 * Sets the classe.
+	 *
+	 * @param classe the new classe
+	 */
 	public void setClasse(String classe) {
 		switch (classe) {
 		case "1":
@@ -136,10 +169,20 @@ public class Personagem extends Model {
 		this.classe = classe;
 	}
 
+	/**
+	 * Gets the battle mode.
+	 *
+	 * @return the battle mode
+	 */
 	public String getBattleMode() {
 		return battleMode;
 	}
 
+	/**
+	 * Sets the battle mode.
+	 *
+	 * @param battleMode the new battle mode
+	 */
 	public void setBattleMode(String battleMode) {
 		switch (battleMode) {
 		case "awak":
@@ -158,18 +201,38 @@ public class Personagem extends Model {
 		this.battleMode = battleMode;
 	}
 
+	/**
+	 * Gets the membro.
+	 *
+	 * @return the membro
+	 */
 	public Membro getMembro() {
 		return membro;
 	}
 
+	/**
+	 * Sets the membro.
+	 *
+	 * @param membro the new membro
+	 */
 	public void setMembro(Membro membro) {
 		this.membro = membro;
 	}
 
+	/**
+	 * Checks if is ativo.
+	 *
+	 * @return true, if is ativo
+	 */
 	public boolean isAtivo() {
 		return ativo;
 	}
 
+	/**
+	 * Sets the ativo.
+	 *
+	 * @param ativo the new ativo
+	 */
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
 	}

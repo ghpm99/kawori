@@ -18,18 +18,32 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TagController.
+ */
 @Controller
 public class TagController {
 
+	/** The tag service. */
 	@Autowired
 	private TagService tagService;
 
+	/** The adventure fame service. */
 	@Autowired
 	private AdventureFameService adventureFameService;
 
+	/** The color BD service. */
 	@Autowired
 	private ColorBDService colorBDService;
 
+	/**
+	 * Update tag.
+	 *
+	 * @param gear the gear
+	 * @param guild the guild
+	 * @param author the author
+	 */
 	public void updateTag(Gear gear, Guild guild, User author) {
 
 		AdventureFame apFame = checkPlayerFame(gear.getAp(), "AP");
@@ -44,11 +58,25 @@ public class TagController {
 
 	}
 
+	/**
+	 * Check player fame.
+	 *
+	 * @param value the value
+	 * @param type the type
+	 * @return the adventure fame
+	 */
 	private AdventureFame checkPlayerFame(int value, String type) {
 
 		return adventureFameService.findByValueAndType(value, type);
 	}
 
+	/**
+	 * Check player roles.
+	 *
+	 * @param guild the guild
+	 * @param user the user
+	 * @return the hash map
+	 */
 	private HashMap<String, Role> checkPlayerRoles(Guild guild, User user) {
 		List<Role> roles = guild.getMember(user).getRoles();
 		HashMap<String, Role> rolesGear = new HashMap<String, Role>();
@@ -66,6 +94,18 @@ public class TagController {
 
 	
 
+	/**
+	 * Update tag player.
+	 *
+	 * @param guild the guild
+	 * @param userId the user id
+	 * @param apRole the ap role
+	 * @param apFame the ap fame
+	 * @param apAwakRole the ap awak role
+	 * @param apAwakFame the ap awak fame
+	 * @param dpRole the dp role
+	 * @param dpFame the dp fame
+	 */
 	private void updateTagPlayer(Guild guild, long userId, Role apRole, AdventureFame apFame, Role apAwakRole,
 			AdventureFame apAwakFame, Role dpRole, AdventureFame dpFame) {
 
@@ -89,6 +129,14 @@ public class TagController {
 
 	}
 
+	/**
+	 * Apply tag.
+	 *
+	 * @param guild the guild
+	 * @param userId the user id
+	 * @param newTag the new tag
+	 * @param color the color
+	 */
 	private void applyTag(Guild guild, long userId, AdventureFame newTag, ColorBD color) {
 		List<Role> roles = guild.getRolesByName(newTag.getName(), true);
 		for (Role role : roles) {
@@ -105,6 +153,15 @@ public class TagController {
 
 	}
 
+	/**
+	 * Verify current tag.
+	 *
+	 * @param guild the guild
+	 * @param userId the user id
+	 * @param role the role
+	 * @param newFame the new fame
+	 * @param color the color
+	 */
 	private void verifyCurrentTag(Guild guild, long userId, Role role, AdventureFame newFame, ColorBD color) {
 		if (!role.getName().equals(newFame.getName())) {
 			guild.removeRoleFromMember(userId, role).queue();
@@ -113,6 +170,11 @@ public class TagController {
 		}
 	}
 
+	/**
+	 * Removes the tag unusable.
+	 *
+	 * @param guild the guild
+	 */
 	@Deprecated
 	private void removeTagUnusable(Guild guild) {
 		List<Role> roles = guild.getRoles();

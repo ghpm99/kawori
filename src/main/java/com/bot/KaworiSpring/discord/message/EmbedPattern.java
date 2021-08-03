@@ -29,12 +29,25 @@ import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class EmbedPattern.
+ */
 @Component
 public class EmbedPattern {
 
+	/** The message controller. */
 	@Autowired
 	private MessageController messageController;
 
+	/**
+	 * Creates the select tier embed.
+	 *
+	 * @param user the user
+	 * @param channel the channel
+	 * @param guild the guild
+	 * @return the embed builder
+	 */
 	public EmbedBuilder createSelectTierEmbed(User user, MessageChannel channel, Guild guild) {
 
 		EmbedBuilder embed = new EmbedBuilder();
@@ -53,6 +66,14 @@ public class EmbedPattern {
 		return embed;
 	}
 
+	/**
+	 * Creates the select tier embed additional.
+	 *
+	 * @param user the user
+	 * @param channel the channel
+	 * @param guild the guild
+	 * @return the embed builder
+	 */
 	public EmbedBuilder createSelectTierEmbedAdditional(User user, MessageChannel channel, Guild guild) {
 
 		EmbedBuilder embed = new EmbedBuilder();
@@ -69,6 +90,14 @@ public class EmbedPattern {
 		return embed;
 	}
 
+	/**
+	 * Creates the select day of week embed.
+	 *
+	 * @param user the user
+	 * @param channel the channel
+	 * @param guild the guild
+	 * @return the embed builder
+	 */
 	public EmbedBuilder createSelectDayOfWeekEmbed(User user, MessageChannel channel, Guild guild) {
 
 		EmbedBuilder embed = new EmbedBuilder();
@@ -88,6 +117,15 @@ public class EmbedPattern {
 		return embed;
 	}
 
+	/**
+	 * Creates the select nodes by tier and day embed.
+	 *
+	 * @param user the user
+	 * @param channel the channel
+	 * @param guild the guild
+	 * @param nodes the nodes
+	 * @return the embed builder
+	 */
 	public EmbedBuilder createSelectNodesByTierAndDayEmbed(User user, MessageChannel channel, Guild guild,
 			List<Node> nodes) {
 
@@ -110,6 +148,15 @@ public class EmbedPattern {
 
 	}
 
+	/**
+	 * Creates the select day of month embed.
+	 *
+	 * @param user the user
+	 * @param channel the channel
+	 * @param guild the guild
+	 * @param days the days
+	 * @return the embed builder
+	 */
 	public EmbedBuilder createSelectDayOfMonthEmbed(User user, MessageChannel channel, Guild guild,
 			ArrayList<Date> days) {
 		EmbedBuilder embed = new EmbedBuilder();
@@ -128,6 +175,12 @@ public class EmbedPattern {
 		return embed;
 	}
 
+	/**
+	 * Gets the day of month.
+	 *
+	 * @param date the date
+	 * @return the day of month
+	 */
 	private int getDayOfMonth(Date date) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.clear();
@@ -135,6 +188,15 @@ public class EmbedPattern {
 		return calendar.get(Calendar.DAY_OF_MONTH);
 	}
 
+	/**
+	 * Creates the save node war embed.
+	 *
+	 * @param user the user
+	 * @param channel the channel
+	 * @param guild the guild
+	 * @param nodeWar the node war
+	 * @return the embed builder
+	 */
 	public EmbedBuilder createSaveNodeWarEmbed(User user, MessageChannel channel, Guild guild, NodeWar nodeWar) {
 
 		EmbedBuilder embed = new EmbedBuilder();
@@ -153,6 +215,15 @@ public class EmbedPattern {
 		return embed;
 	}
 
+	/**
+	 * Creates the show scheduled node war.
+	 *
+	 * @param user the user
+	 * @param channel the channel
+	 * @param guild the guild
+	 * @param nodeWar the node war
+	 * @return the embed builder
+	 */
 	public EmbedBuilder createShowScheduledNodeWar(User user, MessageChannel channel, Guild guild, NodeWar nodeWar) {
 
 		EmbedBuilder embed = new EmbedBuilder();
@@ -174,6 +245,15 @@ public class EmbedPattern {
 		return embed;
 	}
 
+	/**
+	 * Creates the embed node war.
+	 *
+	 * @param user the user
+	 * @param channel the channel
+	 * @param guild the guild
+	 * @param nodes the nodes
+	 * @return the embed builder
+	 */
 	public EmbedBuilder createEmbedNodeWar(User user, MessageChannel channel, Guild guild, List<NodeWar> nodes) {
 		EmbedBuilder embed = new EmbedBuilder();
 
@@ -192,6 +272,15 @@ public class EmbedPattern {
 		return embed;
 	}
 
+	/**
+	 * Creates the embed show gear.
+	 *
+	 * @param user the user
+	 * @param channel the channel
+	 * @param guild the guild
+	 * @param gears the gears
+	 * @return the embed builder
+	 */
 	public EmbedBuilder createEmbedShowGear(User user, MessageChannel channel, Guild guild, ArrayList<Gear> gears) {
 		EmbedBuilder embed = new EmbedBuilder();
 
@@ -216,6 +305,12 @@ public class EmbedPattern {
 		return embed;
 	}
 
+	/**
+	 * Creates the field gear.
+	 *
+	 * @param embed the embed
+	 * @param gear the gear
+	 */
 	private void createFieldGear(EmbedBuilder embed, Gear gear) {
 		embed.addField(gear.getPersonagem().getName(), gear.getPersonagem().getClasse(), true);
 		embed.addField("GS", String.valueOf(gear.getScore()), true);
@@ -230,6 +325,16 @@ public class EmbedPattern {
 
 	}
 
+	/**
+	 * Creates the embed rank gear.
+	 *
+	 * @param user the user
+	 * @param channel the channel
+	 * @param guild the guild
+	 * @param gears the gears
+	 * @param sortBy the sort by
+	 * @return the embed builder
+	 */
 	public EmbedBuilder createEmbedRankGear(User user, MessageChannel channel, Guild guild, List<Gear> gears,
 			String sortBy) {
 		EmbedBuilder embed = new EmbedBuilder();
@@ -255,6 +360,16 @@ public class EmbedPattern {
 		return embed;
 	}
 
+	/**
+	 * Creates the embed node war presence.
+	 *
+	 * @param user the user
+	 * @param channel the channel
+	 * @param guild the guild
+	 * @param nodeWar the node war
+	 * @param presences the presences
+	 * @return the embed builder
+	 */
 	public EmbedBuilder createEmbedNodeWarPresence(User user, MessageChannel channel, Guild guild, NodeWar nodeWar,
 			List<NodeWarPresence> presences) {
 		EmbedBuilder embed = new EmbedBuilder();
@@ -281,6 +396,16 @@ public class EmbedPattern {
 		return embed;
 	}
 
+	/**
+	 * Creates the embed image.
+	 *
+	 * @param user the user
+	 * @param channel the channel
+	 * @param guild the guild
+	 * @param url the url
+	 * @param description the description
+	 * @return the embed builder
+	 */
 	public EmbedBuilder createEmbedImage(User user, MessageChannel channel, Guild guild, String url,
 			String description) {
 		EmbedBuilder embed = new EmbedBuilder();
@@ -290,6 +415,17 @@ public class EmbedPattern {
 		return embed;
 	}
 
+	/**
+	 * Creates the embed fun.
+	 *
+	 * @param user the user
+	 * @param channel the channel
+	 * @param guild the guild
+	 * @param url the url
+	 * @param description the description
+	 * @param args the args
+	 * @return the embed builder
+	 */
 	public EmbedBuilder createEmbedFun(User user, MessageChannel channel, Guild guild, String url, String description,
 			String... args) {
 		EmbedBuilder embed = new EmbedBuilder();
@@ -299,6 +435,15 @@ public class EmbedPattern {
 		return embed;
 	}
 
+	/**
+	 * Creates the embed char.
+	 *
+	 * @param user the user
+	 * @param channel the channel
+	 * @param guild the guild
+	 * @param personagens the personagens
+	 * @return the embed builder
+	 */
 	public EmbedBuilder createEmbedChar(User user, MessageChannel channel, Guild guild, List<Personagem> personagens) {
 		EmbedBuilder embed = new EmbedBuilder();
 		messageController.setEmbedHead(guild, channel, user, embed);
@@ -315,6 +460,17 @@ public class EmbedPattern {
 		return embed;
 	}
 
+	/**
+	 * Creates the embed info user.
+	 *
+	 * @param user the user
+	 * @param channel the channel
+	 * @param guild the guild
+	 * @param familyName the family name
+	 * @param activePersonagem the active personagem
+	 * @param activeGear the active gear
+	 * @return the embed builder
+	 */
 	public EmbedBuilder createEmbedInfoUser(User user, MessageChannel channel, Guild guild, String familyName,
 			String activePersonagem, String activeGear) {
 		EmbedBuilder embed = new EmbedBuilder();
@@ -345,6 +501,14 @@ public class EmbedPattern {
 		return embed;
 	}
 
+	/**
+	 * Creates the embed check is new personagem.
+	 *
+	 * @param user the user
+	 * @param channel the channel
+	 * @param guild the guild
+	 * @return the embed builder
+	 */
 	public EmbedBuilder createEmbedCheckIsNewPersonagem(User user, MessageChannel channel, Guild guild) {
 		EmbedBuilder embed = new EmbedBuilder();
 		messageController.setEmbedHead(guild, channel, user, embed);
@@ -358,6 +522,14 @@ public class EmbedPattern {
 
 	}
 
+	/**
+	 * Creates the embed canceled.
+	 *
+	 * @param user the user
+	 * @param channel the channel
+	 * @param guild the guild
+	 * @return the embed builder
+	 */
 	public EmbedBuilder createEmbedCanceled(User user, MessageChannel channel, Guild guild) {
 		EmbedBuilder embed = new EmbedBuilder();
 		messageController.setEmbedHead(guild, channel, user, embed);
@@ -366,6 +538,14 @@ public class EmbedPattern {
 		return embed;
 	}
 
+	/**
+	 * Creates the embed sucess gear.
+	 *
+	 * @param user the user
+	 * @param channel the channel
+	 * @param guild the guild
+	 * @return the embed builder
+	 */
 	public EmbedBuilder createEmbedSucessGear(User user, MessageChannel channel, Guild guild) {
 		EmbedBuilder embed = new EmbedBuilder();
 		messageController.setEmbedHead(guild, channel, user, embed);
@@ -374,6 +554,15 @@ public class EmbedPattern {
 		return embed;
 	}
 
+	/**
+	 * Creates the embed configure channels.
+	 *
+	 * @param user the user
+	 * @param channel the channel
+	 * @param guild the guild
+	 * @param channels the channels
+	 * @return the embed builder
+	 */
 	public EmbedBuilder createEmbedConfigureChannels(User user, MessageChannel channel, Guild guild,
 			List<TextChannel> channels) {
 		EmbedBuilder embed = new EmbedBuilder();
@@ -394,6 +583,15 @@ public class EmbedPattern {
 		return embed;
 	}
 
+	/**
+	 * Creates the embed configure channels sucess.
+	 *
+	 * @param user the user
+	 * @param channel the channel
+	 * @param guild the guild
+	 * @param channels the channels
+	 * @return the embed builder
+	 */
 	public EmbedBuilder createEmbedConfigureChannelsSucess(User user, MessageChannel channel, Guild guild,
 			List<TextChannel> channels) {
 		EmbedBuilder embed = new EmbedBuilder();
@@ -408,6 +606,15 @@ public class EmbedPattern {
 		return embed;
 	}
 
+	/**
+	 * Creates the embed configure roles.
+	 *
+	 * @param user the user
+	 * @param channel the channel
+	 * @param guild the guild
+	 * @param roles the roles
+	 * @return the embed builder
+	 */
 	public EmbedBuilder createEmbedConfigureRoles(User user, MessageChannel channel, Guild guild, List<Role> roles) {
 		EmbedBuilder embed = new EmbedBuilder();
 		messageController.setEmbedHead(guild, channel, user, embed);
@@ -435,6 +642,15 @@ public class EmbedPattern {
 		return embed;
 	}
 
+	/**
+	 * Creates the embed configure roles sucess.
+	 *
+	 * @param user the user
+	 * @param channel the channel
+	 * @param guild the guild
+	 * @param roles the roles
+	 * @return the embed builder
+	 */
 	public EmbedBuilder createEmbedConfigureRolesSucess(User user, MessageChannel channel, Guild guild,
 			List<Role> roles) {
 		EmbedBuilder embed = new EmbedBuilder();
@@ -449,6 +665,15 @@ public class EmbedPattern {
 		return embed;
 	}
 
+	/**
+	 * Creates the embed help all.
+	 *
+	 * @param user the user
+	 * @param channel the channel
+	 * @param guild the guild
+	 * @param commands the commands
+	 * @return the embed builder
+	 */
 	public EmbedBuilder createEmbedHelpAll(User user, MessageChannel channel, Guild guild,
 			HashMap<String, Command> commands) {
 		EmbedBuilder embed = new EmbedBuilder();
@@ -498,6 +723,16 @@ public class EmbedPattern {
 		return embed;
 	}
 
+	/**
+	 * Creates the embed help.
+	 *
+	 * @param user the user
+	 * @param channel the channel
+	 * @param guild the guild
+	 * @param command the command
+	 * @param commandKey the command key
+	 * @return the embed builder
+	 */
 	public EmbedBuilder createEmbedHelp(User user, MessageChannel channel, Guild guild, Command command,
 			String commandKey) {
 		EmbedBuilder embed = new EmbedBuilder();
@@ -508,6 +743,15 @@ public class EmbedPattern {
 		return embed;
 	}
 
+	/**
+	 * Creates the embed auto role apply.
+	 *
+	 * @param user the user
+	 * @param channel the channel
+	 * @param guild the guild
+	 * @param roles the roles
+	 * @return the embed builder
+	 */
 	public EmbedBuilder createEmbedAutoRoleApply(User user, MessageChannel channel, Guild guild, List<Role> roles) {
 		EmbedBuilder embed = new EmbedBuilder();
 
@@ -521,6 +765,15 @@ public class EmbedPattern {
 		return embed;
 	}
 
+	/**
+	 * Creates the embed cancel auto role.
+	 *
+	 * @param user the user
+	 * @param channel the channel
+	 * @param guild the guild
+	 * @param autoRoles the auto roles
+	 * @return the embed builder
+	 */
 	public EmbedBuilder createEmbedCancelAutoRole(User user, MessageChannel channel, Guild guild,
 			List<AutoRole> autoRoles) {
 		EmbedBuilder embed = new EmbedBuilder();
@@ -539,6 +792,15 @@ public class EmbedPattern {
 		return embed;
 	}
 
+	/**
+	 * Creates the embed canceled auto role.
+	 *
+	 * @param user the user
+	 * @param channel the channel
+	 * @param guild the guild
+	 * @param autoRole the auto role
+	 * @return the embed builder
+	 */
 	public EmbedBuilder createEmbedCanceledAutoRole(User user, MessageChannel channel, Guild guild, AutoRole autoRole) {
 		EmbedBuilder embed = new EmbedBuilder();
 
@@ -555,6 +817,15 @@ public class EmbedPattern {
 		return embed;
 	}
 
+	/**
+	 * Creates the embed configured auto role.
+	 *
+	 * @param user the user
+	 * @param channel the channel
+	 * @param guild the guild
+	 * @param autoRole the auto role
+	 * @return the embed builder
+	 */
 	public EmbedBuilder createEmbedConfiguredAutoRole(User user, MessageChannel channel, Guild guild,
 			AutoRole autoRole) {
 		EmbedBuilder embed = new EmbedBuilder();

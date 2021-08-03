@@ -16,18 +16,42 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The listener interface for receiving ready events.
+ * The class that is interested in processing a ready
+ * event implements this interface, and the object created
+ * with that class is registered with a component using the
+ * component's <code>addReadyListener<code> method. When
+ * the ready event occurs, that object's appropriate
+ * method is invoked.
+ *
+ * @see ReadyEvent
+ */
 @Controller
 public class ReadyListener extends ListenerAdapter {
 
+	/** The status service. */
 	@Autowired
 	private StatusService statusService;
+	
+	/** The config service. */
 	@Autowired
 	private ConfigurationService configService;
+	
+	/** The bot controller. */
 	@Autowired
 	private BotController botController;
+	
+	/** The log. */
 	@Autowired
 	private LogService log;
 
+	/**
+	 * On ready.
+	 *
+	 * @param e the e
+	 */
 	@Override
 	public void onReady(ReadyEvent e) {
 

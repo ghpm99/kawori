@@ -6,8 +6,19 @@ import com.bot.KaworiSpring.util.Util;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CommandParser.
+ */
 public class CommandParser {
 
+	/**
+	 * Parses the.
+	 *
+	 * @param raw the raw
+	 * @param event the event
+	 * @return the command container
+	 */
 	public CommandContainer parse(String raw, MessageReceivedEvent event) {
 
 		String beheaded = raw.replaceFirst(Util.PREFIX, "");
@@ -24,15 +35,39 @@ public class CommandParser {
 
 	}
 
+	/**
+	 * The Class CommandContainer.
+	 */
 	public class CommandContainer {
 
+		/** The raw. */
 		public final String raw;
+		
+		/** The beheaded. */
 		public final String beheaded;
+		
+		/** The split beheaded. */
 		public final String[] splitBeheaded;
+		
+		/** The invoke. */
 		public final String invoke;
+		
+		/** The args. */
 		public final String[] args;
+		
+		/** The event. */
 		public final MessageReceivedEvent event;
 
+		/**
+		 * Instantiates a new command container.
+		 *
+		 * @param raw the raw
+		 * @param beheaded the beheaded
+		 * @param splitBeheaded the split beheaded
+		 * @param invoke the invoke
+		 * @param args the args
+		 * @param event the event
+		 */
 		public CommandContainer(String raw, String beheaded, String[] splitBeheaded, String invoke, String[] args,
 				MessageReceivedEvent event) {
 			this.raw = raw;

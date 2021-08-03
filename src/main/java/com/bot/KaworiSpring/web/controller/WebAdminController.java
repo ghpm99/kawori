@@ -2,16 +2,6 @@ package com.bot.KaworiSpring.web.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.bot.KaworiSpring.model.AdventureFame;
 import com.bot.KaworiSpring.model.AutoRole;
 import com.bot.KaworiSpring.model.Canal;
@@ -42,359 +32,275 @@ import com.bot.KaworiSpring.service.NodeWarService;
 import com.bot.KaworiSpring.service.OperatorService;
 import com.bot.KaworiSpring.service.PersonagemService;
 import com.bot.KaworiSpring.service.TagService;
-import com.bot.KaworiSpring.web.security.AuthorizationSecurity;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class WebAdminController.
+ */
 @RestController
+@RequestMapping("/admin")
 public class WebAdminController {
 
-	@Autowired
-	private AuthorizationSecurity authorization;
+	/** The adventure fame service. */
 	@Autowired
 	private AdventureFameService adventureFameService;
+
+	/** The auto role service. */
 	@Autowired
 	private AutoRoleService autoRoleService;
+
+	/** The canal service. */
 	@Autowired
 	private CanalService canalService;
+
+	/** The color bd service. */
 	@Autowired
 	private ColorBDService colorBdService;
+
+	/** The configuration service. */
 	@Autowired
 	private ConfigurationService configurationService;
+
+	/** The gif bd service. */
 	@Autowired
 	private GifBDService gifBdService;
+
+	/** The guilda service. */
 	@Autowired
 	private GuildaService guildaService;
+
+	/** The log service. */
 	@Autowired
 	private LogService logService;
+
+	/** The membro service. */
 	@Autowired
 	private MembroService membroService;
+
+	/** The node service. */
 	@Autowired
 	private NodeService nodeService;
+
+	/** The node war service. */
 	@Autowired
 	private NodeWarService nodeWarService;
+
+	/** The node war presence service. */
 	@Autowired
 	private NodeWarPresenceService nodeWarPresenceService;
+
+	/** The operator service. */
 	@Autowired
 	private OperatorService operatorService;
+
+	/** The personagem service. */
 	@Autowired
 	private PersonagemService personagemService;
+
+	/** The tag service. */
 	@Autowired
 	private TagService tagService;
 
-	@GetMapping("/admin/adventure_fame")
+	/**
+	 * Gets the all adventure fame.
+	 *
+	 * @param id the id
+	 * @return the all adventure fame
+	 */
+	@GetMapping("/adventure_fame")
 	public ResponseEntity<List<AdventureFame>> getAllAdventureFame(@RequestParam(value = "id") String id) {
-		if (authorization.getAuthorizationFromId(id)) {
-			return new ResponseEntity<>(adventureFameService.findAll(), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
+
+		return new ResponseEntity<>(adventureFameService.findAll(), HttpStatus.OK);
+
 	}
 
-	@GetMapping("/admin/auto_role")
+	/**
+	 * Gets the all auto role.
+	 *
+	 * @param id the id
+	 * @return the all auto role
+	 */
+	@GetMapping("/auto_role")
 	public ResponseEntity<List<AutoRole>> getAllAutoRole(@RequestParam(value = "id") String id) {
-		if (authorization.getAuthorizationFromId(id)) {
-			return new ResponseEntity<>(autoRoleService.findAll(), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
+
+		return new ResponseEntity<>(autoRoleService.findAll(), HttpStatus.OK);
+
 	}
 
-	@GetMapping("/admin/canal")
+	/**
+	 * Gets the all canal.
+	 *
+	 * @param id the id
+	 * @return the all canal
+	 */
+	@GetMapping("/canal")
 	public ResponseEntity<List<Canal>> getAllCanal(@RequestParam(value = "id") String id) {
-		if (authorization.getAuthorizationFromId(id)) {
-			return new ResponseEntity<>(canalService.findAll(), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
+
+		return new ResponseEntity<>(canalService.findAll(), HttpStatus.OK);
+
 	}
 
-	@GetMapping("/admin/color")
+	/**
+	 * Gets the all color.
+	 *
+	 * @param id the id
+	 * @return the all color
+	 */
+	@GetMapping("/color")
 	public ResponseEntity<List<ColorBD>> getAllColor(@RequestParam(value = "id") String id) {
-		if (authorization.getAuthorizationFromId(id)) {
-			return new ResponseEntity<>(colorBdService.findAll(), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
+
+		return new ResponseEntity<>(colorBdService.findAll(), HttpStatus.OK);
+
 	}
 
-	@GetMapping("/admin/configuration")
+	/**
+	 * Gets the all configuration.
+	 *
+	 * @param id the id
+	 * @return the all configuration
+	 */
+	@GetMapping("/configuration")
 	public ResponseEntity<List<Configuration>> getAllConfiguration(@RequestParam(value = "id") String id) {
-		if (authorization.getAuthorizationFromId(id)) {
-			return new ResponseEntity<>(configurationService.findAll(), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
+
+		return new ResponseEntity<>(configurationService.findAll(), HttpStatus.OK);
+
 	}
 
-	@GetMapping("/admin/gif")
+	/**
+	 * Gets the all gif.
+	 *
+	 * @param id the id
+	 * @return the all gif
+	 */
+	@GetMapping("/gif")
 	public ResponseEntity<List<GifBD>> getAllGif(@RequestParam(value = "id") String id) {
-		if (authorization.getAuthorizationFromId(id)) {
-			return new ResponseEntity<>(gifBdService.findAll(), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
+
+		return new ResponseEntity<>(gifBdService.findAll(), HttpStatus.OK);
+
 	}
 
-	@GetMapping("/admin/guilda")
+	/**
+	 * Gets the all guilda.
+	 *
+	 * @param id the id
+	 * @return the all guilda
+	 */
+	@GetMapping("/guilda")
 	public ResponseEntity<List<Guilda>> getAllGuilda(@RequestParam(value = "id") String id) {
-		if (authorization.getAuthorizationFromId(id)) {
-			return new ResponseEntity<>(guildaService.findAll(), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
+
+		return new ResponseEntity<>(guildaService.findAll(), HttpStatus.OK);
+
 	}
 
-	@GetMapping("/admin/log")
+	/**
+	 * Gets the all log.
+	 *
+	 * @param id the id
+	 * @return the all log
+	 */
+	@GetMapping("/log")
 	public ResponseEntity<List<Log>> getAllLog(@RequestParam(value = "id") String id) {
-		if (authorization.getAuthorizationFromId(id)) {
-			return new ResponseEntity<>(logService.getEvents(), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
+
+		return new ResponseEntity<>(logService.getEvents(), HttpStatus.OK);
+
 	}
 
-	@GetMapping("/admin/membro")
+	/**
+	 * Gets the all membro.
+	 *
+	 * @param id the id
+	 * @return the all membro
+	 */
+	@GetMapping("/membro")
 	public ResponseEntity<List<Membro>> getAllMembro(@RequestParam(value = "id") String id) {
-		if (authorization.getAuthorizationFromId(id)) {
-			return new ResponseEntity<>(membroService.findAll(), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
+
+		return new ResponseEntity<>(membroService.findAll(), HttpStatus.OK);
+
 	}
 
-	@GetMapping("/admin/node")
+	/**
+	 * Gets the all node.
+	 *
+	 * @param id the id
+	 * @return the all node
+	 */
+	@GetMapping("/node")
 	public ResponseEntity<List<Node>> getAllNode(@RequestParam(value = "id") String id) {
-		if (authorization.getAuthorizationFromId(id)) {
-			return new ResponseEntity<>(nodeService.findAll(), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
+
+		return new ResponseEntity<>(nodeService.findAll(), HttpStatus.OK);
+
 	}
 
-	@GetMapping("/admin/nodewar")
+	/**
+	 * Gets the all nodewar.
+	 *
+	 * @param id the id
+	 * @return the all nodewar
+	 */
+	@GetMapping("/nodewar")
 	public ResponseEntity<List<NodeWar>> getAllNodewar(@RequestParam(value = "id") String id) {
-		if (authorization.getAuthorizationFromId(id)) {
-			return new ResponseEntity<>(nodeWarService.findAll(), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
+
+		return new ResponseEntity<>(nodeWarService.findAll(), HttpStatus.OK);
+
 	}
 
-	@GetMapping("/admin/nodewar_presence")
+	/**
+	 * Gets the all nodewar presence.
+	 *
+	 * @param id the id
+	 * @return the all nodewar presence
+	 */
+	@GetMapping("/nodewar_presence")
 	public ResponseEntity<List<NodeWarPresence>> getAllNodewarPresence(@RequestParam(value = "id") String id) {
-		if (authorization.getAuthorizationFromId(id)) {
-			return new ResponseEntity<>(nodeWarPresenceService.findAll(), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
+
+		return new ResponseEntity<>(nodeWarPresenceService.findAll(), HttpStatus.OK);
+
 	}
 
-	@GetMapping("/admin/operator")
+	/**
+	 * Gets the all operator.
+	 *
+	 * @param id the id
+	 * @return the all operator
+	 */
+	@GetMapping("/operator")
 	public ResponseEntity<List<Operator>> getAllOperator(@RequestParam(value = "id") String id) {
-		if (authorization.getAuthorizationFromId(id)) {
-			return new ResponseEntity<>(operatorService.findAll(), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
+
+		return new ResponseEntity<>(operatorService.findAll(), HttpStatus.OK);
+
 	}
 
-	@GetMapping("/admin/personagem")
+	/**
+	 * Gets the all personagem.
+	 *
+	 * @param id the id
+	 * @return the all personagem
+	 */
+	@GetMapping("/personagem")
 	public ResponseEntity<List<Personagem>> getAllPersonagem(@RequestParam(value = "id") String id) {
-		if (authorization.getAuthorizationFromId(id)) {
-			return new ResponseEntity<>(personagemService.findAll(), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
+
+		return new ResponseEntity<>(personagemService.findAll(), HttpStatus.OK);
+
 	}
 
-	@GetMapping("/admin/tag")
+	/**
+	 * Gets the all tag.
+	 *
+	 * @param id the id
+	 * @return the all tag
+	 */
+	@GetMapping("/tag")
 	public ResponseEntity<List<Tag>> getAllTag(@RequestParam(value = "id") String id) {
-		if (authorization.getAuthorizationFromId(id)) {
-			return new ResponseEntity<>(tagService.findAll(), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
+
+		return new ResponseEntity<>(tagService.findAll(), HttpStatus.OK);
+
 	}
-
-	@GetMapping("/admin/v2/adventure_fame")
-	public ResponseEntity<Page<AdventureFame>> getAdventureFamePage(@RequestParam(value = "id") String id,
-			@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
-		if (authorization.getAuthorizationFromId(id)) {
-			Pageable pageable = PageRequest.of(page, size);
-			Page<AdventureFame> pageResponse = adventureFameService.findAll(pageable);
-
-			return new ResponseEntity<>(pageResponse, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
-	}
-
-	@GetMapping("/admin/v2/auto_role")
-	public ResponseEntity<Page<AutoRole>> getAutoRole(@RequestParam(value = "id") String id,
-			@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
-		if (authorization.getAuthorizationFromId(id)) {
-			Pageable pageable = PageRequest.of(page, size);
-			Page<AutoRole> pageResponse = autoRoleService.findAll(pageable);
-
-			return new ResponseEntity<>(pageResponse, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
-	}
-
-	@GetMapping("/admin/v2/canal")
-	public ResponseEntity<Page<Canal>> getCanal(@RequestParam(value = "id") String id,
-			@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
-		if (authorization.getAuthorizationFromId(id)) {
-			Pageable pageable = PageRequest.of(page, size);
-			Page<Canal> pageResponse = canalService.findAll(pageable);
-			return new ResponseEntity<>(pageResponse, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
-	}
-
-	@GetMapping("/admin/v2/color")
-	public ResponseEntity<Page<ColorBD>> getColor(@RequestParam(value = "id") String id,
-			@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
-		if (authorization.getAuthorizationFromId(id)) {
-			Pageable pageable = PageRequest.of(page, size);
-			Page<ColorBD> pageResponse = colorBdService.findAll(pageable);
-			return new ResponseEntity<>(pageResponse, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
-	}
-
-	@GetMapping("/admin/v2/configuration")
-	public ResponseEntity<Page<Configuration>> getConfiguration(@RequestParam(value = "id") String id,
-			@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
-		if (authorization.getAuthorizationFromId(id)) {
-			Pageable pageable = PageRequest.of(page, size);
-			Page<Configuration> pageResponse = configurationService.findAll(pageable);
-			return new ResponseEntity<>(pageResponse, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
-	}
-
-	@GetMapping("/admin/v2/gif")
-	public ResponseEntity<Page<GifBD>> getGif(@RequestParam(value = "id") String id,
-			@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
-		if (authorization.getAuthorizationFromId(id)) {
-			Pageable pageable = PageRequest.of(page, size);
-			Page<GifBD> pageResponse = gifBdService.findAll(pageable);
-			return new ResponseEntity<>(pageResponse, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
-	}
-
-	@GetMapping("/admin/v2/guilda")
-	public ResponseEntity<Page<Guilda>> getGuilda(@RequestParam(value = "id") String id,
-			@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
-		if (authorization.getAuthorizationFromId(id)) {
-			Pageable pageable = PageRequest.of(page, size);
-			Page<Guilda> pageResponse = guildaService.findAll(pageable);
-			return new ResponseEntity<>(pageResponse, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
-	}
-
-	@GetMapping("/admin/v2/log")
-	public ResponseEntity<Page<Log>> getLog(@RequestParam(value = "id") String id,
-			@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
-		if (authorization.getAuthorizationFromId(id)) {
-			Pageable pageable = PageRequest.of(page, size);
-			Page<Log> pageResponse = logService.findAll(pageable);
-			return new ResponseEntity<>(pageResponse, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
-	}
-
-	@GetMapping("/admin/v2/membro")
-	public ResponseEntity<Page<Membro>> getMembro(@RequestParam(value = "id") String id,
-			@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
-		if (authorization.getAuthorizationFromId(id)) {
-			Pageable pageable = PageRequest.of(page, size);
-			Page<Membro> pageResponse = membroService.findAll(pageable);
-			return new ResponseEntity<>(pageResponse, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
-	}
-
-	@GetMapping("/admin/v2/node")
-	public ResponseEntity<Page<Node>> getNode(@RequestParam(value = "id") String id,
-			@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
-		if (authorization.getAuthorizationFromId(id)) {
-			Pageable pageable = PageRequest.of(page, size);
-			Page<Node> pageResponse = nodeService.findAll(pageable);
-			return new ResponseEntity<>(pageResponse, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
-	}
-
-	@GetMapping("/admin/v2/nodewar")
-	public ResponseEntity<Page<NodeWar>> getNodewar(@RequestParam(value = "id") String id,
-			@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
-		if (authorization.getAuthorizationFromId(id)) {
-			Pageable pageable = PageRequest.of(page, size);
-			Page<NodeWar> pageResponse = nodeWarService.findAll(pageable);
-			return new ResponseEntity<>(pageResponse, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
-	}
-
-	@GetMapping("/admin/v2/nodewar_presence")
-	public ResponseEntity<Page<NodeWarPresence>> getNodewarPresence(@RequestParam(value = "id") String id,
-			@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
-		if (authorization.getAuthorizationFromId(id)) {
-			Pageable pageable = PageRequest.of(page, size);
-			Page<NodeWarPresence> pageResponse = nodeWarPresenceService.findAll(pageable);
-			return new ResponseEntity<>(pageResponse, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
-	}
-
-	@GetMapping("/admin/v2/operator")
-	public ResponseEntity<Page<Operator>> getOperator(@RequestParam(value = "id") String id,
-			@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
-		if (authorization.getAuthorizationFromId(id)) {
-			Pageable pageable = PageRequest.of(page, size);
-			Page<Operator> pageResponse = operatorService.findAll(pageable);
-			return new ResponseEntity<>(pageResponse, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
-	}
-
-	@GetMapping("/admin/v2/personagem")
-	public ResponseEntity<Page<Personagem>> getPersonagem(@RequestParam(value = "id") String id,
-			@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
-		if (authorization.getAuthorizationFromId(id)) {
-			Pageable pageable = PageRequest.of(page, size);
-			Page<Personagem> pageResponse = personagemService.findAll(pageable);
-			return new ResponseEntity<>(pageResponse, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
-	}
-
-	@GetMapping("/admin/v2/tag")
-	public ResponseEntity<Page<Tag>> getTag(@RequestParam(value = "id") String id,
-			@RequestParam(value = "page") int page, @RequestParam(value = "size") int size) {
-		if (authorization.getAuthorizationFromId(id)) {
-			Pageable pageable = PageRequest.of(page, size);
-			Page<Tag> pageResponse = tagService.findAll(pageable);
-			return new ResponseEntity<>(pageResponse, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
-	}
-
 }

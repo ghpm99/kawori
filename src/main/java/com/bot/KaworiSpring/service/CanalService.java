@@ -12,17 +12,34 @@ import com.bot.KaworiSpring.repository.CanalRepository;
 
 import net.dv8tion.jda.api.entities.TextChannel;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CanalService.
+ */
 @Service
 public class CanalService {
 
+	/** The canal repository. */
 	@Autowired
 	private CanalRepository canalRepository;
 
+	/**
+	 * Save.
+	 *
+	 * @param canal the canal
+	 * @return the canal
+	 */
 	public Canal save(Canal canal) {
 		canal.setNewRecord(false);
 		return canalRepository.save(canal);
 	}
 
+	/**
+	 * Find by id.
+	 *
+	 * @param id the id
+	 * @return the canal
+	 */
 	public Canal findById(String id) {
 		return canalRepository.findById(id).orElseGet(() -> {
 			Canal canal = new Canal();
@@ -31,6 +48,12 @@ public class CanalService {
 		});
 	}
 
+	/**
+	 * Creates the new.
+	 *
+	 * @param channel the channel
+	 * @return the canal
+	 */
 	public Canal createNew(TextChannel channel) {
 		Canal canal = new Canal();
 
@@ -43,6 +66,12 @@ public class CanalService {
 		return save(canal);
 	}
 
+	/**
+	 * Update canal.
+	 *
+	 * @param channel the channel
+	 * @return the canal
+	 */
 	public Canal UpdateCanal(TextChannel channel) {
 		Canal canal = findById(channel.getId());
 		
@@ -51,10 +80,21 @@ public class CanalService {
 		return save(canal);
 	}
 	
+	/**
+	 * Find all.
+	 *
+	 * @return the list
+	 */
 	public List<Canal> findAll(){
 		return canalRepository.findAll();
 	}
 	
+	/**
+	 * Find all.
+	 *
+	 * @param pageable the pageable
+	 * @return the page
+	 */
 	public Page<Canal> findAll(Pageable pageable){
 		return canalRepository.findAll(pageable);
 	}

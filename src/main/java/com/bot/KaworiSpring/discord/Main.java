@@ -43,65 +43,118 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Main.
+ */
 @Component
 public class Main {
 
+	/** The jda. */
 	private JDA jda;
 
+	/** The cmd GS. */
 	// Comandos
 	@Autowired
 	private CmdGS cmdGS;
+	
+	/** The cmd rank. */
 	@Autowired
 	private CmdRank cmdRank;
+	
+	/** The cmd help. */
 	@Autowired
 	private CmdHelp cmdHelp;
+	
+	/** The cmd node war. */
 	@Autowired
 	private CmdNodeWar cmdNodeWar;
+	
+	/** The cmd adm. */
 	@Autowired
 	private CmdAdm cmdAdm;
+	
+	/** The cmd pick. */
 	@Autowired
 	private CmdPick cmdPick;
+	
+	/** The cmd avatar. */
 	@Autowired
 	private CmdAvatar cmdAvatar;
+	
+	/** The cmd fun. */
 	@Autowired
 	private CmdFun cmdFun;
+	
+	/** The cmd char. */
 	@Autowired
 	private CmdChar cmdChar;
+	
+	/** The cmd info. */
 	@Autowired
 	private CmdInfo cmdInfo;
+	
+	/** The cmd config. */
 	@Autowired
 	private CmdConfig cmdConfig;
+	
+	/** The cmd excel. */
 	@Autowired
 	private CmdExcel cmdExcel;
+	
+	/** The cmd region. */
 	@Autowired
 	private CmdRegion cmdRegion;
+	
+	/** The cmd auto role. */
 	@Autowired
 	private CmdAutoRole cmdAutoRole;
+	
+	/** The cmd achievements. */
 	@Autowired
 	private CmdAchievements cmdAchievements;
 
+	/** The ready listener. */
 	// Eventos Listeners
 	@Autowired
 	private ReadyListener readyListener;
+	
+	/** The message listener. */
 	@Autowired
 	private MessageListener messageListener;
+	
+	/** The reaction listener. */
 	@Autowired
 	private ReactionListener reactionListener;
+	
+	/** The guild listener. */
 	@Autowired
 	private GuildListener guildListener;
+	
+	/** The bot listener. */
 	@Autowired
 	private BotListener botListener;
+	
+	/** The user listener. */
 	@Autowired
 	private UserListener userListener;
 
+	/** The status service. */
 	// Services
 	@Autowired
 	private StatusService statusService;
+	
+	/** The log service. */
 	@Autowired
 	private LogService logService;
+	
+	/** The config service. */
 	@Autowired
 	ConfigurationService configService;
 
+	/**
+	 * Inits the.
+	 */
 	@EventListener(ContextRefreshedEvent.class)
 	public void init() {
 		
@@ -132,6 +185,11 @@ public class Main {
 
 	}
 
+	/**
+	 * Sets the listeners.
+	 *
+	 * @param builder the new listeners
+	 */
 	private void setListeners(JDABuilder builder) {
 		logService.addEvent(new Log(new Date(), "Adicionando Listeners", "", "", "-"));
 		builder.addEventListeners(readyListener);
@@ -143,6 +201,9 @@ public class Main {
 		logService.addEvent(new Log(new Date(), "Listeners adicionados", "", "", "OK"));
 	}
 
+	/**
+	 * Sets the commands.
+	 */
 	private void setCommands() {
 		logService.addEvent(new Log(new Date(), "Adicionando Comandos", "", "", "-"));
 		// util
@@ -192,10 +253,18 @@ public class Main {
 		logService.addEvent(new Log(new Date(), "Comandos adicionados", "", "", "OK"));
 	}
 
+	/**
+	 * Gets the jda.
+	 *
+	 * @return the jda
+	 */
 	public JDA getJDA() {
 		return jda;
 	}
 
+	/**
+	 * Scheduled node war.
+	 */
 	// @Scheduled(cron = "0 0 12 ? * MON,TUE,WED,THU,FRI,SAT,SUN *")
 	@Scheduled(cron = "0 0/1 * 1/1 * ?")
 	private void scheduledNodeWar() {

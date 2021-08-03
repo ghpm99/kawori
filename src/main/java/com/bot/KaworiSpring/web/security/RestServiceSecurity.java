@@ -12,14 +12,26 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.bot.KaworiSpring.model.Log;
 import com.bot.KaworiSpring.service.LogService;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class RestServiceSecurity.
+ */
 @Configuration
 public class RestServiceSecurity {
 
+	/** The origin. */
 	@Value("${spring.origin}")
 	private String origin;
+	
+	/** The log service. */
 	@Autowired
 	private LogService logService;
 	
+	/**
+	 * Cors configurer.
+	 *
+	 * @return the web mvc configurer
+	 */
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {

@@ -19,17 +19,32 @@ import com.bot.KaworiSpring.util.GearSort;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CmdRank.
+ */
 @Controller
 public class CmdRank extends Command {
 
+	/** The gear service. */
 	@Autowired
 	private GearService gearService;
+	
+	/** The message controller. */
 	@Autowired
 	private MessageController messageController;
+	
+	/** The embed pattern. */
 	@Autowired
 	private EmbedPattern embedPattern;
 	
 
+	/**
+	 * Action.
+	 *
+	 * @param args the args
+	 * @param event the event
+	 */
 	public void action(String[] args, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
 		//List<Gear> gears = gearService.findByIdGuild(event.getGuild().getIdLong());
@@ -50,11 +65,22 @@ public class CmdRank extends Command {
 
 	}
 
+	/**
+	 * Executed.
+	 *
+	 * @param success the success
+	 * @param event the event
+	 */
 	public void executed(boolean success, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * Help.
+	 *
+	 * @return the string
+	 */
 	public String help() {
 		// TODO Auto-generated method stub
 		return "msg_rank_help";
@@ -62,6 +88,12 @@ public class CmdRank extends Command {
 
 	
 	
+	/**
+	 * Check sort.
+	 *
+	 * @param arg the arg
+	 * @return the string
+	 */
 	private String checkSort(String arg) {
 		String sort = "score";
 		if (arg.equals("GS".toUpperCase())) {
@@ -78,6 +110,12 @@ public class CmdRank extends Command {
 		return sort;
 	}
 
+	/**
+	 * Sort list.
+	 *
+	 * @param list the list
+	 * @param arg the arg
+	 */
 	private void sortList(List<Gear> list, String arg) {
 
 		if (arg.toUpperCase().equals("GS".toUpperCase())) {
@@ -94,12 +132,22 @@ public class CmdRank extends Command {
 
 	}
 
+	/**
+	 * Help short.
+	 *
+	 * @return the string
+	 */
 	@Override
 	public String helpShort() {
 		// TODO Auto-generated method stub
 		return "msg_rank_helpshort";
 	}
 
+	/**
+	 * Gets the permissions.
+	 *
+	 * @return the permissions
+	 */
 	@Override
 	public Permissions getPermissions() {
 		// TODO Auto-generated method stub

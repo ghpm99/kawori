@@ -35,20 +35,39 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.exceptions.ErrorHandler;
 import net.dv8tion.jda.api.requests.ErrorResponse;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CmdNodeWar.
+ */
 @Controller
 public class CmdNodeWar extends Command {
 
+	/** The node war service. */
 	@Autowired
 	private NodeWarService nodeWarService;
+	
+	/** The node service. */
 	@Autowired
 	private NodeService nodeService;
+	
+	/** The node war presence service. */
 	@Autowired
 	private NodeWarPresenceService nodeWarPresenceService;
+	
+	/** The message controller. */
 	@Autowired
 	private MessageController messageController;
+	
+	/** The embed pattern. */
 	@Autowired
 	private EmbedPattern embedPattern;
 
+	/**
+	 * Action.
+	 *
+	 * @param args the args
+	 * @param event the event
+	 */
 	@Override
 	public void action(String[] args, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
@@ -61,18 +80,34 @@ public class CmdNodeWar extends Command {
 		}
 	}
 
+	/**
+	 * Executed.
+	 *
+	 * @param success the success
+	 * @param event the event
+	 */
 	@Override
 	public void executed(boolean success, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * Help.
+	 *
+	 * @return the string
+	 */
 	@Override
 	public String help() {
 		// TODO Auto-generated method stub
 		return "msg_nodewar_help";
 	}
 
+	/**
+	 * Show node war.
+	 *
+	 * @param event the event
+	 */
 	private void showNodeWar(MessageReceivedEvent event) {
 		List<NodeWar> nodes = nodeWarService.findByIdGuildAndDate(event.getGuild().getId(), new Date());
 
@@ -82,15 +117,30 @@ public class CmdNodeWar extends Command {
 		messageController.sendEmbed(event.getChannel(), embed);
 	}
 
+	/**
+	 * Schedule node war.
+	 *
+	 * @param messageReceived the message received
+	 */
 	private void scheduleNodeWar(MessageReceivedEvent messageReceived) {
 		selectTierEmbed(messageReceived);
 	}
 
+	/**
+	 * Cancel embed.
+	 *
+	 * @param currentEmbed the current embed
+	 */
 	private void cancelEmbed(Message currentEmbed) {
 		ReactionHandler.reactions.remove(currentEmbed.getId());
 		currentEmbed.delete().queue();
 	}
 
+	/**
+	 * Select tier embed.
+	 *
+	 * @param messageReceived the message received
+	 */
 	private void selectTierEmbed(MessageReceivedEvent messageReceived) {
 
 		User user = messageReceived.getAuthor();
@@ -150,6 +200,14 @@ public class CmdNodeWar extends Command {
 
 	}
 
+	/**
+	 * Select tier embed additional.
+	 *
+	 * @param guild the guild
+	 * @param channel the channel
+	 * @param user the user
+	 * @param currentEmbed the current embed
+	 */
 	private void selectTierEmbedAdditional(Guild guild, MessageChannel channel, User user, Message currentEmbed) {
 
 		Consumer<Message> callBack = (message) -> {
@@ -193,6 +251,15 @@ public class CmdNodeWar extends Command {
 
 	}
 
+	/**
+	 * Select day of week embed.
+	 *
+	 * @param guild the guild
+	 * @param channel the channel
+	 * @param user the user
+	 * @param currentEmbed the current embed
+	 * @param tier the tier
+	 */
 	private void selectDayOfWeekEmbed(Guild guild, MessageChannel channel, User user, Message currentEmbed,
 			String tier) {
 
@@ -250,6 +317,16 @@ public class CmdNodeWar extends Command {
 
 	}
 
+	/**
+	 * Select nodes by tier and day.
+	 *
+	 * @param guild the guild
+	 * @param channel the channel
+	 * @param user the user
+	 * @param currentEmbed the current embed
+	 * @param tier the tier
+	 * @param dayOfWeek the day of week
+	 */
 	private void selectNodesByTierAndDay(Guild guild, MessageChannel channel, User user, Message currentEmbed,
 			String tier, int dayOfWeek) {
 
@@ -296,6 +373,15 @@ public class CmdNodeWar extends Command {
 
 	}
 
+	/**
+	 * Select day of month embed.
+	 *
+	 * @param guild the guild
+	 * @param channel the channel
+	 * @param user the user
+	 * @param currentEmbed the current embed
+	 * @param node the node
+	 */
 	private void selectDayOfMonthEmbed(Guild guild, MessageChannel channel, User user, Message currentEmbed,
 			Node node) {
 
@@ -337,6 +423,16 @@ public class CmdNodeWar extends Command {
 
 	}
 
+	/**
+	 * Save node war.
+	 *
+	 * @param guild the guild
+	 * @param channel the channel
+	 * @param user the user
+	 * @param currentEmbed the current embed
+	 * @param node the node
+	 * @param day the day
+	 */
 	private void saveNodeWar(Guild guild, MessageChannel channel, User user, Message currentEmbed, Node node,
 			Date day) {
 
@@ -356,6 +452,13 @@ public class CmdNodeWar extends Command {
 		messageController.changeEmbed(channel, currentEmbed, embed, callBack);
 	}
 
+	/**
+	 * Nearest next week day.
+	 *
+	 * @param reference the reference
+	 * @param dayOfWeek the day of week
+	 * @return the array list
+	 */
 	private ArrayList<Date> nearestNextWeekDay(Date reference, int dayOfWeek) {
 
 		ArrayList<Date> days = new ArrayList<>();
@@ -377,6 +480,11 @@ public class CmdNodeWar extends Command {
 		return days;
 	}
 
+	/**
+	 * Scheduled node war.
+	 *
+	 * @param jda the jda
+	 */
 	// tarefa agendada
 	public void scheduledNodeWar(JDA jda) {
 		List<NodeWar> nodes = nodeWarService.findByDateAndIdMessage(new Date(), "");
@@ -388,6 +496,12 @@ public class CmdNodeWar extends Command {
 		}
 	}
 
+	/**
+	 * Verify node war channel.
+	 *
+	 * @param guild the guild
+	 * @return the text channel
+	 */
 	private TextChannel verifyNodeWarChannel(Guild guild) {
 		List<TextChannel> channels = guild.getTextChannelsByName("nodewar", true);
 		if (channels.isEmpty()) {
@@ -396,6 +510,14 @@ public class CmdNodeWar extends Command {
 		return channels.get(0);
 	}
 
+	/**
+	 * Show scheduled node war.
+	 *
+	 * @param guild the guild
+	 * @param channel the channel
+	 * @param node the node
+	 * @param user the user
+	 */
 	private void showScheduledNodeWar(Guild guild, TextChannel channel, NodeWar node, User user) {
 
 		Consumer<Message> callBack = (message) -> {
@@ -438,10 +560,22 @@ public class CmdNodeWar extends Command {
 		messageController.sendEmbed(channel, embed, callBack);
 	}
 
+	/**
+	 * Creates the channel node war.
+	 *
+	 * @param guild the guild
+	 * @return the text channel
+	 */
 	private TextChannel createChannelNodeWar(Guild guild) {
 		return guild.createTextChannel("nodewar").complete();
 	}
 
+	/**
+	 * Show presence node war.
+	 *
+	 * @param args the args
+	 * @param event the event
+	 */
 	private void showPresenceNodeWar(String[] args, MessageReceivedEvent event) {
 		try {
 			String idNodeWar = args[1];
@@ -468,12 +602,22 @@ public class CmdNodeWar extends Command {
 
 	}
 
+	/**
+	 * Help short.
+	 *
+	 * @return the string
+	 */
 	@Override
 	public String helpShort() {
 		// TODO Auto-generated method stub
 		return "msg_nodewar_helpshort";
 	}
 
+	/**
+	 * Gets the permissions.
+	 *
+	 * @return the permissions
+	 */
 	@Override
 	public Permissions getPermissions() {
 		// TODO Auto-generated method stub

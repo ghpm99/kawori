@@ -18,16 +18,31 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CmdFun.
+ */
 @Controller
 public class CmdFun extends Command {
 
+	/** The gif bd. */
 	@Autowired
 	private GifBDService gifBd;
+	
+	/** The message controller. */
 	@Autowired
 	private MessageController messageController;
+	
+	/** The embed pattern. */
 	@Autowired
 	private EmbedPattern embedPattern;
 
+	/**
+	 * Action.
+	 *
+	 * @param args the args
+	 * @param event the event
+	 */
 	@Override
 	public void action(String[] args, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
@@ -168,12 +183,23 @@ public class CmdFun extends Command {
 
 	}
 
+	/**
+	 * Executed.
+	 *
+	 * @param success the success
+	 * @param event the event
+	 */
 	@Override
 	public void executed(boolean success, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * Help.
+	 *
+	 * @return the string
+	 */
 	@Override
 	public String help() {
 		// TODO Auto-generated method stub
@@ -182,6 +208,13 @@ public class CmdFun extends Command {
 
 	
 
+	/**
+	 * Find mentioned.
+	 *
+	 * @param args the args
+	 * @param event the event
+	 * @return the user
+	 */
 	private User findMentioned(String[] args, MessageReceivedEvent event) {
 		User user = event.getAuthor();
 		if (event.getMessage().getMentionedMembers().size() > 0) {
@@ -200,6 +233,17 @@ public class CmdFun extends Command {
 		return user;
 	}
 
+	/**
+	 * Send funny.
+	 *
+	 * @param guild the guild
+	 * @param channel the channel
+	 * @param user1 the user 1
+	 * @param user2 the user 2
+	 * @param msgCouple the msg couple
+	 * @param msgSolo the msg solo
+	 * @param typeGif the type gif
+	 */
 	private void sendFunny(Guild guild, TextChannel channel, User user1, User user2, String msgCouple, String msgSolo,
 			String typeGif) {
 		String msg = msgCouple;
@@ -213,12 +257,22 @@ public class CmdFun extends Command {
 				user1.getAsMention(), user2.getAsMention()), null);
 	}
 
+	/**
+	 * Help short.
+	 *
+	 * @return the string
+	 */
 	@Override
 	public String helpShort() {
 		// TODO Auto-generated method stub
 		return "msg_fun_helpshort";
 	}
 
+	/**
+	 * Gets the permissions.
+	 *
+	 * @return the permissions
+	 */
 	@Override
 	public Permissions getPermissions() {
 		// TODO Auto-generated method stub

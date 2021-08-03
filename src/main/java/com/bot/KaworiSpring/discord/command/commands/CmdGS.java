@@ -37,22 +37,43 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.exceptions.ErrorHandler;
 import net.dv8tion.jda.api.requests.ErrorResponse;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CmdGS.
+ */
 @Controller
 public class CmdGS extends Command {
 
+	/** The gear service. */
 	@Autowired
 	private GearService gearService;
+	
+	/** The tag controller. */
 	@Autowired
 	private TagController tagController;
+	
+	/** The membro service. */
 	@Autowired
 	private MembroService membroService;
+	
+	/** The personagem service. */
 	@Autowired
 	private PersonagemService personagemService;
+	
+	/** The message controller. */
 	@Autowired
 	private MessageController messageController;
+	
+	/** The embed pattern. */
 	@Autowired
 	private EmbedPattern embedPattern;
 
+	/**
+	 * Action.
+	 *
+	 * @param args the args
+	 * @param event the event
+	 */
 	public void action(String[] args, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
 
@@ -77,16 +98,35 @@ public class CmdGS extends Command {
 
 	}
 
+	/**
+	 * Executed.
+	 *
+	 * @param success the success
+	 * @param event the event
+	 */
 	public void executed(boolean success, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * Help.
+	 *
+	 * @return the string
+	 */
 	public String help() {
 		// TODO Auto-generated method stub
 		return "msg_gs_help";
 	}
 
+	/**
+	 * Show gear member.
+	 *
+	 * @param guild the guild
+	 * @param channel the channel
+	 * @param author the author
+	 * @param mentioned the mentioned
+	 */
 	private void showGearMember(Guild guild, MessageChannel channel, Member author, List<Member> mentioned) {
 
 		ArrayList<Gear> members = new ArrayList<>();
@@ -101,6 +141,14 @@ public class CmdGS extends Command {
 		messageController.sendEmbed(channel, embed);
 	}
 
+	/**
+	 * Generate gear.
+	 *
+	 * @param user the user
+	 * @param guild the guild
+	 * @param name the name
+	 * @return the gear
+	 */
 	private Gear generateGear(Member user, Guild guild, String name) {
 		Gear gear = loadGear(user.getId(), guild.getId());
 
@@ -112,12 +160,27 @@ public class CmdGS extends Command {
 		return gear;
 	}
 
+	/**
+	 * Load gear.
+	 *
+	 * @param idDiscord the id discord
+	 * @param idGuild the id guild
+	 * @return the gear
+	 */
 	private Gear loadGear(String idDiscord, String idGuild) {
 		Gear gear = gearService.findByIdUserIdGuildIsAtivo(idDiscord, idGuild, true);
 
 		return gear;
 	}
 
+	/**
+	 * Creates the gear.
+	 *
+	 * @param guild the guild
+	 * @param user the user
+	 * @param isNew the is new
+	 * @param embed the embed
+	 */
 	private void createGear(Guild guild, Member user, boolean isNew, Message embed) {
 
 		createGear(guild, user, isNew);
@@ -125,6 +188,14 @@ public class CmdGS extends Command {
 		showGearMember(guild, embed.getChannel(), user, Arrays.asList(user));
 	}
 
+	/**
+	 * Creates the gear.
+	 *
+	 * @param guild the guild
+	 * @param user the user
+	 * @param isNew the is new
+	 * @return the gear
+	 */
 	private Gear createGear(Guild guild, Member user, boolean isNew) {
 		Membro membro = membroService.loadMembro(guild, user);
 		Personagem personagem = personagemService.loadPersonagem(user.getId(), membro, guild.getId(),
@@ -134,6 +205,13 @@ public class CmdGS extends Command {
 		return gear;
 	}
 
+	/**
+	 * Check is new.
+	 *
+	 * @param guild the guild
+	 * @param channel the channel
+	 * @param author the author
+	 */
 	private void checkIsNew(Guild guild, MessageChannel channel, Member author) {
 		Consumer<Message> callback = (message) -> {
 
@@ -166,6 +244,12 @@ public class CmdGS extends Command {
 
 	}
 
+	/**
+	 * Atualizar atributo.
+	 *
+	 * @param gear the gear
+	 * @param args the args
+	 */
 	private void atualizarAtributo(Gear gear, String[] args) {
 		for (String arg : args) {
 			if (arg.equals("-set"))
@@ -177,6 +261,12 @@ public class CmdGS extends Command {
 
 	}
 
+	/**
+	 * Save gear.
+	 *
+	 * @param gear the gear
+	 * @param event the event
+	 */
 	private void saveGear(Gear gear, MessageReceivedEvent event) {
 		// MessageController.sendMessage(event.getGuild(), event.getChannel(),
 		// event.getAuthor(), "msg_gs_sucess");
@@ -185,6 +275,14 @@ public class CmdGS extends Command {
 		showGearMember(event.getGuild(), event.getChannel(), event.getMember(), Arrays.asList(event.getMember()));
 	}
 
+	/**
+	 * Verificar atributo.
+	 *
+	 * @param gear the gear
+	 * @param arg the arg
+	 * @throws IllegalArgumentException the illegal argument exception
+	 * @throws NumberFormatException the number format exception
+	 */
 	private void verificarAtributo(Gear gear, String arg) throws IllegalArgumentException, NumberFormatException {
 
 		String[] args = arg.split("=");
@@ -236,10 +334,23 @@ public class CmdGS extends Command {
 	 * messageReceived.getAuthor()); }
 	 */
 
+	/**
+	 * Select gear.
+	 *
+	 * @param guild the guild
+	 * @param channel the channel
+	 * @param author the author
+	 */
 	private void selectGear(Guild guild, MessageChannel channel, Member author) {
 		showEmbedSelect(guild, channel, author, PageRequest.of(0, 2));
 	}
 
+	/**
+	 * Sets the gear.
+	 *
+	 * @param args the args
+	 * @param event the event
+	 */
 	private void setGear(String[] args, MessageReceivedEvent event) {
 
 		Gear gear = generateGear(event.getMember(), event.getGuild(), event.getAuthor().getName());
@@ -263,6 +374,14 @@ public class CmdGS extends Command {
 		// updateTag(gear, event);
 	}
 
+	/**
+	 * Show embed select.
+	 *
+	 * @param guild the guild
+	 * @param channel the channel
+	 * @param author the author
+	 * @param pageable the pageable
+	 */
 	private void showEmbedSelect(Guild guild, MessageChannel channel, Member author, Pageable pageable) {
 		Page<Gear> gears = gearService.findByIdDiscordAndIdGuild(author.getUser().getId(), guild.getId(), pageable);
 		EmbedBuilder embed = embedPattern.createEmbedShowGear(author.getUser(), channel, guild,
@@ -302,6 +421,15 @@ public class CmdGS extends Command {
 
 	}
 
+	/**
+	 * Edits the embed select.
+	 *
+	 * @param guild the guild
+	 * @param channel the channel
+	 * @param author the author
+	 * @param message the message
+	 * @param pageable the pageable
+	 */
 	private void editEmbedSelect(Guild guild, MessageChannel channel, Member author, Message message,
 			Pageable pageable) {
 		Page<Gear> gears = gearService.findByIdDiscordAndIdGuild(author.getUser().getId(), guild.getId(), pageable);
@@ -338,6 +466,12 @@ public class CmdGS extends Command {
 		});
 	}
 
+	/**
+	 * Selected gear.
+	 *
+	 * @param message the message
+	 * @param gear the gear
+	 */
 	private void selectedGear(Message message, Gear gear) {
 		message.delete().queue();
 		ReactionHandler.reactions.remove(message.getId());
@@ -347,12 +481,22 @@ public class CmdGS extends Command {
 				"msg_gs_select_sucess");
 	}
 
+	/**
+	 * Help short.
+	 *
+	 * @return the string
+	 */
 	@Override
 	public String helpShort() {
 		// TODO Auto-generated method stub
 		return "msg_gs_helpshort";
 	}
 
+	/**
+	 * Gets the permissions.
+	 *
+	 * @return the permissions
+	 */
 	@Override
 	public Permissions getPermissions() {
 		// TODO Auto-generated method stub

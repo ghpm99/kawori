@@ -9,12 +9,30 @@ import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The listener interface for receiving bot events.
+ * The class that is interested in processing a bot
+ * event implements this interface, and the object created
+ * with that class is registered with a component using the
+ * component's <code>addBotListener<code> method. When
+ * the bot event occurs, that object's appropriate
+ * method is invoked.
+ *
+ * @see BotEvent
+ */
 @Controller
 public class BotListener extends ListenerAdapter {
 	
+	/** The bot controller. */
 	@Autowired
 	private BotController botController;
 
+	/**
+	 * On guild join.
+	 *
+	 * @param event the event
+	 */
 	// bot entra no servidor
 	@Override
 	public void onGuildJoin(GuildJoinEvent event) {
@@ -22,6 +40,11 @@ public class BotListener extends ListenerAdapter {
 		botController.onGuildJoin(event.getGuild());				
 	}
 
+	/**
+	 * On guild leave.
+	 *
+	 * @param event the event
+	 */
 	// bot sai do servidor
 	@Override
 	public void onGuildLeave(GuildLeaveEvent event) {

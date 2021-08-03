@@ -29,16 +29,31 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CmdAutoRole.
+ */
 @Component
 public class CmdAutoRole extends Command {
 
+	/** The message controller. */
 	@Autowired
 	private MessageController messageController;
+	
+	/** The auto role service. */
 	@Autowired
 	private AutoRoleService autoRoleService;
+	
+	/** The embed pattern. */
 	@Autowired
 	private EmbedPattern embedPattern;
 
+	/**
+	 * Action.
+	 *
+	 * @param args the args
+	 * @param event the event
+	 */
 	@Override
 	public void action(String[] args, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
@@ -54,30 +69,58 @@ public class CmdAutoRole extends Command {
 
 	}
 
+	/**
+	 * Executed.
+	 *
+	 * @param success the success
+	 * @param event the event
+	 */
 	@Override
 	public void executed(boolean success, MessageReceivedEvent event) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * Help.
+	 *
+	 * @return the string
+	 */
 	@Override
 	public String help() {
 		// TODO Auto-generated method stub
 		return "msg_auto_role_help";
 	}
 
+	/**
+	 * Help short.
+	 *
+	 * @return the string
+	 */
 	@Override
 	public String helpShort() {
 		// TODO Auto-generated method stub
 		return "msg_auto_role_helpshort";
 	}
 
+	/**
+	 * Gets the permissions.
+	 *
+	 * @return the permissions
+	 */
 	@Override
 	public Permissions getPermissions() {
 		// TODO Auto-generated method stub
 		return Permissions.CMD_ADM;
 	}
 
+	/**
+	 * Configure auto role.
+	 *
+	 * @param event the event
+	 * @param channel the channel
+	 * @param role the role
+	 */
 	private void configureAutoRole(MessageReceivedEvent event, TextChannel channel, Role role) {
 		String text = getText(event);		
 		AutoRole autoRole = autoRoleService.createAutoRole(event.getGuild().getId(), channel.getId(),
@@ -88,6 +131,12 @@ public class CmdAutoRole extends Command {
 		messageController.sendEmbed(event.getChannel(), embed);
 	}
 
+	/**
+	 * Gets the text.
+	 *
+	 * @param event the event
+	 * @return the text
+	 */
 	private String getText(MessageReceivedEvent event) {
 
 		String content = event.getMessage().getContentDisplay();
@@ -99,10 +148,23 @@ public class CmdAutoRole extends Command {
 		return content;
 	}
 
+	/**
+	 * Send help.
+	 *
+	 * @param event the event
+	 */
 	private void sendHelp(MessageReceivedEvent event) {
 		messageController.sendMessage(event.getGuild(), event.getChannel(), event.getAuthor(), help());
 	}
 
+	/**
+	 * Apply role.
+	 *
+	 * @param guild the guild
+	 * @param channel the channel
+	 * @param text the text
+	 * @param author the author
+	 */
 	public void applyRole(Guild guild, MessageChannel channel, String text, User author) {
 		ArrayList<Role> applyRoles = new ArrayList<Role>();
 		List<AutoRole> autoRoles = autoRoleService.getAutoRole(guild.getId(), channel.getId());
@@ -121,6 +183,15 @@ public class CmdAutoRole extends Command {
 					embedPattern.createEmbedAutoRoleApply(author, channel, guild, applyRoles));
 	}
 
+	/**
+	 * Cancel auto role.
+	 *
+	 * @param guild the guild
+	 * @param channel the channel
+	 * @param author the author
+	 * @param currentMessage the current message
+	 * @param pageable the pageable
+	 */
 	private void cancelAutoRole(Guild guild, MessageChannel channel, User author, Message currentMessage,
 			Pageable pageable) {
 		Page<AutoRole> autoRoles = autoRoleService.getAutoRole(guild.getId(), pageable);
@@ -162,6 +233,15 @@ public class CmdAutoRole extends Command {
 		}
 	}
 
+	/**
+	 * Cancel auto role.
+	 *
+	 * @param guild the guild
+	 * @param channel the channel
+	 * @param author the author
+	 * @param currentMessage the current message
+	 * @param autoRole the auto role
+	 */
 	private void cancelAutoRole(Guild guild, MessageChannel channel, User author, Message currentMessage,
 			AutoRole autoRole) {
 

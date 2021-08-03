@@ -12,12 +12,30 @@ import net.dv8tion.jda.api.events.message.priv.react.PrivateMessageReactionRemov
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The listener interface for receiving reaction events.
+ * The class that is interested in processing a reaction
+ * event implements this interface, and the object created
+ * with that class is registered with a component using the
+ * component's <code>addReactionListener<code> method. When
+ * the reaction event occurs, that object's appropriate
+ * method is invoked.
+ *
+ * @see ReactionEvent
+ */
 @Controller
 public class ReactionListener extends ListenerAdapter {
 
+	/** The event service. */
 	@Autowired
 	private EventService eventService;
 
+	/**
+	 * On guild message reaction add.
+	 *
+	 * @param event the event
+	 */
 	@Override
 	public void onGuildMessageReactionAdd(GuildMessageReactionAddEvent event) {
 
@@ -30,6 +48,11 @@ public class ReactionListener extends ListenerAdapter {
 
 	}
 
+	/**
+	 * On guild message reaction remove.
+	 *
+	 * @param event the event
+	 */
 	@Override
 	public void onGuildMessageReactionRemove(GuildMessageReactionRemoveEvent event) {
 		// TODO Auto-generated method stub
@@ -40,6 +63,11 @@ public class ReactionListener extends ListenerAdapter {
 		}
 	}
 
+	/**
+	 * On private message reaction add.
+	 *
+	 * @param event the event
+	 */
 	@Override
 	public void onPrivateMessageReactionAdd(PrivateMessageReactionAddEvent event) {
 		// TODO Auto-generated method stub
@@ -49,6 +77,11 @@ public class ReactionListener extends ListenerAdapter {
 		}
 	}
 	
+	/**
+	 * On private message reaction remove.
+	 *
+	 * @param event the event
+	 */
 	@Override
 	public void onPrivateMessageReactionRemove(PrivateMessageReactionRemoveEvent event) {
 		// TODO Auto-generated method stub
