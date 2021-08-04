@@ -26,16 +26,18 @@ public class LanguageService {
 	/** The guilda service. */
 	@Autowired
 	private GuildaService guildaService;
-	
+
 	/** The operator service. */
 	@Autowired
 	private OperatorService operatorService;
+
+	private final String DEFAULT_LANGUAGE = "Brazil";
 
 	/**
 	 * Gets the language.
 	 *
 	 * @param guild the guild
-	 * @param user the user
+	 * @param user  the user
 	 * @return the language
 	 */
 	public String getLanguage(Guild guild, User user) {
@@ -48,14 +50,14 @@ public class LanguageService {
 	 * Gets the language.
 	 *
 	 * @param guild the guild
-	 * @param user the user
+	 * @param user  the user
 	 * @return the language
 	 */
 	private String getLanguage(Guilda guild, Operator user) {
-		String language = "";
+		String language = DEFAULT_LANGUAGE;
 		if (user.getRegion() != null) {
 			language = user.getRegion();
-		} else {
+		} else if (guild.getRegion() != null) {
 			language = guild.getRegion();
 		}
 		return language;
@@ -64,8 +66,8 @@ public class LanguageService {
 	/**
 	 * Load message.
 	 *
-	 * @param guild the guild
-	 * @param user the user
+	 * @param guild   the guild
+	 * @param user    the user
 	 * @param message the message
 	 * @return the string
 	 */
@@ -97,7 +99,7 @@ public class LanguageService {
 	/**
 	 * Creates the file.
 	 *
-	 * @param path the path
+	 * @param path     the path
 	 * @param fileName the file name
 	 */
 	private void createFile(String path, String fileName) {
@@ -126,7 +128,7 @@ public class LanguageService {
 	/**
 	 * Sets the region.
 	 *
-	 * @param guild the guild
+	 * @param guild  the guild
 	 * @param region the region
 	 */
 	public void setRegion(Guild guild, String region) {
@@ -139,7 +141,7 @@ public class LanguageService {
 	/**
 	 * Sets the region.
 	 *
-	 * @param user the user
+	 * @param user   the user
 	 * @param region the region
 	 */
 	public void setRegion(User user, String region) {
@@ -148,6 +150,6 @@ public class LanguageService {
 		operator.setRegion(region.toLowerCase());
 		operatorService.save(operator);
 
-	}	
-	
+	}
+
 }
