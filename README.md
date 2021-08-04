@@ -12,7 +12,7 @@
 
 O projeto ainda está em desenvolvimento e as próximas atualizações serão voltadas nas seguintes tarefas:
 
-- [ ] Implementação de API Key
+- [x] Implementação de API Key
 - [ ] Implementação de PUT service para servidor/painel interno
 - [ ] Implementação de models para dados basicos(classes,battleModes,trina)
 - [ ] Melhoria no model Gear
