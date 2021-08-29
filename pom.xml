@@ -1,117 +1,217 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.3.4.RELEASE</version>
-		<relativePath /> <!-- lookup parent from repository -->
-	</parent>
-	<groupId>com.bot</groupId>
-	<artifactId>KaworiSpringApplication</artifactId>
-	<version>1.0.0</version>
-	<name>KaworiSpringApplication</name>
-	<description>Projeto de bot para discord com Spring</description>
+<project
+        xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>
+        4.0.0
+    </modelVersion>
+    <parent>
+        <groupId>
+            org.springframework.boot
+        </groupId>
+        <artifactId>
+            spring-boot-starter-parent
+        </artifactId>
+        <version>
+            2.3.4.RELEASE
+        </version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>
+        com.bot
+    </groupId>
+    <artifactId>
+        KaworiSpringApplication
+    </artifactId>
+    <version>
+        1.0.0
+    </version>
+    <name>
+        KaworiSpringApplication
+    </name>
+    <description>
+        Projeto
+        de
+        bot
+        para
+        discord
+        com
+        Spring
+    </description>
 
-	<properties>
-		<java.version>1.8</java.version>
-	</properties>
+    <properties>
+        <java.version>
+            1.8
+        </java.version>
+    </properties>
 
-	<repositories>
-		<repository>
-			<id>jcenter</id>
-			<name>jcenter</name>
-			<url>https://jcenter.bintray.com/</url>
-		</repository>
-		<repository>
-			<id>m2-dv8tion</id>
-			<name>m2-dv8tion</name>
-			<url>https://m2.dv8tion.net/releases</url>
-		</repository>
-	</repositories>
+    <repositories>
+        <repository>
+            <id>
+                jcenter
+            </id>
+            <name>
+                jcenter
+            </name>
+            <url>
+                https://jcenter.bintray.com/
+            </url>
+        </repository>
+        <repository>
+            <id>
+                m2-dv8tion
+            </id>
+            <name>
+                m2-dv8tion
+            </name>
+            <url>
+                https://m2.dv8tion.net/releases
+            </url>
+        </repository>
+    </repositories>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>
+                org.springframework.boot
+            </groupId>
+            <artifactId>
+                spring-boot-starter-thymeleaf
+            </artifactId>
+        </dependency>
+        <dependency>
+            <groupId>
+                org.springframework.boot
+            </groupId>
+            <artifactId>
+                spring-boot-starter-web
+            </artifactId>
+        </dependency>
 
-		<!-- Security -->
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-config</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
+        <!-- Security -->
+        <dependency>
+            <groupId>
+                org.springframework.security
+            </groupId>
+            <artifactId>
+                spring-security-config
+            </artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-websocket</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>
+                org.springframework.boot
+            </groupId>
+            <artifactId>
+                spring-boot-starter-security
+            </artifactId>
+        </dependency>
 
-		<!-- DataBase -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-mongodb</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>
+                org.springframework.boot
+            </groupId>
+            <artifactId>
+                spring-boot-starter-websocket
+            </artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>org.junit.vintage</groupId>
-					<artifactId>junit-vintage-engine</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+        <!-- DataBase -->
+        <dependency>
+            <groupId>
+                org.springframework.boot
+            </groupId>
+            <artifactId>
+                spring-boot-starter-data-mongodb
+            </artifactId>
+        </dependency>
 
-		<!-- Discord Bot -->
-		<dependency>
-			<groupId>net.dv8tion</groupId>
-			<artifactId>JDA</artifactId>
-			<version>4.2.1_262</version>
-		</dependency>
+        <dependency>
+            <groupId>
+                org.springframework.boot
+            </groupId>
+            <artifactId>
+                spring-boot-starter-test
+            </artifactId>
+            <scope>
+                test
+            </scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>
+                        org.junit.vintage
+                    </groupId>
+                    <artifactId>
+                        junit-vintage-engine
+                    </artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
-		<!-- Export PDF -->
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi</artifactId>
-			<version>4.1.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-ooxml</artifactId>
-			<version>4.1.2</version>
-		</dependency>
+        <!-- Discord Bot -->
+        <dependency>
+            <groupId>
+                net.dv8tion
+            </groupId>
+            <artifactId>
+                JDA
+            </artifactId>
+            <version>
+                4.2.1_262
+            </version>
+        </dependency>
 
-		<!-- Devtools -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<optional>true</optional>
-		</dependency>
+        <!-- Export PDF -->
+        <dependency>
+            <groupId>
+                org.apache.poi
+            </groupId>
+            <artifactId>
+                poi
+            </artifactId>
+            <version>
+                4.1.2
+            </version>
+        </dependency>
+        <dependency>
+            <groupId>
+                org.apache.poi
+            </groupId>
+            <artifactId>
+                poi-ooxml
+            </artifactId>
+            <version>
+                4.1.2
+            </version>
+        </dependency>
 
+        <!-- Devtools -->
+        <dependency>
+            <groupId>
+                org.springframework.boot
+            </groupId>
+            <artifactId>
+                spring-boot-devtools
+            </artifactId>
+            <optional>
+                true
+            </optional>
+        </dependency>
 
-	</dependencies>
+    </dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>
+                    org.springframework.boot
+                </groupId>
+                <artifactId>
+                    spring-boot-maven-plugin
+                </artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

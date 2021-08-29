@@ -30,15 +30,15 @@ public class SecurityCommand {
 	/** The canal service. */
 	@Autowired
 	private CanalService canalService;
-	
+
 	/** The operator service. */
 	@Autowired
 	private OperatorService operatorService;
-	
+
 	/** The guilda service. */
 	@Autowired
 	private GuildaService guildaService;
-	
+
 	/** The tag service. */
 	@Autowired
 	private TagService tagService;
@@ -46,7 +46,7 @@ public class SecurityCommand {
 	/**
 	 * Authenticate command.
 	 *
-	 * @param event the event
+	 * @param event      the event
 	 * @param permission the permission
 	 * @return true, if successful
 	 */
@@ -83,7 +83,7 @@ public class SecurityCommand {
 	/**
 	 * Verify roles.
 	 *
-	 * @param author the author
+	 * @param author     the author
 	 * @param permission the permission
 	 * @return true, if successful
 	 */
@@ -99,7 +99,7 @@ public class SecurityCommand {
 	/**
 	 * Verify role.
 	 *
-	 * @param role the role
+	 * @param role       the role
 	 * @param permission the permission
 	 * @return true, if successful
 	 */

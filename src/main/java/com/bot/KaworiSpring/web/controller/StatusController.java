@@ -1,10 +1,9 @@
 package com.bot.KaworiSpring.web.controller;
 
+import com.bot.KaworiSpring.service.StatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.bot.KaworiSpring.service.StatusService;
 
 // TODO: Auto-generated Javadoc
 /**
